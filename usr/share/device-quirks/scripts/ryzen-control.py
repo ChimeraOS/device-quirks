@@ -7,6 +7,8 @@ import sys
 import warnings
 from asyncio import all_tasks, CancelledError, coroutine, create_task, current_task, ensure_future, get_event_loop, sleep, start_unix_server
 
+from support import supported_devices
+
 logging.basicConfig(format='[%(asctime)s | %(filename)s:%(lineno)s:%(funcName)s] %(message)s',
                     datefmt='%y%m%d_%H:%M:%S',
                     level=logging.DEBUG
@@ -26,6 +28,7 @@ class RyzenControl:
     def __init__(self):
         logger.info('ryzenadj-control service started')
         self.check_ryzen_installed()
+        self.check_supported()
         self.task = None
         self.running = True
         self.get_valid_commands()
@@ -40,6 +43,14 @@ class RyzenControl:
     def check_ryzen_installed(self):
         if not os.path.exists("/usr/bin/ryzenadj"):
             logger.error('RyzenAdj is not installed.')
+            exit(1)
+
+    def check_supported(self):
+        cmd = 'lscpu | grep "Model name" | grep -v "BIOS" | cut -d : -f 2 | xargs'
+        cpu = os.popen(cmd).read().strip()
+        logger.debug(f'found {cpu}')
+        if cpu not in supported_devices:
+            logger.error('{cpu} is not supported.')
             exit(1)
 
     def get_valid_commands(self):
