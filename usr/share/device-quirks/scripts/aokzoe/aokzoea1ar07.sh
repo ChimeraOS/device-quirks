@@ -7,10 +7,6 @@ if [ $(whoami) != 'root' ]; then
    exit 1
 fi
  
-### Unlock Filesystem
-
-frzr-unlock
-
 ### Force 16 bit audio, format S16LE, rate 192000
 
 cp -a /usr/share/wireplumber /etc/
@@ -24,10 +20,6 @@ sed -i 's/44100/192000/' /etc/wireplumber/main.lua.d/50-alsa-config.lua
  
 
 ### Inject EDID override into initramfs & rotate screen to landscape
-
-mkdir -p /lib/firmware/edid
-
-cp -a aokzoea1ar07_edid.bin /lib/firmware/edid/
 
 sed -i 's#FILES=()#FILES=\(/lib/firmware/edid/aokzoea1ar07_edid.bin\)#' /etc/mkinitcpio.conf
 
