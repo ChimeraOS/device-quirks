@@ -16,7 +16,7 @@ except socket.error as err:
 try:
     
     # Send data
-    message = b'This is the message.  It will be repeated.'
+    message = b'--max-performance'
     print(f'sending {message}')
     sock.sendall(message)
 
@@ -26,7 +26,7 @@ try:
     while amount_received < amount_expected:
         data = sock.recv(4096)
         amount_received += len(data)
-        print('received {data}')
+        print(f'received {data}')
 
 finally:
     print('closing socket')
