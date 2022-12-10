@@ -1,22 +1,19 @@
 #!/usr/sbin/python3
-
 import logging
 import os
 import signal
 import socket
 import sys
 import warnings
-
 from asyncio import all_tasks, CancelledError, coroutine, create_task, current_task, ensure_future, get_event_loop, sleep, start_unix_server
+
 logging.basicConfig(format='[%(asctime)s | %(filename)s:%(lineno)s:%(funcName)s] %(message)s',
                     datefmt='%y%m%d_%H:%M:%S',
                     level=logging.DEBUG
                     )
 
 logger = logging.getLogger(__name__)
-
 warnings.filterwarnings('ignore', category=DeprecationWarning)
-
 RYZENADJ_DELAY = 0.5
 
 class RyzenControl:
@@ -27,6 +24,7 @@ class RyzenControl:
     valid_commands = []
     set_tctl = 95
     def __init__(self):
+        logger.info('ryzenadj-control service started')
         self.task = None
         self.running = True
         self.get_valid_commands()
@@ -34,13 +32,11 @@ class RyzenControl:
 
         ensure_future(self.check_power_modes())
         self.loop = get_event_loop()
-        logger.info('ryzenadj-control service started.')
-        
+
         for s in (signal.SIGHUP, signal.SIGTERM, signal.SIGINT, signal.SIGQUIT):
             self.loop.add_signal_handler(s, lambda s=s: create_task(self.stop_loop(self.loop)))
 
     def get_valid_commands(self):
-
         run = os.popen('ryzenadj -h', 'r', 1).read().splitlines()
         for raw_cmd in run:
             trunc_cmd = raw_cmd.split()
@@ -54,8 +50,9 @@ class RyzenControl:
                     self.valid_commands.append(trunc_cmd[i].split('=')[0].strip())
 
     def is_valid_command(self, raw_command):
-        if raw_command in self.valid_commands:
-            return True
+        for valid_command in self.valid_commands:
+            if raw_command == valid_command:
+                return True
         return False
 
     def start_task(self, Task):
@@ -67,7 +64,7 @@ class RyzenControl:
 
         self.loop.create_task(unix_server)
 
-        print('Open Unix socket with Server.')
+        logger.info(f'Unix socket opened at {self.socket}')
         self.loop.run_forever()
 
     @coroutine
@@ -82,23 +79,21 @@ class RyzenControl:
 
     def handle_cmd(self, message):
         if not self.is_valid_command(message[0]):
-            result = f'Error: Got invalid command: {message[0]}'
+            return f'Error: Got invalid command: {message[0]}'
+        if len(message) > 2:
+            return f'Error: {message[0]} called with too many arguments'
         if len(message) == 1:
-            result = self.do_adjust(message[0])
-        elif len(message) == 2:
-            result = self.do_adjust(message[0], message[1])
-        elif len(message) > 2:
-            result = f'Error: {message[0]} called with too many arguments'
-
-        return result
+            return self.do_adjust(message[0])
+        if len(message) == 2:
+            return self.do_adjust(message[0], message[1])
 
     def do_adjust(self, cmd, *args):
         ryzenadj_cmd = f'ryzenadj {cmd}'
         if args:
             ryzenadj_cmd = f'ryzenadj {cmd} {args[0]}'
-        run = os.popen(ryzenadj_cmd, 'r', 1).read()
+        run = os.popen(ryzenadj_cmd, 'r', 1).read().strip()
         return run
-    
+
     async def check_power_modes(self):
 
         while self.running:
@@ -108,11 +103,11 @@ class RyzenControl:
             if tctl != f'{self.set_tctl}.000':
                 logger.info(f'found tctl set to {tctl}')
                 logger.info(self.do_adjust(f'-f {self.set_tctl}').strip())
-    
+
             await sleep(RYZENADJ_DELAY)
-    
+
     async def stop_loop(self, loop):
-        
+
         # Kill all tasks. They are infinite loops so we will wait forver.
         logger.info('Kill signal received. Shutting down.')
         self.running = False
@@ -124,13 +119,9 @@ class RyzenControl:
                 pass
         loop.stop()
         logger.info('ryzenadj-control service stopped.')
-    
 
 if __name__ == '__main__':
 
     RyzenControl = RyzenControl()
 
     server = RyzenControl.start_server_task(start_unix_server, RyzenControl.handle_message)
-#    power_loop = RyzenControl.start_task((RyzenControl.check_power_modes()))
-
-
