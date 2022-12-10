@@ -2,6 +2,10 @@
 
 ### AOKZOE A1 Quirks
 
+if [ $(whoami) != 'root' ]; then
+	echo "You must be root to run this script."
+   exit 1
+fi
  
 ### Unlock Filesystem
 
@@ -21,8 +25,6 @@ sed -i 's/44100/192000/' /etc/wireplumber/main.lua.d/50-alsa-config.lua
 
 ### Inject EDID override into initramfs & rotate screen to landscape
 
-curl -O http://wiki.darkremix.net/aokzoe/aokzoea1ar07_edid.bin
-
 mkdir -p /lib/firmware/edid
 
 cp -a aokzoea1ar07_edid.bin /lib/firmware/edid/
@@ -41,7 +43,7 @@ rm /boot/vmlinuz-linux
 
  
 
-###  Update Syslinux.cfg if exists
+###  Update syslinux.cfg
 
 if ! grep -q "iomem=relaxed drm.edid_firmware=eDP-1:edid/aokzoea1ar07_edid.bin fbcon=rotate:3" /boot/EFI/BOOT/syslinux.cfg
 
