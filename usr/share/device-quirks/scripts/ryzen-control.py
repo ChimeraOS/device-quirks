@@ -25,6 +25,7 @@ class RyzenControl:
     set_tctl = 95
     def __init__(self):
         logger.info('ryzenadj-control service started')
+        self.check_ryzen_installed()
         self.task = None
         self.running = True
         self.get_valid_commands()
@@ -35,6 +36,11 @@ class RyzenControl:
 
         for s in (signal.SIGHUP, signal.SIGTERM, signal.SIGINT, signal.SIGQUIT):
             self.loop.add_signal_handler(s, lambda s=s: create_task(self.stop_loop(self.loop)))
+
+    def check_ryzen_installed(self):
+        if not os.path.exists("/usr/bin/ryzenadj"):
+            logger.error('RyzenAdj is not installed.')
+            exit(1)
 
     def get_valid_commands(self):
         run = os.popen('ryzenadj -h', 'r', 1).read().splitlines()
