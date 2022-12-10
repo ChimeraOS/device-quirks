@@ -74,6 +74,7 @@ class RyzenControl:
     async def handle_message(self, reader, writer):
         raw_data = await reader.read(4096)
         data = raw_data.decode('utf-8').strip().split()
+        logger.debug(f'{data}')
         if data:
             result = self.handle_cmd(data)
             logger.info(result)
@@ -81,20 +82,20 @@ class RyzenControl:
 
     def handle_cmd(self, message):
         if not self.is_valid_command(message[0]):
-            result = f'got invalid command: {message[0]}' 
+            result = f'Error: Got invalid command: {message[0]}'
         if len(message) == 1:
             result = self.do_adjust(message[0])
         elif len(message) == 2:
             result = self.do_adjust(message[0], message[1])
         elif len(message) > 2:
-            result = f'{message[0]} called with too many arguments'
+            result = f'Error: {message[0]} called with too many arguments'
 
         return result
 
     def do_adjust(self, cmd, *args):
         ryzenadj_cmd = f'ryzenadj {cmd}'
         if args:
-            ryzenadj_cmd = f'ryzenadj {cmd} {args}'
+            ryzenadj_cmd = f'ryzenadj {cmd} {args[0]}'
         run = os.popen(ryzenadj_cmd, 'r', 1).read()
         return run
     

@@ -16,7 +16,7 @@ except socket.error as err:
 try:
     
     # Send data
-    message = b'--max-performance'
+    message = b'-a 70000'
     print(f'sending {message}')
     sock.sendall(message)
 
