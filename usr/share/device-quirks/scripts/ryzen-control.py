@@ -19,12 +19,13 @@ warnings.filterwarnings('ignore', category=DeprecationWarning)
 RYZENADJ_DELAY = 0.5
 
 class RyzenControl:
+    cpu = None
     performance_selected = '--power-saving'
     performance_set = None
     running = False
+    set_tctl = 95
     socket = '/tmp/ryzenadj_socket'
     valid_commands = []
-    set_tctl = 95
     def __init__(self):
         logger.info('ryzenadj-control service started')
         self.check_ryzen_installed()
@@ -34,7 +35,7 @@ class RyzenControl:
         self.get_valid_commands()
         logger.info(self.handle_cmd([self.performance_selected]))
 
-        ensure_future(self.check_power_modes())
+        ensure_future(self.check_tctl_set())
         self.loop = get_event_loop()
 
         for s in (signal.SIGHUP, signal.SIGTERM, signal.SIGINT, signal.SIGQUIT):
@@ -47,10 +48,10 @@ class RyzenControl:
 
     def check_supported(self):
         cmd = 'lscpu | grep "Model name" | grep -v "BIOS" | cut -d : -f 2 | xargs'
-        cpu = os.popen(cmd).read().strip()
-        logger.debug(f'found {cpu}')
-        if cpu not in supported_devices:
-            logger.error('{cpu} is not supported.')
+        self.cpu = os.popen(cmd).read().strip()
+        logger.debug(f'found {self.cpu}')
+        if self.cpu not in supported_devices:
+            logger.error('{self.cpu} is not supported.')
             exit(1)
 
     def get_valid_commands(self):
@@ -111,7 +112,14 @@ class RyzenControl:
         run = os.popen(ryzenadj_cmd, 'r', 1).read().strip()
         return run
 
-    async def check_power_modes(self):
+    async def check_tctl_set(self):
+
+        # Check if this model is one that will not set tctl properly
+        if self.cpu in [
+                'AMD Ryzen 5 5560U with Radeon Graphics',
+                ]:
+            logger.info(f'{self.cpu} does not support tctl setting. Skipping automatic tctl management.')
+            return
 
         while self.running:
             # Ensure safe temp ctl settings. Ensures OXP devices dont fry themselves.
