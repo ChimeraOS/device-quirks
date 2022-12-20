@@ -1,0 +1,9 @@
+[Unit]
+Description=Ryzen T Control Service
+After=sockets.target
+
+[Service]
+ExecStart=/sbin/python3 /usr/share/device-quirks/scripts/ryzen-tctl.py
+
+[Install]
+WantedBy=default.target
