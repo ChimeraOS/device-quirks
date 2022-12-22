@@ -171,7 +171,6 @@ class RyzenTCTL():
         loop.stop()
         logger.info('ryzenadj-control service stopped.')
 
-if __name__ == '__main__':
-
-    RyzenTCTL = RyzenTCTL()
+def main():
+    ryzen_tctl = RyzenTCTL()
 

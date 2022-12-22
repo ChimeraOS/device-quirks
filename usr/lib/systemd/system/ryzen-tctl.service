@@ -1,9 +1,9 @@
 [Unit]
-Description=Ryzen T Control Service
+Description=Ryzen T-junction Temperature Control Service
 After=sockets.target
 
 [Service]
-ExecStart=/sbin/python3 /usr/share/device-quirks/scripts/ryzen-tctl.py
+ExecStart=/usr/bin/ryzen-tctl
 
 [Install]
 WantedBy=default.target
