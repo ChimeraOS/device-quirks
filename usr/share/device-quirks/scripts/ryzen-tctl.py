@@ -5,9 +5,11 @@ import signal
 import socket
 import sys
 import warnings
-from asyncio import all_tasks, CancelledError, coroutine, create_task, current_task, ensure_future, Future, get_event_loop, InvalidStateError, Protocol, sleep, SubprocessProtocol, Transport
+from asyncio import (all_tasks, CancelledError, create_task, current_task,
+                     ensure_future, get_event_loop, InvalidStateError,
+                     Protocol, sleep)
 
-from support import supported_devices
+from ryzenadj_controller.support import SUPPORTED_DEVICES
 
 logging.basicConfig(format='[%(asctime)s | %(filename)s:%(lineno)s:%(funcName)s] %(message)s',
                     datefmt='%y%m%d_%H:%M:%S',
@@ -76,7 +78,7 @@ class RyzenTCTL():
         cmd = 'lscpu | grep "Model name" | grep -v "BIOS" | cut -d : -f 2 | xargs'
         self.cpu = os.popen(cmd).read().strip()
         logger.debug(f'found {self.cpu}')
-        if self.cpu not in supported_devices:
+        if self.cpu not in SUPPORTED_DEVICES:
             logger.error('{self.cpu} is not supported.')
             exit(2)
 
