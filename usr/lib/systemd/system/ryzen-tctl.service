@@ -1,0 +1,9 @@
+[Unit]
+Description=Ryzen T-junction Temperature Control Service
+After=sockets.target
+
+[Service]
+ExecStart=/usr/bin/ryzen-tctl
+
+[Install]
+WantedBy=default.target
