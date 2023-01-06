@@ -5,4 +5,4 @@ if [ $(whoami) != 'root' ]; then
 fi
  
 # Uncomment to enable EDID override.
-#./2021_dsdt.sh
+./ayaneo/2021/2021_dsdt.sh

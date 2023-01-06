@@ -15,7 +15,7 @@ if [[ ":$AOK_LIST:" =~ ":$VENDOR:"  ]]; then
     ./aokzoe/aokzoe_table.sh
 
 # Aya Neo Devices
-elif [[ ":$AYANEO_LIST:" =~ ":$SVENDOR:"  ]]; then
+elif [[ ":$AYANEO_LIST:" =~ ":$VENDOR:"  ]]; then
     ./ayaneo/ayaneo_table.sh
 
 # GPD Devices
