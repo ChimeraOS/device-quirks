@@ -4,8 +4,9 @@ if [ $(whoami) != 'root' ]; then
 	echo "You must be root to run this script."
    exit 1
 fi
+
 # Inject EDID override into initramfs & rotate screen to landscape
-sed -i 's#FILES=()#FILES=\(/lib/firmware/edid/aokzoea1ar07_edid.bin\)#' /etc/mkinitcpio.conf
+sed -i 's#FILES=()#FILES=\(/${DQ_PATH}/aokzoe/a1/a1_edid.bin\)#' /etc/mkinitcpio.conf
 cp /boot/chimeraos-*/* /boot
 mkinitcpio -P
 cp -a /boot/initramfs-linux.img /boot/chimeraos-*/

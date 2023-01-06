@@ -1,8 +1,8 @@
 #/bin/bash
 ### SYSTEM IDENTIFICATION SCRIPT
 
+export DQ_PATH=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 VENDOR="$(cat /sys/devices/virtual/dmi/id/board_vendor)"
-
 ### DEVICE LISTS
 
 AOK_LIST="AOKZOE"
@@ -12,21 +12,21 @@ OXP_LIST="ONE-NETBOOK TECHNOLOGY CO., LTD."
 
 # AOKZOE Devices
 if [[ ":$AOK_LIST:" =~ ":$VENDOR:"  ]]; then
-    ./aokzoe/aokzoe_table.sh
+    $DQ_PATH/aokzoe/aokzoe_table.sh
 
 # Aya Neo Devices
 elif [[ ":$AYANEO_LIST:" =~ ":$VENDOR:"  ]]; then
-    ./ayaneo/ayaneo_table.sh
+    $DQ_PATH/ayaneo/ayaneo_table.sh
 
 # GPD Devices
 elif [[ ":$GPD_LIST:" =~ ":$SVENDOR:"  ]]; then
-    ./gpd/gpd_table.sh
+    $DQ_PATH/gpd/gpd_table.sh
 
 # OXP Devices
 elif [[ ":$OXP_LIST:" =~ ":$VENDOR:"  ]]; then
-    ./oxp/oxp_table.sh
+    $DQPATH/oxp/oxp_table.sh
 
 # Unrecognized Device
 else
-    echo "Device was not recognized. Exiting quirk triage script."
+    echo "${VENDOR} does not have any supported models. Exiting."
 fi

@@ -13,4 +13,4 @@ sed -i 's/44100/192000/' /etc/wireplumber/main.lua.d/50-alsa-config.lua
 cp ./a1_fbcon.conf /etc/tmpfiles.d/a1_fbcon.conf
 
 # Uncomment to enable EDID override.
-#./a1_edid.sh
+#$DQ_PATH/aokzoe/a1/a1_edid.sh
