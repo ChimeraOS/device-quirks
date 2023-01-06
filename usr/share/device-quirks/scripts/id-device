@@ -1,0 +1,32 @@
+#/bin/bash
+### SYSTEM IDENTIFICATION SCRIPT
+
+VENDOR="$(cat /sys/devices/virtual/dmi/id/board_vendor)"
+
+### DEVICE LISTS
+
+AOK_LIST="AOKZOE"
+AYANEO_LIST="AYA NEO:AYANEO"
+GPD_LIST="GPD_DUMMY_FIX_LATER"
+OXP_LIST="ONE-NETBOOK TECHNOLOGY CO., LTD."
+
+# AOKZOE Devices
+if [[ ":$AOK_LIST:" =~ ":$VENDOR:"  ]]; then
+    ./aokzoe/aokzoe_table.sh
+
+# Aya Neo Devices
+elif [[ ":$AYANEO_LIST:" =~ ":$SVENDOR:"  ]]; then
+    ./ayaneo/ayaneo_table.sh
+
+# GPD Devices
+elif [[ ":$GPD_LIST:" =~ ":$SVENDOR:"  ]]; then
+    ./gpd/gpd_table.sh
+
+# OXP Devices
+elif [[ ":$OXP_LIST:" =~ ":$VENDOR:"  ]]; then
+    ./oxp/oxp_table.sh
+
+# Unrecognized Device
+else
+    echo "Device was not recognized. Exiting quirk triage script."
+fi
