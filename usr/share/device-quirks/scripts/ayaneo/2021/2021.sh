@@ -4,5 +4,5 @@ if [ $(whoami) != 'root' ]; then
    exit 1
 fi
  
-# Uncomment to enable EDID override.
+# Uncomment to enable DSDT override.
 #$DQ_PATH/ayaneo/2021/2021_dsdt.sh
