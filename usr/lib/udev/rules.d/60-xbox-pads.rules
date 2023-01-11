@@ -6,3 +6,6 @@ ATTRS{idVendor}=="2563", ATTRS{idProduct}=="058d", RUN+="/sbin/modprobe xpad" RU
 
 # 8BitDo Ultimate Controller (Bluetooth)
 ATTRS{idVendor}=="2dc8", ATTRS{idProduct}=="3106", RUN+="/sbin/modprobe xpad" RUN+="/bin/sh -c 'echo 2dc8 3106 > /sys/bus/usb/drivers/xpad/new_id'"
+
+# Gulikit KingKong 2 Pro (Bluetooth)
+ATTRS{idVendor}=="045e", ATTRS{idProduct}=="02e0", RUN+="/sbin/modprobe xpad" RUN+="/bin/sh -c 'echo 045e 02e0 > /sys/bus/usb/drivers/xpad/new_id'"
