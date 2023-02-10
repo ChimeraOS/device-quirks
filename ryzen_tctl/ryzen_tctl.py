@@ -93,7 +93,7 @@ class RyzenTCTL():
                 self.current_settings = message.splitlines()
                 logger.debug(f'{self.current_settings}')
             case _:
-                logger.info(f'{message}')
+                logger.debug(f'{message}')
 
     async def connect_socket(self):
         while self.running:
