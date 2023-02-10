@@ -11,19 +11,19 @@ GPD_LIST="GPD"
 OXP_LIST="ONE-NETBOOK TECHNOLOGY CO., LTD."
 
 # AOKZOE Devices
-if [[ ":$AOK_LIST:" =~ "${VENDOR}"]]; then
+if [[ ":$AOK_LIST:" =~ "${VENDOR}" ]]; then
     $DQ_PATH/aokzoe/aokzoe_table.sh
 
 # Aya Neo Devices
-elif [[ ":$AYANEO_LIST:" =~ "${VENDOR}"  ]]; then
+elif [[ ":$AYANEO_LIST:" =~ "${VENDOR}" ]]; then
     $DQ_PATH/ayaneo/ayaneo_table.sh
 
 # GPD Devices
-elif [[ ":$GPD_LIST:" =~ "${VENDOR}"  ]]; then
+elif [[ ":$GPD_LIST:" =~ "${VENDOR}" ]]; then
     $DQ_PATH/gpd/gpd_table.sh
 
 # OXP Devices
-elif [[ ":$OXP_LIST:" =~ "${VENDOR}"  ]]; then
+elif [[ ":$OXP_LIST:" =~ "${VENDOR}" ]]; then
     $DQPATH/oxp/oxp_table.sh
 
 # Unrecognized Device
