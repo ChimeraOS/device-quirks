@@ -4,8 +4,8 @@ After=pipewire-pulse.service
 
 [Service]
 Type=oneshot
-ExecStart=/usr/bin/device-quirks/aya-neo-air-audio-phase-fix start
-ExecStop=/usr/bin/device-quirks/aya-neo-air-audio-phase-fix stop
+ExecStart=/usr/share/device-quirks/scripts/ayaneo/air/audio-phase-fix start
+ExecStop=/usr/share/device-quirks/scripts/ayaneo/air/audio-phase-fix stop
 RemainAfterExit=yes
 
 [Install]
