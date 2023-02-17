@@ -5,4 +5,4 @@ if [ $(whoami) != 'root' ]; then
 fi
  
 # Uncomment to enable DSDT override.
-#$DQ_PATH/ayaneo/2021/2021_dsdt.sh
+$DQ_PATH/scripts/ayaneo/2021/2021_dsdt.sh

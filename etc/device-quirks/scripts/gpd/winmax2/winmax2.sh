@@ -5,4 +5,4 @@ if [ $(whoami) != 'root' ]; then
 fi
  
 # Uncomment to enable DSDT override.
-#$DQ_PATH/gpd/winmax2/winmax2_dsdt.sh
+$DQ_PATH/scripts/gpd/winmax2/winmax2_dsdt.sh
