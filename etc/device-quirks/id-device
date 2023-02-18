@@ -1,0 +1,32 @@
+#/bin/bash
+### SYSTEM IDENTIFICATION SCRIPT
+
+export DQ_PATH=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+VENDOR="$(cat /sys/devices/virtual/dmi/id/board_vendor)"
+### DEVICE LISTS
+
+AOK_LIST="AOKZOE"
+AYANEO_LIST="AYA NEO:AYANEO"
+GPD_LIST="GPD"
+OXP_LIST="ONE-NETBOOK TECHNOLOGY CO., LTD."
+
+# AOKZOE Devices
+if [[ ":$AOK_LIST:" =~ "${VENDOR}" ]]; then
+    $DQ_PATH/scripts/aokzoe/aokzoe_table.sh
+
+# Aya Neo Devices
+elif [[ ":$AYANEO_LIST:" =~ "${VENDOR}" ]]; then
+    $DQ_PATH/scripts/ayaneo/ayaneo_table.sh
+
+# GPD Devices
+elif [[ ":$GPD_LIST:" =~ "${VENDOR}" ]]; then
+    $DQ_PATH/scripts/gpd/gpd_table.sh
+
+# OXP Devices
+elif [[ ":$OXP_LIST:" =~ "${VENDOR}" ]]; then
+    $DQPATH/scripts/oxp/oxp_table.sh
+
+# Unrecognized Device
+else
+    echo "${VENDOR} does not have any supported models. Exiting."
+fi
