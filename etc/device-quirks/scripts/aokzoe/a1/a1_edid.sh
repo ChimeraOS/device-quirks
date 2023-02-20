@@ -6,7 +6,7 @@ if [ $(whoami) != 'root' ]; then
 fi
 
 # Inject EDID override into initramfs & rotate screen to landscape
-sed -i 's#FILES=()#FILES=\(/${DQ_PATH}/firmware/edid/aokzoe_a1ar07_edid.bin\)#' /etc/mkinitcpio.conf
+sed -i 's#FILES=()#FILES=\('$DQ_PATH'/firmware/edid/aokzoe_a1ar07_edid.bin\)#' /etc/mkinitcpio.conf
 cp /boot/chimeraos-*/* /boot
 mkinitcpio -P
 cp -a /boot/initramfs-linux.img /boot/chimeraos-*/
