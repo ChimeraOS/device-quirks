@@ -14,10 +14,10 @@ rm /boot/initramfs*
 rm /boot/vmlinuz-linux
 
 #  Update syslinux.cfg
-if ! grep -q "drm.edid_firmware=eDP-1:edid/aokzoe_a1ar07_edid.bin" /boot/EFI/BOOT/syslinux.cfg
+if ! grep -q "drm.edid_firmware=eDP-1:edid/aokzoe_a1ar07_edid.bin" /usr/lib/frzr.d/bootconfig.conf
 
 then
 
-   sed -i 's#quiet splash#drm.edid_firmware=eDP-1:edid/aokzoe_a1ar07_edid.bin quiet splash#'  /boot/EFI/BOOT/syslinux.cfg
+   sed -i 's#iomem=relaxed#iomem=relaxed drm.edid_firmware=eDP-1:edid/aokzoe_a1ar07_edid.bin#' /usr/lib/frzr.d/bootconfig.conf
 
 fi
