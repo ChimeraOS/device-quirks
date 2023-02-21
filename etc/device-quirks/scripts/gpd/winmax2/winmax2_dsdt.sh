@@ -5,7 +5,7 @@ if [ $(whoami) != 'root' ]; then
    exit 1
 fi
 
-cp $DQ_PATH/firmware/dsdt/gpd_winmax2_dsdt /boot/gpd_winmax2_dsdt
+cp /lib/firmware/dsdt/gpd_winmax2_dsdt /boot/gpd_winmax2_dsdt
 
 if ! grep -q "gpd_winmax2_dsdt" /boot/EFI/BOOT/syslinux.cfg
 then
