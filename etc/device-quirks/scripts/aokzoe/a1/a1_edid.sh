@@ -13,11 +13,11 @@ cp -a /boot/initramfs-linux.img /boot/chimeraos-*/
 rm /boot/initramfs*
 rm /boot/vmlinuz-linux
 
-#  Update syslinux.cfg
-if ! grep -q "drm.edid_firmware=eDP-1:edid/aokzoe_a1ar07_edid.bin" /boot/EFI/BOOT/syslinux.cfg
+#  Update systemd-boot entries config
+if ! grep -q "drm.edid_firmware=eDP-1:edid/aokzoe_a1ar07_edid.bin" /boot/loader/entries/frzr.conf
 
 then
 
-   sed -i 's#quiet splash#drm.edid_firmware=eDP-1:edid/aokzoe_a1ar07_edid.bin quiet splash#'  /boot/EFI/BOOT/syslinux.cfg
+   sed -i 's#iomem=relaxed#iomem=relaxed drm.edid_firmware=eDP-1:edid/aokzoe_a1ar07_edid.bin#'  /boot/loader/entries/frzr.conf
 
 fi
