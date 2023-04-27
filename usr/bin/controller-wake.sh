@@ -10,7 +10,7 @@ IFS=""
 
 # Restore path string from array
 hubpath=""
-for ((i=1; i<7; i++));
+for ((i=1; i<6; i++));
 do
    hubpath="${hubpath}/${DEVPATH_ARRAY[$i]}"
 done
