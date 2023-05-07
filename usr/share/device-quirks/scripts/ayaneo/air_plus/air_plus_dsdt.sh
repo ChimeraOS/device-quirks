@@ -5,14 +5,19 @@ if [ $(whoami) != 'root' ]; then
    exit 1
 fi
 
-mkdir -p /run/media/boot
-mount -L frzr_efi /run/media/boot
+if ! grep -q 'acpi_override' /boot/loader/entries/frzr.conf
 
-if ! grep -q 'ayaneo_air_plus_dsdt' /run/media/boot/loader/entries/frzr.conf
-  cp /lib/firmware/dsdt/ayaneo_air_plus_dsdt /rum/media/boot/ayaneo_air_plus_dsdt
-  sed 's/linux \/vmlinuz-linux/initrd \/ayane_air_plus_dsdt/a' /run/media/boot/loader/entries/frzr.conf
+   if [ ! -d /etc/kernel/firmware/acpi/ ]; then
+      # create directory for acpi DSDT overrides
+      mkdir -p /etc/kernel/firmware/acpi/
+   fi
+   
+   cp /usr/lib/firmware/dsdt/ayaneo_air_plus.dsl /etc/kernel/firmware/acpi/dsdt.dsl
+   iasl -tc /etc/kernel/firmware/acpi/dsdt.dsl
+   cd /etc/
+   find kernel | cpio -H newc --create > acpi_override
+   cp acpi_override /boot
+   sed -i 's#linux /vmlinuz-linux#&\ninitrd /acpi_override#' /boot/loader/entries/frzr.conf
 fi
 
-umount -l /run/media/boot
-rm -r /run/media/boot
 
