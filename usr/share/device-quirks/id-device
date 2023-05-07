@@ -13,26 +13,26 @@ OXP_LIST="ONE-NETBOOK TECHNOLOGY CO., LTD."
 
 # AOKZOE Devices
 if [[ ":$AOK_LIST:" =~ "${VENDOR}" ]]; then
-    #$DQ_PATH/scripts/aokzoe/aokzoe_table.sh
+    $DQ_PATH/scripts/aokzoe/aokzoe_table.sh
     exit 0
 
 # Aya Neo Devices
 elif [[ ":$AYANEO_LIST:" =~ "${VENDOR}" ]]; then
-    #$DQ_PATH/scripts/ayaneo/ayaneo_table.sh
+    $DQ_PATH/scripts/ayaneo/ayaneo_table.sh
     exit 7
 
 # GPD Devices
 elif [[ ":$GPD_LIST:" =~ "${VENDOR}" ]]; then
-    #$DQ_PATH/scripts/gpd/gpd_table.sh
+    $DQ_PATH/scripts/gpd/gpd_table.sh
     exit 7
 
 # OXP Devices
 elif [[ ":$OXP_LIST:" =~ "${VENDOR}" ]]; then
-    #$DQPATH/scripts/oxp/oxp_table.sh
+    $DQPATH/scripts/oxp/oxp_table.sh
     exit 0
 
 # Unrecognized Device
 else
-    #echo "${VENDOR} does not have any supported models. Exiting."
+    echo "${VENDOR} does not have any supported models. Exiting."
     exit 7
 fi
