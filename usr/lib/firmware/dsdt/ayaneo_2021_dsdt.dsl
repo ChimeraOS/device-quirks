@@ -1,36 +1,61 @@
 /*
  * Intel ACPI Component Architecture
- * AML/ASL+ Disassembler version 20221020 (64-bit version)
+ * AML/ASL+ Disassembler version 20220331 (64-bit version)
  * Copyright (c) 2000 - 2022 Intel Corporation
  * 
  * Disassembling to symbolic ASL+ operators
  *
- * Disassembly of dsdt.dat, Wed May  3 20:36:33 2023
+ * Disassembly of dsdt.dat, Thu Dec 15 16:43:27 2022
  *
  * Original Table Header:
  *     Signature        "DSDT"
- *     Length           0x00008A6C (35436)
+ *     Length           0x00008F1C (36636)
  *     Revision         0x02
- *     Checksum         0xCF
+ *     Checksum         0x03
  *     OEM ID           "ALASKA"
  *     OEM Table ID     "A M I "
  *     OEM Revision     0x01072009 (17244169)
  *     Compiler ID      "INTL"
- *     Compiler Version 0x20200717 (538969879)
+ *     Compiler Version 0x20120913 (538052883)
  */
 DefinitionBlock ("", "DSDT", 2, "ALASKA", "A M I ", 0x0107200a)
 {
-    External (_SB_.ALIB, MethodObj)    // 2 Arguments
-    External (_SB_.APTS, MethodObj)    // 1 Arguments
-    External (_SB_.AWAK, MethodObj)    // 1 Arguments
-    External (_SB_.PCI0.GP17.VGA_.AFN7, MethodObj)    // 1 Arguments
-    External (_SB_.PCI0.GP17.VGA_.M460, MethodObj)    // 7 Arguments
-    External (CRBI, UnknownObj)
-    External (M460, MethodObj)    // 7 Arguments
-    External (MPTS, MethodObj)    // 1 Arguments
-    External (MWAK, MethodObj)    // 1 Arguments
+    /*
+     * iASL Warning: There were 7 external control methods found during
+     * disassembly, but only 0 were resolved (7 unresolved). Additional
+     * ACPI tables may be required to properly disassemble the code. This
+     * resulting disassembler output file may not compile because the
+     * disassembler did not know how many arguments to assign to the
+     * unresolved methods. Note: SSDTs can be dynamically loaded at
+     * runtime and may or may not be available via the host OS.
+     *
+     * To specify the tables needed to resolve external control method
+     * references, the -e option can be used to specify the filenames.
+     * Example iASL invocations:
+     *     iasl -e ssdt1.aml ssdt2.aml ssdt3.aml -d dsdt.aml
+     *     iasl -e dsdt.aml ssdt2.aml -d ssdt1.aml
+     *     iasl -e ssdt*.aml -d dsdt.aml
+     *
+     * In addition, the -fe option can be used to specify a file containing
+     * control method external declarations with the associated method
+     * argument counts. Each line of the file must be of the form:
+     *     External (<method pathname>, MethodObj, <argument count>)
+     * Invocation:
+     *     iasl -fe refs.txt -d dsdt.aml
+     *
+     * The following methods were unresolved and many not compile properly
+     * because the disassembler had to guess at the number of arguments
+     * required for each:
+     */
+    External (AFN4, MethodObj)    // Warning: Unknown method, guessing 1 arguments
+    External (AFN7, MethodObj)    // Warning: Unknown method, guessing 1 arguments
+    External (ALIB, MethodObj)    // Warning: Unknown method, guessing 2 arguments
+    External (APTS, MethodObj)    // Warning: Unknown method, guessing 1 arguments
+    External (AWAK, MethodObj)    // Warning: Unknown method, guessing 1 arguments
+    External (MPTS, MethodObj)    // Warning: Unknown method, guessing 2 arguments
+    External (MWAK, MethodObj)    // Warning: Unknown method, guessing 1 arguments
 
-    Name (PEBL, 0x10000000)
+    Name (PEBL, 0x08000000)
     Name (NBTS, 0x5000)
     Name (CPVD, One)
     Name (SMBB, 0x0B20)
@@ -48,23 +73,23 @@ DefinitionBlock ("", "DSDT", 2, "ALASKA", "A M I ", 0x0107200a)
     Name (GIOB, 0xFED81500)
     Name (IOMB, 0xFED80D00)
     Name (SSMB, 0xFED80200)
+    Name (CAFS, 0xBB)
     Name (UTDB, Zero)
     Name (ASSB, Zero)
     Name (AOTB, Zero)
     Name (AAXB, Zero)
     Name (PEHP, One)
-    Name (SHPC, One)
+    Name (SHPC, Zero)
     Name (PEPM, One)
     Name (PEER, One)
     Name (PECS, One)
     Name (ITKE, Zero)
-    Name (PEBS, 0xE0000000)
-    Name (PELN, 0x10000000)
+    Name (PEBS, 0xF0000000)
+    Name (PELN, 0x08000000)
     Name (CSMI, 0x61)
     Name (DSSP, Zero)
     Name (FHPP, One)
     Name (SMIA, 0xB2)
-    Name (SMIB, 0xB3)
     Name (OFST, 0x35)
     Name (TRST, 0x02)
     Name (TCMF, Zero)
@@ -74,17 +99,17 @@ DefinitionBlock ("", "DSDT", 2, "ALASKA", "A M I ", 0x0107200a)
     Name (TTPF, Zero)
     Name (DTPT, Zero)
     Name (TTDP, One)
-    Name (TPMB, 0x94356000)
+    Name (TPMB, 0xCC586000)
     Name (TPBS, 0x4000)
-    Name (TPMC, 0x9435A000)
+    Name (TPMC, 0xCC58A000)
     Name (TPCS, 0x4000)
     Name (TPMM, 0xFD210510)
     Name (FTPM, 0xFD210510)
-    Name (PPIM, 0x9944FF18)
+    Name (PPIM, 0xCC7A7F98)
     Name (PPIL, 0x1C)
+    Name (AMDT, One)
     Name (TPMF, One)
     Name (PPIV, One)
-    Name (AMDT, 0x01)
     Name (MBEC, Zero)
     Name (NBTP, 0xFEC00000)
     Method (_PIC, 1, NotSerialized)  // _PIC: Interrupt Model
@@ -295,14 +320,6 @@ DefinitionBlock ("", "DSDT", 2, "ALASKA", "A M I ", 0x0107200a)
             }
         }
 
-        If ((DAS3 == Zero))
-        {
-            If ((Arg1 <= 0x03))
-            {
-                PRWP [One] = Zero
-            }
-        }
-
         Return (PRWP) /* \PRWP */
     }
 
@@ -339,28 +356,10 @@ DefinitionBlock ("", "DSDT", 2, "ALASKA", "A M I ", 0x0107200a)
     Name (SS2, Zero)
     Name (SS3, One)
     Name (SS4, One)
-    Name (IOST, 0xC400)
+    Name (IOST, 0xFFFF)
     Name (TOPM, 0x00000000)
     Name (ROMS, 0xFFE00000)
     Name (VGAF, One)
-    OperationRegion (GNVS, SystemMemory, 0x9943DD18, 0x0D)
-    Field (GNVS, AnyAcc, Lock, Preserve)
-    {
-        CNSB,   8, 
-        RDHW,   8, 
-        DAS3,   8, 
-        ALST,   8, 
-        BLTH,   8, 
-        NFCS,   8, 
-        MWTT,   8, 
-        DPTC,   8, 
-        WOVS,   8, 
-        THPN,   8, 
-        THPD,   8, 
-        RV2I,   8, 
-        ISDS,   8
-    }
-
     OperationRegion (DEB2, SystemIO, 0x80, 0x04)
     Field (DEB2, DWordAcc, NoLock, Preserve)
     {
@@ -388,8 +387,14 @@ DefinitionBlock ("", "DSDT", 2, "ALASKA", "A M I ", 0x0107200a)
         APMD,   8
     }
 
-    OperationRegion (PMRG, SystemMemory, 0xFED80300, 0x0100)
-    Field (PMRG, AnyAcc, NoLock, Preserve)
+    OperationRegion (PMRG, SystemIO, 0x0CD6, 0x02)
+    Field (PMRG, ByteAcc, NoLock, Preserve)
+    {
+        PMRI,   8, 
+        PMRD,   8
+    }
+
+    IndexField (PMRI, PMRD, ByteAcc, NoLock, Preserve)
     {
             ,   6, 
         HPEN,   1, 
@@ -428,16 +433,10 @@ DefinitionBlock ("", "DSDT", 2, "ALASKA", "A M I ", 0x0107200a)
         TMSE,   1, 
         Offset (0x2B0), 
             ,   2, 
-        SLPS,   2
-    }
-
-    OperationRegion (PMI2, SystemMemory, 0xFED80300, 0x0100)
-    Field (PMI2, AnyAcc, NoLock, Preserve)
-    {
-        Offset (0xBB), 
+        SLPS,   2, 
+        Offset (0x3BB), 
             ,   6, 
-        PWDE,   1, 
-        Offset (0xBC)
+        PWDE,   1
     }
 
     OperationRegion (P1E0, SystemIO, P1EB, 0x04)
@@ -522,12 +521,30 @@ DefinitionBlock ("", "DSDT", 2, "ALASKA", "A M I ", 0x0107200a)
     {
     }
 
+    Name (RDHW, Zero)
+    Name (CNSB, Zero)
+    Name (CRBR, 0xCC7A7018)
+    OperationRegion (CRBN, SystemMemory, CRBR, 0x0A)
+    Field (CRBN, AnyAcc, Lock, Preserve)
+    {
+        MWTT,   8, 
+        THPN,   8, 
+        THPD,   8, 
+        NFCS,   8, 
+        ALST,   8, 
+        DPTC,   8, 
+        RV2I,   8, 
+        ISDS,   8, 
+        WOVS,   8, 
+        GSSR,   8
+    }
+
     Scope (_SB)
     {
         Name (PRSA, ResourceTemplate ()
         {
             IRQ (Level, ActiveLow, Shared, )
-                {4,5,6,10,11,14,15}
+                {4,5,7,10,11,14,15}
         })
         Alias (PRSA, PRSB)
         Alias (PRSA, PRSC)
@@ -536,142 +553,6 @@ DefinitionBlock ("", "DSDT", 2, "ALASKA", "A M I ", 0x0107200a)
         Alias (PRSA, PRSF)
         Alias (PRSA, PRSG)
         Alias (PRSA, PRSH)
-        Name (PD12, Package (0x04)
-        {
-            Package (0x04)
-            {
-                0xFFFF, 
-                Zero, 
-                LNKE, 
-                Zero
-            }, 
-
-            Package (0x04)
-            {
-                0xFFFF, 
-                One, 
-                LNKF, 
-                Zero
-            }, 
-
-            Package (0x04)
-            {
-                0xFFFF, 
-                0x02, 
-                LNKG, 
-                Zero
-            }, 
-
-            Package (0x04)
-            {
-                0xFFFF, 
-                0x03, 
-                LNKH, 
-                Zero
-            }
-        })
-        Name (AR12, Package (0x04)
-        {
-            Package (0x04)
-            {
-                0xFFFF, 
-                Zero, 
-                Zero, 
-                0x1C
-            }, 
-
-            Package (0x04)
-            {
-                0xFFFF, 
-                One, 
-                Zero, 
-                0x1D
-            }, 
-
-            Package (0x04)
-            {
-                0xFFFF, 
-                0x02, 
-                Zero, 
-                0x1E
-            }, 
-
-            Package (0x04)
-            {
-                0xFFFF, 
-                0x03, 
-                Zero, 
-                0x1F
-            }
-        })
-        Name (PD14, Package (0x04)
-        {
-            Package (0x04)
-            {
-                0xFFFF, 
-                Zero, 
-                LNKA, 
-                Zero
-            }, 
-
-            Package (0x04)
-            {
-                0xFFFF, 
-                One, 
-                LNKB, 
-                Zero
-            }, 
-
-            Package (0x04)
-            {
-                0xFFFF, 
-                0x02, 
-                LNKC, 
-                Zero
-            }, 
-
-            Package (0x04)
-            {
-                0xFFFF, 
-                0x03, 
-                LNKD, 
-                Zero
-            }
-        })
-        Name (AR14, Package (0x04)
-        {
-            Package (0x04)
-            {
-                0xFFFF, 
-                Zero, 
-                Zero, 
-                0x20
-            }, 
-
-            Package (0x04)
-            {
-                0xFFFF, 
-                One, 
-                Zero, 
-                0x21
-            }, 
-
-            Package (0x04)
-            {
-                0xFFFF, 
-                0x02, 
-                Zero, 
-                0x22
-            }, 
-
-            Package (0x04)
-            {
-                0xFFFF, 
-                0x03, 
-                Zero, 
-                0x23
-            }
-        })
         Name (PD10, Package (0x04)
         {
             Package (0x04)
@@ -740,74 +621,6 @@ DefinitionBlock ("", "DSDT", 2, "ALASKA", "A M I ", 0x0107200a)
                 0x1B
             }
         })
-        Name (PD16, Package (0x04)
-        {
-            Package (0x04)
-            {
-                0xFFFF, 
-                Zero, 
-                LNKE, 
-                Zero
-            }, 
-
-            Package (0x04)
-            {
-                0xFFFF, 
-                One, 
-                LNKF, 
-                Zero
-            }, 
-
-            Package (0x04)
-            {
-                0xFFFF, 
-                0x02, 
-                LNKG, 
-                Zero
-            }, 
-
-            Package (0x04)
-            {
-                0xFFFF, 
-                0x03, 
-                LNKH, 
-                Zero
-            }
-        })
-        Name (AR16, Package (0x04)
-        {
-            Package (0x04)
-            {
-                0xFFFF, 
-                Zero, 
-                Zero, 
-                0x24
-            }, 
-
-            Package (0x04)
-            {
-                0xFFFF, 
-                One, 
-                Zero, 
-                0x25
-            }, 
-
-            Package (0x04)
-            {
-                0xFFFF, 
-                0x02, 
-                Zero, 
-                0x26
-            }, 
-
-            Package (0x04)
-            {
-                0xFFFF, 
-                0x03, 
-                Zero, 
-                0x27
-            }
-        })
         Name (PD18, Package (0x04)
         {
             Package (0x04)
@@ -849,7 +662,7 @@ DefinitionBlock ("", "DSDT", 2, "ALASKA", "A M I ", 0x0107200a)
                 0xFFFF, 
                 Zero, 
                 Zero, 
-                0x28
+                0x20
             }, 
 
             Package (0x04)
@@ -857,7 +670,7 @@ DefinitionBlock ("", "DSDT", 2, "ALASKA", "A M I ", 0x0107200a)
                 0xFFFF, 
                 One, 
                 Zero, 
-                0x29
+                0x21
             }, 
 
             Package (0x04)
@@ -865,7 +678,7 @@ DefinitionBlock ("", "DSDT", 2, "ALASKA", "A M I ", 0x0107200a)
                 0xFFFF, 
                 0x02, 
                 Zero, 
-                0x2A
+                0x22
             }, 
 
             Package (0x04)
@@ -873,10 +686,10 @@ DefinitionBlock ("", "DSDT", 2, "ALASKA", "A M I ", 0x0107200a)
                 0xFFFF, 
                 0x03, 
                 Zero, 
-                0x2B
+                0x23
             }
         })
-        Name (PD20, Package (0x04)
+        Name (PD1C, Package (0x04)
         {
             Package (0x04)
             {
@@ -907,6 +720,74 @@ DefinitionBlock ("", "DSDT", 2, "ALASKA", "A M I ", 0x0107200a)
                 0xFFFF, 
                 0x03, 
                 LNKH, 
+                Zero
+            }
+        })
+        Name (AR1C, Package (0x04)
+        {
+            Package (0x04)
+            {
+                0xFFFF, 
+                Zero, 
+                Zero, 
+                0x24
+            }, 
+
+            Package (0x04)
+            {
+                0xFFFF, 
+                One, 
+                Zero, 
+                0x25
+            }, 
+
+            Package (0x04)
+            {
+                0xFFFF, 
+                0x02, 
+                Zero, 
+                0x26
+            }, 
+
+            Package (0x04)
+            {
+                0xFFFF, 
+                0x03, 
+                Zero, 
+                0x27
+            }
+        })
+        Name (PD20, Package (0x04)
+        {
+            Package (0x04)
+            {
+                0xFFFF, 
+                Zero, 
+                LNKA, 
+                Zero
+            }, 
+
+            Package (0x04)
+            {
+                0xFFFF, 
+                One, 
+                LNKB, 
+                Zero
+            }, 
+
+            Package (0x04)
+            {
+                0xFFFF, 
+                0x02, 
+                LNKC, 
+                Zero
+            }, 
+
+            Package (0x04)
+            {
+                0xFFFF, 
+                0x03, 
+                LNKD, 
                 Zero
             }
         })
@@ -917,7 +798,7 @@ DefinitionBlock ("", "DSDT", 2, "ALASKA", "A M I ", 0x0107200a)
                 0xFFFF, 
                 Zero, 
                 Zero, 
-                0x2C
+                0x28
             }, 
 
             Package (0x04)
@@ -925,7 +806,7 @@ DefinitionBlock ("", "DSDT", 2, "ALASKA", "A M I ", 0x0107200a)
                 0xFFFF, 
                 One, 
                 Zero, 
-                0x2D
+                0x29
             }, 
 
             Package (0x04)
@@ -933,7 +814,7 @@ DefinitionBlock ("", "DSDT", 2, "ALASKA", "A M I ", 0x0107200a)
                 0xFFFF, 
                 0x02, 
                 Zero, 
-                0x2E
+                0x2A
             }, 
 
             Package (0x04)
@@ -941,75 +822,7 @@ DefinitionBlock ("", "DSDT", 2, "ALASKA", "A M I ", 0x0107200a)
                 0xFFFF, 
                 0x03, 
                 Zero, 
-                0x2F
-            }
-        })
-        Name (PD22, Package (0x04)
-        {
-            Package (0x04)
-            {
-                0xFFFF, 
-                Zero, 
-                LNKE, 
-                Zero
-            }, 
-
-            Package (0x04)
-            {
-                0xFFFF, 
-                One, 
-                LNKF, 
-                Zero
-            }, 
-
-            Package (0x04)
-            {
-                0xFFFF, 
-                0x02, 
-                LNKG, 
-                Zero
-            }, 
-
-            Package (0x04)
-            {
-                0xFFFF, 
-                0x03, 
-                LNKH, 
-                Zero
-            }
-        })
-        Name (AR22, Package (0x04)
-        {
-            Package (0x04)
-            {
-                0xFFFF, 
-                Zero, 
-                Zero, 
-                0x2C
-            }, 
-
-            Package (0x04)
-            {
-                0xFFFF, 
-                One, 
-                Zero, 
-                0x2D
-            }, 
-
-            Package (0x04)
-            {
-                0xFFFF, 
-                0x02, 
-                Zero, 
-                0x2E
-            }, 
-
-            Package (0x04)
-            {
-                0xFFFF, 
-                0x03, 
-                Zero, 
-                0x2F
+                0x2B
             }
         })
         Name (PD24, Package (0x04)
@@ -1018,22 +831,6 @@ DefinitionBlock ("", "DSDT", 2, "ALASKA", "A M I ", 0x0107200a)
             {
                 0xFFFF, 
                 Zero, 
-                LNKG, 
-                Zero
-            }, 
-
-            Package (0x04)
-            {
-                0xFFFF, 
-                One, 
-                LNKH, 
-                Zero
-            }, 
-
-            Package (0x04)
-            {
-                0xFFFF, 
-                0x02, 
                 LNKE, 
                 Zero
             }, 
@@ -1041,8 +838,24 @@ DefinitionBlock ("", "DSDT", 2, "ALASKA", "A M I ", 0x0107200a)
             Package (0x04)
             {
                 0xFFFF, 
-                0x03, 
+                One, 
                 LNKF, 
+                Zero
+            }, 
+
+            Package (0x04)
+            {
+                0xFFFF, 
+                0x02, 
+                LNKG, 
+                Zero
+            }, 
+
+            Package (0x04)
+            {
+                0xFFFF, 
+                0x03, 
+                LNKH, 
                 Zero
             }
         })
@@ -1053,73 +866,21 @@ DefinitionBlock ("", "DSDT", 2, "ALASKA", "A M I ", 0x0107200a)
                 0xFFFF, 
                 Zero, 
                 Zero, 
-                0x2E
-            }, 
-
-            Package (0x04)
-            {
-                0xFFFF, 
-                One, 
-                Zero, 
-                0x2F
-            }, 
-
-            Package (0x04)
-            {
-                0xFFFF, 
-                0x02, 
-                Zero, 
                 0x2C
             }, 
 
             Package (0x04)
             {
                 0xFFFF, 
-                0x03, 
+                One, 
                 Zero, 
                 0x2D
-            }
-        })
-        Name (PD26, Package (0x04)
-        {
-            Package (0x04)
-            {
-                0xFFFF, 
-                Zero, 
-                LNKG, 
-                Zero
-            }, 
-
-            Package (0x04)
-            {
-                0xFFFF, 
-                One, 
-                LNKH, 
-                Zero
             }, 
 
             Package (0x04)
             {
                 0xFFFF, 
                 0x02, 
-                LNKE, 
-                Zero
-            }, 
-
-            Package (0x04)
-            {
-                0xFFFF, 
-                0x03, 
-                LNKF, 
-                Zero
-            }
-        })
-        Name (AR26, Package (0x04)
-        {
-            Package (0x04)
-            {
-                0xFFFF, 
-                Zero, 
                 Zero, 
                 0x2E
             }, 
@@ -1127,25 +888,9 @@ DefinitionBlock ("", "DSDT", 2, "ALASKA", "A M I ", 0x0107200a)
             Package (0x04)
             {
                 0xFFFF, 
-                One, 
-                Zero, 
-                0x2F
-            }, 
-
-            Package (0x04)
-            {
-                0xFFFF, 
-                0x02, 
-                Zero, 
-                0x2C
-            }, 
-
-            Package (0x04)
-            {
-                0xFFFF, 
                 0x03, 
                 Zero, 
-                0x2D
+                0x2F
             }
         })
         Name (PD28, Package (0x04)
@@ -1154,22 +899,6 @@ DefinitionBlock ("", "DSDT", 2, "ALASKA", "A M I ", 0x0107200a)
             {
                 0xFFFF, 
                 Zero, 
-                LNKC, 
-                Zero
-            }, 
-
-            Package (0x04)
-            {
-                0xFFFF, 
-                One, 
-                LNKD, 
-                Zero
-            }, 
-
-            Package (0x04)
-            {
-                0xFFFF, 
-                0x02, 
                 LNKA, 
                 Zero
             }, 
@@ -1177,8 +906,24 @@ DefinitionBlock ("", "DSDT", 2, "ALASKA", "A M I ", 0x0107200a)
             Package (0x04)
             {
                 0xFFFF, 
-                0x03, 
+                One, 
                 LNKB, 
+                Zero
+            }, 
+
+            Package (0x04)
+            {
+                0xFFFF, 
+                0x02, 
+                LNKC, 
+                Zero
+            }, 
+
+            Package (0x04)
+            {
+                0xFFFF, 
+                0x03, 
+                LNKD, 
                 Zero
             }
         })
@@ -1189,7 +934,7 @@ DefinitionBlock ("", "DSDT", 2, "ALASKA", "A M I ", 0x0107200a)
                 0xFFFF, 
                 Zero, 
                 Zero, 
-                0x2A
+                0x30
             }, 
 
             Package (0x04)
@@ -1197,7 +942,7 @@ DefinitionBlock ("", "DSDT", 2, "ALASKA", "A M I ", 0x0107200a)
                 0xFFFF, 
                 One, 
                 Zero, 
-                0x2B
+                0x31
             }, 
 
             Package (0x04)
@@ -1205,7 +950,7 @@ DefinitionBlock ("", "DSDT", 2, "ALASKA", "A M I ", 0x0107200a)
                 0xFFFF, 
                 0x02, 
                 Zero, 
-                0x28
+                0x32
             }, 
 
             Package (0x04)
@@ -1213,10 +958,10 @@ DefinitionBlock ("", "DSDT", 2, "ALASKA", "A M I ", 0x0107200a)
                 0xFFFF, 
                 0x03, 
                 Zero, 
-                0x29
+                0x33
             }
         })
-        Name (PD2A, Package (0x04)
+        Name (PD38, Package (0x04)
         {
             Package (0x04)
             {
@@ -1250,7 +995,7 @@ DefinitionBlock ("", "DSDT", 2, "ALASKA", "A M I ", 0x0107200a)
                 Zero
             }
         })
-        Name (AR2A, Package (0x04)
+        Name (AR38, Package (0x04)
         {
             Package (0x04)
             {
@@ -1284,143 +1029,7 @@ DefinitionBlock ("", "DSDT", 2, "ALASKA", "A M I ", 0x0107200a)
                 0x25
             }
         })
-        Name (PD30, Package (0x04)
-        {
-            Package (0x04)
-            {
-                0xFFFF, 
-                Zero, 
-                LNKA, 
-                Zero
-            }, 
-
-            Package (0x04)
-            {
-                0xFFFF, 
-                One, 
-                LNKB, 
-                Zero
-            }, 
-
-            Package (0x04)
-            {
-                0xFFFF, 
-                0x02, 
-                LNKC, 
-                Zero
-            }, 
-
-            Package (0x04)
-            {
-                0xFFFF, 
-                0x03, 
-                LNKD, 
-                Zero
-            }
-        })
-        Name (AR30, Package (0x04)
-        {
-            Package (0x04)
-            {
-                0xFFFF, 
-                Zero, 
-                Zero, 
-                0x18
-            }, 
-
-            Package (0x04)
-            {
-                0xFFFF, 
-                One, 
-                Zero, 
-                0x19
-            }, 
-
-            Package (0x04)
-            {
-                0xFFFF, 
-                0x02, 
-                Zero, 
-                0x1A
-            }, 
-
-            Package (0x04)
-            {
-                0xFFFF, 
-                0x03, 
-                Zero, 
-                0x1B
-            }
-        })
-        Name (PD60, Package (0x04)
-        {
-            Package (0x04)
-            {
-                0xFFFF, 
-                Zero, 
-                LNKA, 
-                Zero
-            }, 
-
-            Package (0x04)
-            {
-                0xFFFF, 
-                One, 
-                LNKB, 
-                Zero
-            }, 
-
-            Package (0x04)
-            {
-                0xFFFF, 
-                0x02, 
-                LNKC, 
-                Zero
-            }, 
-
-            Package (0x04)
-            {
-                0xFFFF, 
-                0x03, 
-                LNKD, 
-                Zero
-            }
-        })
-        Name (AR60, Package (0x04)
-        {
-            Package (0x04)
-            {
-                0xFFFF, 
-                Zero, 
-                Zero, 
-                0x18
-            }, 
-
-            Package (0x04)
-            {
-                0xFFFF, 
-                One, 
-                Zero, 
-                0x19
-            }, 
-
-            Package (0x04)
-            {
-                0xFFFF, 
-                0x02, 
-                Zero, 
-                0x1A
-            }, 
-
-            Package (0x04)
-            {
-                0xFFFF, 
-                0x03, 
-                Zero, 
-                0x1B
-            }
-        })
-        Name (PD90, Package (0x04)
+        Name (PD39, Package (0x04)
         {
             Package (0x04)
             {
@@ -1454,7 +1063,7 @@ DefinitionBlock ("", "DSDT", 2, "ALASKA", "A M I ", 0x0107200a)
                 Zero
             }
         })
-        Name (AR90, Package (0x04)
+        Name (AR39, Package (0x04)
         {
             Package (0x04)
             {
@@ -1488,7 +1097,7 @@ DefinitionBlock ("", "DSDT", 2, "ALASKA", "A M I ", 0x0107200a)
                 0x21
             }
         })
-        Name (PD92, Package (0x04)
+        Name (PD3A, Package (0x04)
         {
             Package (0x04)
             {
@@ -1522,7 +1131,7 @@ DefinitionBlock ("", "DSDT", 2, "ALASKA", "A M I ", 0x0107200a)
                 Zero
             }
         })
-        Name (AR92, Package (0x04)
+        Name (AR3A, Package (0x04)
         {
             Package (0x04)
             {
@@ -1556,79 +1165,67 @@ DefinitionBlock ("", "DSDT", 2, "ALASKA", "A M I ", 0x0107200a)
                 0x1D
             }
         })
-        Name (PD94, Package (0x04)
+        Name (PD00, Package (0x0E)
         {
             Package (0x04)
             {
-                0xFFFF, 
+                0x0001FFFF, 
                 Zero, 
+                LNKA, 
+                Zero
+            }, 
+
+            Package (0x04)
+            {
+                0x0001FFFF, 
+                One, 
+                LNKB, 
+                Zero
+            }, 
+
+            Package (0x04)
+            {
+                0x0001FFFF, 
+                0x02, 
                 LNKC, 
                 Zero
             }, 
 
             Package (0x04)
             {
-                0xFFFF, 
+                0x0002FFFF, 
+                Zero, 
+                LNKE, 
+                Zero
+            }, 
+
+            Package (0x04)
+            {
+                0x0002FFFF, 
                 One, 
-                LNKD, 
+                LNKF, 
                 Zero
             }, 
 
             Package (0x04)
             {
-                0xFFFF, 
+                0x0002FFFF, 
                 0x02, 
-                LNKA, 
+                LNKG, 
                 Zero
             }, 
 
             Package (0x04)
             {
-                0xFFFF, 
+                0x0002FFFF, 
                 0x03, 
-                LNKB, 
+                LNKH, 
                 Zero
-            }
-        })
-        Name (AR94, Package (0x04)
-        {
-            Package (0x04)
-            {
-                0xFFFF, 
-                Zero, 
-                Zero, 
-                0x1A
             }, 
 
             Package (0x04)
             {
-                0xFFFF, 
-                One, 
-                Zero, 
-                0x1B
-            }, 
-
-            Package (0x04)
-            {
-                0xFFFF, 
-                0x02, 
-                Zero, 
-                0x18
-            }, 
-
-            Package (0x04)
-            {
-                0xFFFF, 
-                0x03, 
-                Zero, 
-                0x19
-            }
-        })
-        Name (PD00, Package (0x04)
-        {
-            Package (0x04)
-            {
-                0x0014FFFF, 
+                0x0008FFFF, 
                 Zero, 
                 LNKA, 
                 Zero
@@ -1636,7 +1233,7 @@ DefinitionBlock ("", "DSDT", 2, "ALASKA", "A M I ", 0x0107200a)
 
             Package (0x04)
             {
-                0x0014FFFF, 
+                0x0008FFFF, 
                 One, 
                 LNKB, 
                 Zero
@@ -1644,7 +1241,7 @@ DefinitionBlock ("", "DSDT", 2, "ALASKA", "A M I ", 0x0107200a)
 
             Package (0x04)
             {
-                0x0014FFFF, 
+                0x0008FFFF, 
                 0x02, 
                 LNKC, 
                 Zero
@@ -1653,13 +1250,117 @@ DefinitionBlock ("", "DSDT", 2, "ALASKA", "A M I ", 0x0107200a)
             Package (0x04)
             {
                 0x0014FFFF, 
+                Zero, 
+                LNKA, 
+                Zero
+            }, 
+
+            Package (0x04)
+            {
+                0x0014FFFF, 
+                One, 
+                LNKB, 
+                Zero
+            }, 
+
+            Package (0x04)
+            {
+                0x0014FFFF, 
+                0x02, 
+                LNKC, 
+                Zero
+            }, 
+
+            Package (0x04)
+            {
+                0x0014FFFF, 
                 0x03, 
                 LNKD, 
                 Zero
             }
         })
-        Name (AR00, Package (0x04)
+        Name (AR00, Package (0x0E)
         {
+            Package (0x04)
+            {
+                0x0001FFFF, 
+                Zero, 
+                Zero, 
+                0x28
+            }, 
+
+            Package (0x04)
+            {
+                0x0001FFFF, 
+                One, 
+                Zero, 
+                0x29
+            }, 
+
+            Package (0x04)
+            {
+                0x0001FFFF, 
+                0x02, 
+                Zero, 
+                0x2A
+            }, 
+
+            Package (0x04)
+            {
+                0x0002FFFF, 
+                Zero, 
+                Zero, 
+                0x24
+            }, 
+
+            Package (0x04)
+            {
+                0x0002FFFF, 
+                One, 
+                Zero, 
+                0x25
+            }, 
+
+            Package (0x04)
+            {
+                0x0002FFFF, 
+                0x02, 
+                Zero, 
+                0x26
+            }, 
+
+            Package (0x04)
+            {
+                0x0002FFFF, 
+                0x03, 
+                Zero, 
+                0x27
+            }, 
+
+            Package (0x04)
+            {
+                0x0008FFFF, 
+                Zero, 
+                Zero, 
+                0x20
+            }, 
+
+            Package (0x04)
+            {
+                0x0008FFFF, 
+                One, 
+                Zero, 
+                0x21
+            }, 
+
+            Package (0x04)
+            {
+                0x0008FFFF, 
+                0x02, 
+                Zero, 
+                0x22
+            }, 
+
             Package (0x04)
             {
                 0x0014FFFF, 
@@ -1761,11 +1462,11 @@ DefinitionBlock ("", "DSDT", 2, "ALASKA", "A M I ", 0x0107200a)
             Name (BRL, 0x0100)
             Name (IOB, 0x1000)
             Name (IOL, 0xF000)
-            Name (MBB, 0xA0000000)
-            Name (MBL, 0x40000000)
-            Name (MAB, 0x0000000460000000)
-            Name (MAL, 0x0000007BA0000000)
-            Name (MAM, 0x0000007FFFFFFFFF)
+            Name (MBB, 0xD0000000)
+            Name (MBL, 0x30000000)
+            Name (MAB, 0x0000000000000000)
+            Name (MAL, 0x0000000000000000)
+            Name (MAM, 0x0000000000000000)
             Name (CRS1, ResourceTemplate ()
             {
                 WordBusNumber (ResourceProducer, MinFixed, MaxFixed, PosDecode,
@@ -1975,21 +1676,12 @@ DefinitionBlock ("", "DSDT", 2, "ALASKA", "A M I ", 0x0107200a)
                         LEN3 = (NBTP - MBB)
                         Local0 = LEN3 /* \_SB_.PCI0._CRS.LEN3 */
                         MAX3 = (MIN3 + Local0--)
-                        If (((MBL - LEN3) < 0x00200000))
-                        {
-                            MIN7 = Zero
-                            MAX7 = Zero
-                            LEN7 = Zero
-                        }
-                        Else
-                        {
-                            MIN7 = 0xFEE00000
-                            Local0 = (0xFEE00000 - NBTP)
-                            LEN7 = (MBL - Local0)
-                            LEN7 = (LEN7 - LEN3)
-                            Local0 = LEN7 /* \_SB_.PCI0._CRS.LEN7 */
-                            MAX7 = (MIN7 + Local0--)
-                        }
+                        MIN7 = 0xFEE00000
+                        Local0 = (0xFEE00000 - NBTP)
+                        LEN7 = (MBL - Local0)
+                        LEN7 = (LEN7 - LEN3)
+                        Local0 = LEN7 /* \_SB_.PCI0._CRS.LEN7 */
+                        MAX7 = (MIN7 + Local0--)
                     }
 
                     If (MAL)
@@ -2154,6 +1846,15 @@ DefinitionBlock ("", "DSDT", 2, "ALASKA", "A M I ", 0x0107200a)
             Device (IOMA)
             {
                 Name (_ADR, 0x02)  // _ADR: Address
+                Name (_HID, EisaId ("PNP0C02") /* PNP Motherboard Resources */)  // _HID: Hardware ID
+                Name (_UID, 0x15)  // _UID: Unique ID
+                Name (_CRS, ResourceTemplate ()  // _CRS: Current Resource Settings
+                {
+                    Memory32Fixed (ReadOnly,
+                        0xFEB80000,         // Address Base
+                        0x00080000,         // Address Length
+                        )
+                })
             }
 
             Device (D003)
@@ -2161,9 +1862,9 @@ DefinitionBlock ("", "DSDT", 2, "ALASKA", "A M I ", 0x0107200a)
                 Name (_ADR, Zero)  // _ADR: Address
             }
 
-            Device (GPP1)
+            Device (GPP0)
             {
-                Name (_ADR, 0x00010002)  // _ADR: Address
+                Name (_ADR, 0x00010001)  // _ADR: Address
                 Method (_PRW, 0, NotSerialized)  // _PRW: Power Resources for Wake
                 {
                     Return (GPRW (0x08, 0x04))
@@ -2174,14 +1875,19 @@ DefinitionBlock ("", "DSDT", 2, "ALASKA", "A M I ", 0x0107200a)
                     Return (GPRW (0x08, Zero))
                 }
 
+                Device (DEV0)
+                {
+                    Name (_ADR, Zero)  // _ADR: Address
+                }
+
                 Method (_PRT, 0, NotSerialized)  // _PRT: PCI Routing Table
                 {
                     If (PICM)
                     {
-                        Return (AR12) /* \_SB_.AR12 */
+                        Return (AR10) /* \_SB_.AR10 */
                     }
 
-                    Return (PD12) /* \_SB_.PD12 */
+                    Return (PD10) /* \_SB_.PD10 */
                 }
 
                 Device (D005)
@@ -2207,10 +1913,10 @@ DefinitionBlock ("", "DSDT", 2, "ALASKA", "A M I ", 0x0107200a)
                 {
                     If (PICM)
                     {
-                        Return (AR14) /* \_SB_.AR14 */
+                        Return (AR18) /* \_SB_.AR18 */
                     }
 
-                    Return (PD14) /* \_SB_.PD14 */
+                    Return (PD18) /* \_SB_.PD18 */
                 }
 
                 Device (D007)
@@ -2219,79 +1925,70 @@ DefinitionBlock ("", "DSDT", 2, "ALASKA", "A M I ", 0x0107200a)
                 }
             }
 
-            Device (GPP0)
-            {
-                Name (_ADR, 0x00010001)  // _ADR: Address
-                Method (_PRW, 0, NotSerialized)  // _PRW: Power Resources for Wake
-                {
-                    Return (GPRW (0x08, 0x04))
-                }
-
-                Method (MPRW, 0, NotSerialized)
-                {
-                    Return (GPRW (0x08, Zero))
-                }
-
-                Method (_PRT, 0, NotSerialized)  // _PRT: PCI Routing Table
-                {
-                    If (PICM)
-                    {
-                        Return (AR10) /* \_SB_.AR10 */
-                    }
-
-                    Return (PD10) /* \_SB_.PD10 */
-                }
-
-                Device (D009)
-                {
-                    Name (_ADR, 0xFF)  // _ADR: Address
-                }
-            }
-
             Device (GPP3)
-            {
-                Name (_ADR, 0x00010004)  // _ADR: Address
-                Method (_PRT, 0, NotSerialized)  // _PRT: PCI Routing Table
-                {
-                    If (PICM)
-                    {
-                        Return (AR16) /* \_SB_.AR16 */
-                    }
-
-                    Return (PD16) /* \_SB_.PD16 */
-                }
-
-                Device (D00B)
-                {
-                    Name (_ADR, 0xFF)  // _ADR: Address
-                }
-            }
-
-            Device (GPP4)
-            {
-                Name (_ADR, 0x00010005)  // _ADR: Address
-                Method (_PRT, 0, NotSerialized)  // _PRT: PCI Routing Table
-                {
-                    If (PICM)
-                    {
-                        Return (AR18) /* \_SB_.AR18 */
-                    }
-
-                    Return (PD18) /* \_SB_.PD18 */
-                }
-
-                Device (D00D)
-                {
-                    Name (_ADR, 0xFF)  // _ADR: Address
-                }
-            }
-
-            Device (GPP5)
             {
                 Name (_ADR, 0x00020001)  // _ADR: Address
                 Method (_PRW, 0, NotSerialized)  // _PRW: Power Resources for Wake
                 {
                     Return (GPRW (0x0F, 0x04))
+                }
+
+                Method (MPRW, 0, NotSerialized)
+                {
+                    Return (GPRW (0x0F, Zero))
+                }
+
+                Method (_PRT, 0, NotSerialized)  // _PRT: PCI Routing Table
+                {
+                    If (PICM)
+                    {
+                        Return (AR1C) /* \_SB_.AR1C */
+                    }
+
+                    Return (PD1C) /* \_SB_.PD1C */
+                }
+
+                Device (RTL8)
+                {
+                    Name (_ADR, Zero)  // _ADR: Address
+                }
+
+                Device (RUSB)
+                {
+                    Name (_ADR, 0x04)  // _ADR: Address
+                }
+            }
+
+            Device (GPP4)
+            {
+                Name (_ADR, 0x00020002)  // _ADR: Address
+                Method (_PRW, 0, NotSerialized)  // _PRW: Power Resources for Wake
+                {
+                    Return (GPRW (0x0E, 0x04))
+                }
+
+                Method (MPRW, 0, NotSerialized)
+                {
+                    Return (GPRW (0x0E, Zero))
+                }
+
+                OperationRegion (GI26, SystemMemory, 0xFED81500, 0x0400)
+                Field (GI26, DWordAcc, NoLock, Preserve)
+                {
+                    Offset (0x68), 
+                    WFIR,   32
+                }
+
+                Method (_PS3, 0, Serialized)  // _PS3: Power State 3
+                {
+                    WFIR = 0x00840000
+                }
+
+                Method (_PS0, 0, Serialized)  // _PS0: Power State 0
+                {
+                    WFIR = 0x00840000
+                    Sleep (0x01F4)
+                    WFIR = 0x00C50000
                 }
 
                 Method (_PRT, 0, NotSerialized)  // _PRT: PCI Routing Table
@@ -2304,39 +2001,30 @@ DefinitionBlock ("", "DSDT", 2, "ALASKA", "A M I ", 0x0107200a)
                     Return (PD20) /* \_SB_.PD20 */
                 }
 
-                Device (D00F)
+                Device (D00A)
                 {
                     Name (_ADR, 0xFF)  // _ADR: Address
                 }
             }
 
-            Device (GPP6)
-            {
-                Name (_ADR, 0x00020002)  // _ADR: Address
-                Method (_PRW, 0, NotSerialized)  // _PRW: Power Resources for Wake
-                {
-                    Return (GPRW (0x0E, 0x04))
-                }
-
-                Method (_PRT, 0, NotSerialized)  // _PRT: PCI Routing Table
-                {
-                    If (PICM)
-                    {
-                        Return (AR22) /* \_SB_.AR22 */
-                    }
-
-                    Return (PD22) /* \_SB_.PD22 */
-                }
-
-                Device (D011)
-                {
-                    Name (_ADR, 0xFF)  // _ADR: Address
-                }
-            }
-
-            Device (GPP7)
+            Device (GPP5)
             {
                 Name (_ADR, 0x00020003)  // _ADR: Address
+                Method (_PRW, 0, NotSerialized)  // _PRW: Power Resources for Wake
+                {
+                    Return (GPRW (0x08, 0x04))
+                }
+
+                Method (MPRW, 0, NotSerialized)
+                {
+                    Return (GPRW (0x08, Zero))
+                }
+
+                Device (DEV0)
+                {
+                    Name (_ADR, Zero)  // _ADR: Address
+                }
+
                 Method (_PRT, 0, NotSerialized)  // _PRT: PCI Routing Table
                 {
                     If (PICM)
@@ -2347,34 +2035,15 @@ DefinitionBlock ("", "DSDT", 2, "ALASKA", "A M I ", 0x0107200a)
                     Return (PD24) /* \_SB_.PD24 */
                 }
 
-                Device (D013)
+                Device (D00C)
                 {
                     Name (_ADR, 0xFF)  // _ADR: Address
                 }
             }
 
-            Device (GPP8)
+            Device (GPP6)
             {
                 Name (_ADR, 0x00020004)  // _ADR: Address
-                Method (_PRT, 0, NotSerialized)  // _PRT: PCI Routing Table
-                {
-                    If (PICM)
-                    {
-                        Return (AR26) /* \_SB_.AR26 */
-                    }
-
-                    Return (PD26) /* \_SB_.PD26 */
-                }
-
-                Device (D015)
-                {
-                    Name (_ADR, 0xFF)  // _ADR: Address
-                }
-            }
-
-            Device (GPP9)
-            {
-                Name (_ADR, 0x00020005)  // _ADR: Address
                 Method (_PRT, 0, NotSerialized)  // _PRT: PCI Routing Table
                 {
                     If (PICM)
@@ -2385,64 +2054,7 @@ DefinitionBlock ("", "DSDT", 2, "ALASKA", "A M I ", 0x0107200a)
                     Return (PD28) /* \_SB_.PD28 */
                 }
 
-                Device (D017)
-                {
-                    Name (_ADR, 0xFF)  // _ADR: Address
-                }
-            }
-
-            Device (GP10)
-            {
-                Name (_ADR, 0x00020006)  // _ADR: Address
-                Method (_PRT, 0, NotSerialized)  // _PRT: PCI Routing Table
-                {
-                    If (PICM)
-                    {
-                        Return (AR2A) /* \_SB_.AR2A */
-                    }
-
-                    Return (PD2A) /* \_SB_.PD2A */
-                }
-
-                Device (D019)
-                {
-                    Name (_ADR, 0xFF)  // _ADR: Address
-                }
-            }
-
-            Device (GP11)
-            {
-                Name (_ADR, 0x00030001)  // _ADR: Address
-                Method (_PRT, 0, NotSerialized)  // _PRT: PCI Routing Table
-                {
-                    If (PICM)
-                    {
-                        Return (AR30) /* \_SB_.AR30 */
-                    }
-
-                    Return (PD30) /* \_SB_.PD30 */
-                }
-
-                Device (D01B)
-                {
-                    Name (_ADR, 0xFF)  // _ADR: Address
-                }
-            }
-
-            Device (GP12)
-            {
-                Name (_ADR, 0x00040001)  // _ADR: Address
-                Method (_PRT, 0, NotSerialized)  // _PRT: PCI Routing Table
-                {
-                    If (PICM)
-                    {
-                        Return (AR60) /* \_SB_.AR60 */
-                    }
-
-                    Return (PD60) /* \_SB_.PD60 */
-                }
-
-                Device (D01D)
+                Device (D00E)
                 {
                     Name (_ADR, 0xFF)  // _ADR: Address
                 }
@@ -2451,20 +2063,35 @@ DefinitionBlock ("", "DSDT", 2, "ALASKA", "A M I ", 0x0107200a)
             Device (GP17)
             {
                 Name (_ADR, 0x00080001)  // _ADR: Address
+                Method (_PRW, 0, NotSerialized)  // _PRW: Power Resources for Wake
+                {
+                    Return (GPRW (0x19, 0x04))
+                }
+
+                Method (MPRW, 0, NotSerialized)
+                {
+                    Return (GPRW (0x19, Zero))
+                }
+
                 Method (_PRT, 0, NotSerialized)  // _PRT: PCI Routing Table
                 {
                     If (PICM)
                     {
-                        Return (AR90) /* \_SB_.AR90 */
+                        Return (AR38) /* \_SB_.AR38 */
                     }
 
-                    Return (PD90) /* \_SB_.PD90 */
+                    Return (PD38) /* \_SB_.PD38 */
                 }
 
                 Device (VGA)
                 {
                     Name (_ADR, Zero)  // _ADR: Address
                     Name (AF7E, 0x80000001)
+                    Method (_STA, 0, NotSerialized)  // _STA: Status
+                    {
+                        Return (0x0F)
+                    }
+
                     Name (DOSA, Zero)
                     Method (_DOS, 1, NotSerialized)  // _DOS: Disable Output Switching
                     {
@@ -2473,7 +2100,6 @@ DefinitionBlock ("", "DSDT", 2, "ALASKA", "A M I ", 0x0107200a)
 
                     Method (_DOD, 0, NotSerialized)  // _DOD: Display Output Devices
                     {
-                        M460 ("PLA-ASL-\\_SB.PCI0.GP17.VGA._DOD\n", Zero, Zero, Zero, Zero, Zero, Zero)
                         Return (Package (0x07)
                         {
                             0x00010110, 
@@ -2546,7 +2172,6 @@ DefinitionBlock ("", "DSDT", 2, "ALASKA", "A M I ", 0x0107200a)
                         })
                         Method (_BCL, 0, NotSerialized)  // _BCL: Brightness Control Levels
                         {
-                            M460 ("PLA-ASL-\\_SB.PCI0.GP17.VGA.LCD._BCL\n", Zero, Zero, Zero, Zero, Zero, Zero)
                             Return (BCLB) /* \_SB_.PCI0.GP17.VGA_.LCD_.BCLB */
                         }
 
@@ -2554,7 +2179,6 @@ DefinitionBlock ("", "DSDT", 2, "ALASKA", "A M I ", 0x0107200a)
                         {
                             If ((AF7E == 0x80000001))
                             {
-                                M460 ("PLA-ASL-\\_SB.PCI0.GP17.VGA.LCD._BCM Arg0 = 0x%X\n", ToInteger (Arg0), Zero, Zero, Zero, Zero, Zero)
                                 Divide ((Arg0 * 0xFF), 0x64, Local1, Local0)
                                 AFN7 (Local0)
                             }
@@ -2585,11 +2209,29 @@ DefinitionBlock ("", "DSDT", 2, "ALASKA", "A M I ", 0x0107200a)
                 Device (XHC0)
                 {
                     Name (_ADR, 0x03)  // _ADR: Address
+                    Method (_PRW, 0, NotSerialized)  // _PRW: Power Resources for Wake
+                    {
+                        Return (GPRW (0x19, 0x04))
+                    }
+
+                    Method (MPRW, 0, NotSerialized)
+                    {
+                        Return (GPRW (0x19, Zero))
+                    }
                 }
 
                 Device (XHC1)
                 {
                     Name (_ADR, 0x04)  // _ADR: Address
+                    Method (_PRW, 0, NotSerialized)  // _PRW: Power Resources for Wake
+                    {
+                        Return (GPRW (0x19, 0x04))
+                    }
+
+                    Method (MPRW, 0, NotSerialized)
+                    {
+                        Return (GPRW (0x19, Zero))
+                    }
                 }
 
                 Device (APSP)
@@ -2639,63 +2281,63 @@ DefinitionBlock ("", "DSDT", 2, "ALASKA", "A M I ", 0x0107200a)
                 {
                     If (PICM)
                     {
-                        Return (AR92) /* \_SB_.AR92 */
+                        Return (AR39) /* \_SB_.AR39 */
                     }
 
-                    Return (PD92) /* \_SB_.PD92 */
+                    Return (PD39) /* \_SB_.PD39 */
                 }
 
                 Device (SATA)
                 {
                     Name (_ADR, Zero)  // _ADR: Address
                 }
+
+                Device (SAT1)
+                {
+                    Name (_ADR, One)  // _ADR: Address
+                }
             }
 
             Device (GP19)
             {
                 Name (_ADR, 0x00080003)  // _ADR: Address
+                Method (_PRW, 0, NotSerialized)  // _PRW: Power Resources for Wake
+                {
+                    Return (GPRW (0x08, 0x04))
+                }
+
+                Method (MPRW, 0, NotSerialized)
+                {
+                    Return (GPRW (0x08, Zero))
+                }
+
                 Method (_PRT, 0, NotSerialized)  // _PRT: PCI Routing Table
                 {
                     If (PICM)
                     {
-                        Return (AR94) /* \_SB_.AR94 */
+                        Return (AR3A) /* \_SB_.AR3A */
                     }
 
-                    Return (PD94) /* \_SB_.PD94 */
+                    Return (PD3A) /* \_SB_.PD3A */
                 }
 
-                Device (XHC2)
+                Device (D025)
                 {
                     Name (_ADR, Zero)  // _ADR: Address
                 }
 
-                Device (XHC3)
+                Device (D026)
                 {
-                    Name (_ADR, 0x03)  // _ADR: Address
+                    Name (_ADR, One)  // _ADR: Address
                 }
 
-                Device (XHC4)
-                {
-                    Name (_ADR, 0x04)  // _ADR: Address
-                }
-
-                Device (NHI0)
-                {
-                    Name (_ADR, 0x05)  // _ADR: Address
-                }
-
-                Device (NHI1)
-                {
-                    Name (_ADR, 0x06)  // _ADR: Address
-                }
-
-                Device (D038)
+                Device (D027)
                 {
                     Name (_ADR, 0x02)  // _ADR: Address
                 }
             }
 
-            Device (D02C)
+            Device (D01D)
             {
                 Name (_ADR, 0x00140000)  // _ADR: Address
             }
@@ -3169,9 +2811,180 @@ DefinitionBlock ("", "DSDT", 2, "ALASKA", "A M I ", 0x0107200a)
                 }
             }
 
-            Device (D02F)
+            Device (D020)
             {
                 Name (_ADR, 0x00140006)  // _ADR: Address
+            }
+
+            Device (GPP1)
+            {
+                Name (_ADR, 0x00010002)  // _ADR: Address
+                Method (_PRW, 0, NotSerialized)  // _PRW: Power Resources for Wake
+                {
+                    Return (GPRW (0x08, 0x04))
+                }
+
+                Device (DEV0)
+                {
+                    Name (_ADR, Zero)  // _ADR: Address
+                    Method (_RMV, 0, NotSerialized)  // _RMV: Removal Status
+                    {
+                        Return (Zero)
+                    }
+
+                    Device (RHUB)
+                    {
+                        Name (_ADR, Zero)  // _ADR: Address
+                        Device (PRT1)
+                        {
+                            Name (_ADR, One)  // _ADR: Address
+                            Name (UPC1, Package (0x04)
+                            {
+                                0xFF, 
+                                0x03, 
+                                Zero, 
+                                Zero
+                            })
+                            Method (_UPC, 0, Serialized)  // _UPC: USB Port Capabilities
+                            {
+                                Return (UPC1) /* \_SB_.PCI0.GPP1.DEV0.RHUB.PRT1.UPC1 */
+                            }
+
+                            Name (PLD1, Package (0x01)
+                            {
+                                Buffer (0x14)
+                                {
+                                    /* 0000 */  0x82, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,  // ........
+                                    /* 0008 */  0x11, 0x0C, 0x80, 0x00, 0x01, 0x00, 0x00, 0x00,  // ........
+                                    /* 0010 */  0xFF, 0xFF, 0xFF, 0xFF                           // ....
+                                }
+                            })
+                            Method (_PLD, 0, Serialized)  // _PLD: Physical Location of Device
+                            {
+                                Return (PLD1) /* \_SB_.PCI0.GPP1.DEV0.RHUB.PRT1.PLD1 */
+                            }
+                        }
+
+                        Device (PRT2)
+                        {
+                            Name (_ADR, 0x02)  // _ADR: Address
+                            Name (UPC1, Package (0x04)
+                            {
+                                0xFF, 
+                                0x03, 
+                                Zero, 
+                                Zero
+                            })
+                            Method (_UPC, 0, Serialized)  // _UPC: USB Port Capabilities
+                            {
+                                Return (UPC1) /* \_SB_.PCI0.GPP1.DEV0.RHUB.PRT2.UPC1 */
+                            }
+
+                            Name (PLD1, Package (0x01)
+                            {
+                                Buffer (0x14)
+                                {
+                                    /* 0000 */  0x82, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,  // ........
+                                    /* 0008 */  0x91, 0x0C, 0x00, 0x01, 0x01, 0x00, 0x00, 0x00,  // ........
+                                    /* 0010 */  0xFF, 0xFF, 0xFF, 0xFF                           // ....
+                                }
+                            })
+                            Method (_PLD, 0, Serialized)  // _PLD: Physical Location of Device
+                            {
+                                Return (PLD1) /* \_SB_.PCI0.GPP1.DEV0.RHUB.PRT2.PLD1 */
+                            }
+                        }
+
+                        Device (PRT3)
+                        {
+                            Name (_ADR, 0x03)  // _ADR: Address
+                            Name (UPC1, Package (0x04)
+                            {
+                                0xFF, 
+                                0x03, 
+                                Zero, 
+                                Zero
+                            })
+                            Method (_UPC, 0, Serialized)  // _UPC: USB Port Capabilities
+                            {
+                                Return (UPC1) /* \_SB_.PCI0.GPP1.DEV0.RHUB.PRT3.UPC1 */
+                            }
+
+                            Name (PLD1, Package (0x01)
+                            {
+                                Buffer (0x14)
+                                {
+                                    /* 0000 */  0x82, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,  // ........
+                                    /* 0008 */  0x11, 0x0C, 0x80, 0x00, 0x01, 0x00, 0x00, 0x00,  // ........
+                                    /* 0010 */  0xFF, 0xFF, 0xFF, 0xFF                           // ....
+                                }
+                            })
+                            Method (_PLD, 0, Serialized)  // _PLD: Physical Location of Device
+                            {
+                                Return (PLD1) /* \_SB_.PCI0.GPP1.DEV0.RHUB.PRT3.PLD1 */
+                            }
+
+                            Device (CAM0)
+                            {
+                                Name (_ADR, 0x05)  // _ADR: Address
+                            }
+
+                            Device (CAM1)
+                            {
+                                Name (_ADR, 0x03)  // _ADR: Address
+                            }
+                        }
+
+                        Device (PRT4)
+                        {
+                            Name (_ADR, 0x04)  // _ADR: Address
+                            Name (UPC1, Package (0x04)
+                            {
+                                0xFF, 
+                                0x03, 
+                                Zero, 
+                                Zero
+                            })
+                            Method (_UPC, 0, Serialized)  // _UPC: USB Port Capabilities
+                            {
+                                Return (UPC1) /* \_SB_.PCI0.GPP1.DEV0.RHUB.PRT4.UPC1 */
+                            }
+
+                            Name (PLD1, Package (0x01)
+                            {
+                                Buffer (0x14)
+                                {
+                                    /* 0000 */  0x82, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,  // ........
+                                    /* 0008 */  0x91, 0x0C, 0x00, 0x01, 0x01, 0x00, 0x00, 0x00,  // ........
+                                    /* 0010 */  0xFF, 0xFF, 0xFF, 0xFF                           // ....
+                                }
+                            })
+                            Method (_PLD, 0, Serialized)  // _PLD: Physical Location of Device
+                            {
+                                Return (PLD1) /* \_SB_.PCI0.GPP1.DEV0.RHUB.PRT4.PLD1 */
+                            }
+
+                            Device (CAM0)
+                            {
+                                Name (_ADR, 0x05)  // _ADR: Address
+                            }
+                        }
+                    }
+                }
+
+                Device (DEV1)
+                {
+                    Name (_ADR, One)  // _ADR: Address
+                    Method (_RMV, 0, NotSerialized)  // _RMV: Removal Status
+                    {
+                        Return (Zero)
+                    }
+                }
+
+                Method (MPRW, 0, NotSerialized)
+                {
+                    Return (GPRW (0x08, Zero))
+                }
             }
         }
     }
@@ -3180,9 +2993,10 @@ DefinitionBlock ("", "DSDT", 2, "ALASKA", "A M I ", 0x0107200a)
     {
         Method (_L08, 0, NotSerialized)  // _Lxx: Level-Triggered GPE, xx=0x00-0xFF
         {
-            Notify (\_SB.PCI0.GPP1, 0x02) // Device Wake
             Notify (\_SB.PCI0.GPP0, 0x02) // Device Wake
+            Notify (\_SB.PCI0.GPP5, 0x02) // Device Wake
             Notify (\_SB.PCI0.GP18, 0x02) // Device Wake
+            Notify (\_SB.PCI0.GPP1, 0x02) // Device Wake
             Notify (\_SB.PWRB, 0x02) // Device Wake
         }
 
@@ -3194,13 +3008,21 @@ DefinitionBlock ("", "DSDT", 2, "ALASKA", "A M I ", 0x0107200a)
 
         Method (_L0F, 0, NotSerialized)  // _Lxx: Level-Triggered GPE, xx=0x00-0xFF
         {
-            Notify (\_SB.PCI0.GPP5, 0x02) // Device Wake
+            Notify (\_SB.PCI0.GPP3, 0x02) // Device Wake
             Notify (\_SB.PWRB, 0x02) // Device Wake
         }
 
         Method (_L0E, 0, NotSerialized)  // _Lxx: Level-Triggered GPE, xx=0x00-0xFF
         {
-            Notify (\_SB.PCI0.GPP6, 0x02) // Device Wake
+            Notify (\_SB.PCI0.GPP4, 0x02) // Device Wake
+            Notify (\_SB.PWRB, 0x02) // Device Wake
+        }
+
+        Method (_L19, 0, NotSerialized)  // _Lxx: Level-Triggered GPE, xx=0x00-0xFF
+        {
+            Notify (\_SB.PCI0.GP17, 0x02) // Device Wake
+            Notify (\_SB.PCI0.GP17.XHC0, 0x02) // Device Wake
+            Notify (\_SB.PCI0.GP17.XHC1, 0x02) // Device Wake
             Notify (\_SB.PWRB, 0x02) // Device Wake
         }
     }
@@ -3249,8 +3071,7 @@ DefinitionBlock ("", "DSDT", 2, "ALASKA", "A M I ", 0x0107200a)
         {
             \_SB.TPM.TPTS (Arg0)
             SPTS (Arg0)
-            MPTS (Arg0)
-            \_SB.PCI0.NPTS (Arg0)
+            MPTS (Arg0, \_SB.PCI0.NPTS (Arg0))
         }
     }
 
@@ -3269,6 +3090,14 @@ DefinitionBlock ("", "DSDT", 2, "ALASKA", "A M I ", 0x0107200a)
         MWAK (Arg0)
         DBG8 = (Arg0 << 0x04)
         SWAK (Arg0)
+        If (!Acquire (\_SB.PCI0.SBRG.EC0.Z009, 0x012C))
+        {
+            Local0 = \_SB.PCI0.SBRG.EC0.STAS
+            Local1 = (Local0 | 0x04)
+            \_SB.PCI0.SBRG.EC0.STAS = Local1
+            Release (\_SB.PCI0.SBRG.EC0.Z009)
+        }
+
         Return (WAKP) /* \WAKP */
     }
 
@@ -4015,53 +3844,7 @@ DefinitionBlock ("", "DSDT", 2, "ALASKA", "A M I ", 0x0107200a)
         }
     }
 
-    Device (HPET)
-    {
-        Name (_HID, EisaId ("PNP0103") /* HPET System Timer */)  // _HID: Hardware ID
-        Method (_STA, 0, NotSerialized)  // _STA: Status
-        {
-            If ((HPEN == One))
-            {
-                If ((OSVR >= 0x0C))
-                {
-                    Return (0x0F)
-                }
-
-                HPEN = Zero
-                Return (One)
-            }
-
-            Return (One)
-        }
-
-        Method (_CRS, 0, NotSerialized)  // _CRS: Current Resource Settings
-        {
-            Name (BUF0, ResourceTemplate ()
-            {
-                IRQNoFlags ()
-                    {0}
-                IRQNoFlags ()
-                    {8}
-                Memory32Fixed (ReadOnly,
-                    0xFED00000,         // Address Base
-                    0x00000400,         // Address Length
-                    )
-            })
-            Return (BUF0) /* \HPET._CRS.BUF0 */
-        }
-    }
-
     Name (TSOS, 0x75)
-    Name (UR0I, 0x03)
-    Name (UR1I, 0x04)
-    Name (UR2I, 0x03)
-    Name (UR3I, 0x04)
-    Name (UR4I, 0x0F)
-    Name (IC0I, 0x0A)
-    Name (IC1I, 0x0B)
-    Name (IC2I, 0x04)
-    Name (IC3I, 0x06)
-    Name (IC4I, 0x0E)
     If (CondRefOf (\_OSI))
     {
         If (_OSI ("Windows 2009"))
@@ -4116,24 +3899,21 @@ DefinitionBlock ("", "DSDT", 2, "ALASKA", "A M I ", 0x0107200a)
             IC5E,   1, 
             UT0E,   1, 
             UT1E,   1, 
-            I31E,   1, 
-            I32E,   1, 
-            I33E,   1, 
+                ,   1, 
+                ,   1, 
+            ST_E,   1, 
             UT2E,   1, 
                 ,   1, 
             EMMD,   2, 
-            UT4E,   1, 
-            I30E,   1, 
-                ,   1, 
+                ,   3, 
             XHCE,   1, 
                 ,   1, 
                 ,   1, 
             UT3E,   1, 
             ESPI,   1, 
-                ,   1, 
+            EMME,   1, 
             HFPE,   1, 
-            HD0E,   1, 
-            HD2E,   1, 
+            Offset (0x08), 
             PCEF,   1, 
                 ,   4, 
             IC0D,   1, 
@@ -4144,39 +3924,41 @@ DefinitionBlock ("", "DSDT", 2, "ALASKA", "A M I ", 0x0107200a)
             IC5D,   1, 
             UT0D,   1, 
             UT1D,   1, 
-            I31D,   1, 
-            I32D,   1, 
-            I33D,   1, 
+                ,   1, 
+                ,   1, 
+            ST_D,   1, 
             UT2D,   1, 
                 ,   1, 
             EHCD,   1, 
-                ,   1, 
-            UT4D,   1, 
-            I30D,   1, 
-                ,   1, 
+                ,   4, 
             XHCD,   1, 
             SD_D,   1, 
                 ,   1, 
             UT3D,   1, 
                 ,   1, 
-            STD3,   1, 
-                ,   1, 
-            US4D,   1, 
+            EMD3,   1, 
+                ,   2, 
             S03D,   1, 
-            UT0O,   1, 
-            UT1O,   1, 
-            UT2O,   1, 
-            UT3O,   1, 
-            Offset (0x1C), 
-            I30M,   1, 
-            I31M,   1, 
-            I32M,   1, 
-            I33M,   1
+            FW00,   16, 
+            FW01,   32, 
+            FW02,   16, 
+            FW03,   32, 
+            SDS0,   8, 
+            SDS1,   8, 
+            CZFG,   1, 
+            Offset (0x20), 
+            SD10,   32, 
+            EH10,   32, 
+            XH10,   32, 
+            STBA,   32
         }
 
         OperationRegion (FCFG, SystemMemory, PEBA, 0x01000000)
         Field (FCFG, DWordAcc, NoLock, Preserve)
         {
+            Offset (0xA3044), 
+            IPDE,   32, 
+            IMPE,   32, 
             Offset (0xA3078), 
                 ,   2, 
             LDQ0,   1, 
@@ -4227,6 +4009,58 @@ DefinitionBlock ("", "DSDT", 2, "ALASKA", "A M I ", 0x0107200a)
                 ,   1, 
             Offset (0xA0), 
             PG1A,   1
+        }
+
+        OperationRegion (EMMX, SystemMemory, 0xFEDD5800, 0x0130)
+        Field (EMMX, AnyAcc, NoLock, Preserve)
+        {
+            Offset (0xD0), 
+                ,   17, 
+            FC18,   1, 
+            FC33,   1, 
+                ,   7, 
+            CD_T,   1, 
+            WP_T,   1
+        }
+
+        OperationRegion (EMMB, SystemMemory, 0xFEDD5800, 0x0130)
+        Field (EMMB, AnyAcc, NoLock, Preserve)
+        {
+            Offset (0xA4), 
+            E0A4,   32, 
+            E0A8,   32, 
+            Offset (0xB0), 
+            E0B0,   32, 
+            Offset (0xD0), 
+            E0D0,   32, 
+            Offset (0x116), 
+            E116,   32
+        }
+
+        Name (SVBF, Buffer (0x0100)
+        {
+             0x00                                             // .
+        })
+        CreateDWordField (SVBF, Zero, S0A4)
+        CreateDWordField (SVBF, 0x04, S0A8)
+        CreateDWordField (SVBF, 0x08, S0B0)
+        CreateDWordField (SVBF, 0x0C, S0D0)
+        CreateDWordField (SVBF, 0x10, S116)
+        Method (SECR, 0, Serialized)
+        {
+            S116 = E116 /* \_SB_.E116 */
+            RQTY = Zero
+            RD28 = One
+            Local0 = SD28 /* \_SB_.SD28 */
+            While (Local0)
+            {
+                Local0 = SD28 /* \_SB_.SD28 */
+            }
+        }
+
+        Method (RECR, 0, Serialized)
+        {
+            E116 = S116 /* \_SB_.S116 */
         }
 
         OperationRegion (LUIE, SystemMemory, 0xFEDC0020, 0x04)
@@ -4348,7 +4182,7 @@ DefinitionBlock ("", "DSDT", 2, "ALASKA", "A M I ", 0x0107200a)
                 ADDS,   3
             }
 
-            If ((Arg1 != ADTD))
+            If ((Arg0 != ADTD))
             {
                 If ((Arg1 == Zero))
                 {
@@ -4484,76 +4318,6 @@ DefinitionBlock ("", "DSDT", 2, "ALASKA", "A M I ", 0x0107200a)
             }
         }
 
-        Device (HID0)
-        {
-            Name (_HID, "AMDI0063")  // _HID: Hardware ID
-            Name (_UID, Zero)  // _UID: Unique ID
-            Method (_STA, 0, NotSerialized)  // _STA: Status
-            {
-                If (HD0E)
-                {
-                    Return (0x0F)
-                }
-                Else
-                {
-                    Return (Zero)
-                }
-            }
-
-            Method (_CRS, 0, NotSerialized)  // _CRS: Current Resource Settings
-            {
-                Name (RBUF, ResourceTemplate ()
-                {
-                    Memory32Fixed (ReadWrite,
-                        0xFEC13000,         // Address Base
-                        0x00000200,         // Address Length
-                        )
-                    GpioInt (Edge, ActiveHigh, SharedAndWake, PullNone, 0x0000,
-                        "\\_SB.GPIO", 0x00, ResourceConsumer, ,
-                        )
-                        {   // Pin list
-                            0x00AB
-                        }
-                })
-                Return (RBUF) /* \_SB_.HID0._CRS.RBUF */
-            }
-        }
-
-        Device (HID2)
-        {
-            Name (_HID, "AMDI0063")  // _HID: Hardware ID
-            Name (_UID, 0x02)  // _UID: Unique ID
-            Method (_STA, 0, NotSerialized)  // _STA: Status
-            {
-                If (HD2E)
-                {
-                    Return (0x0F)
-                }
-                Else
-                {
-                    Return (Zero)
-                }
-            }
-
-            Method (_CRS, 0, NotSerialized)  // _CRS: Current Resource Settings
-            {
-                Name (RBUF, ResourceTemplate ()
-                {
-                    Memory32Fixed (ReadWrite,
-                        0xFEC12000,         // Address Base
-                        0x00000200,         // Address Length
-                        )
-                    GpioInt (Edge, ActiveHigh, SharedAndWake, PullNone, 0x0000,
-                        "\\_SB.GPIO", 0x00, ResourceConsumer, ,
-                        )
-                        {   // Pin list
-                            0x00AB
-                        }
-                })
-                Return (RBUF) /* \_SB_.HID2._CRS.RBUF */
-            }
-        }
-
         Device (GPIO)
         {
             Name (_HID, "AMDI0030")  // _HID: Hardware ID
@@ -4570,6 +4334,10 @@ DefinitionBlock ("", "DSDT", 2, "ALASKA", "A M I ", 0x0107200a)
                     Memory32Fixed (ReadWrite,
                         0xFED81500,         // Address Base
                         0x00000400,         // Address Length
+                        )
+                    Memory32Fixed (ReadWrite,
+                        0xFED81200,         // Address Base
+                        0x00000100,         // Address Length
                         )
                 })
                 Return (RBUF) /* \_SB_.GPIO._CRS.RBUF */
@@ -4588,48 +4356,23 @@ DefinitionBlock ("", "DSDT", 2, "ALASKA", "A M I ", 0x0107200a)
             }
         }
 
-        Device (PPKG)
-        {
-            Name (_HID, "AMDI0052")  // _HID: Hardware ID
-            Method (_STA, 0, NotSerialized)  // _STA: Status
-            {
-                Return (0x0F)
-            }
-        }
-
         Device (FUR0)
         {
-            Method (_HID, 0, Serialized)  // _HID: Hardware ID
-            {
-                If ((UT0O == One))
-                {
-                    Return ("AMDIX020")
-                }
-
-                Return ("AMDI0020")
-            }
-
+            Name (_HID, "AMDI0020")  // _HID: Hardware ID
             Name (_UID, Zero)  // _UID: Unique ID
-            Method (_CRS, 0, Serialized)  // _CRS: Current Resource Settings
+            Name (_CRS, ResourceTemplate ()  // _CRS: Current Resource Settings
             {
-                Name (BUF0, ResourceTemplate ()
-                {
-                    IRQ (Edge, ActiveHigh, Exclusive, )
-                        {3}
-                    Memory32Fixed (ReadWrite,
-                        0xFEDC9000,         // Address Base
-                        0x00001000,         // Address Length
-                        )
-                    Memory32Fixed (ReadWrite,
-                        0xFEDC7000,         // Address Base
-                        0x00001000,         // Address Length
-                        )
-                })
-                CreateWordField (BUF0, One, IRQW)
-                IRQW = (One << (UR0I & 0x0F))
-                Return (BUF0) /* \_SB_.FUR0._CRS.BUF0 */
-            }
-
+                IRQ (Edge, ActiveHigh, Exclusive, )
+                    {3}
+                Memory32Fixed (ReadWrite,
+                    0xFEDC9000,         // Address Base
+                    0x00001000,         // Address Length
+                    )
+                Memory32Fixed (ReadWrite,
+                    0xFEDC7000,         // Address Base
+                    0x00001000,         // Address Length
+                    )
+            })
             Method (_STA, 0, NotSerialized)  // _STA: Status
             {
                 If ((TSOS >= 0x70))
@@ -4651,69 +4394,25 @@ DefinitionBlock ("", "DSDT", 2, "ALASKA", "A M I ", 0x0107200a)
                     Return (Zero)
                 }
             }
-
-            Method (_S0W, 0, NotSerialized)  // _S0W: S0 Device Wake State
-            {
-                If ((UT0D && UT0E))
-                {
-                    Return (0x04)
-                }
-                Else
-                {
-                    Return (Zero)
-                }
-            }
-
-            Method (_PS0, 0, NotSerialized)  // _PS0: Power State 0
-            {
-                If ((UT0D && UT0E))
-                {
-                    DSAD (0x0B, Zero)
-                }
-            }
-
-            Method (_PS3, 0, NotSerialized)  // _PS3: Power State 3
-            {
-                If ((UT0D && UT0E))
-                {
-                    DSAD (0x0B, 0x03)
-                }
-            }
         }
 
         Device (FUR1)
         {
-            Method (_HID, 0, Serialized)  // _HID: Hardware ID
-            {
-                If ((UT1O == One))
-                {
-                    Return ("AMDIX020")
-                }
-
-                Return ("AMDI0020")
-            }
-
+            Name (_HID, "AMDI0020")  // _HID: Hardware ID
             Name (_UID, One)  // _UID: Unique ID
-            Method (_CRS, 0, Serialized)  // _CRS: Current Resource Settings
+            Name (_CRS, ResourceTemplate ()  // _CRS: Current Resource Settings
             {
-                Name (BUF0, ResourceTemplate ()
-                {
-                    IRQ (Edge, ActiveHigh, Exclusive, )
-                        {4}
-                    Memory32Fixed (ReadWrite,
-                        0xFEDCA000,         // Address Base
-                        0x00001000,         // Address Length
-                        )
-                    Memory32Fixed (ReadWrite,
-                        0xFEDC8000,         // Address Base
-                        0x00001000,         // Address Length
-                        )
-                })
-                CreateWordField (BUF0, One, IRQW)
-                IRQW = (One << (UR1I & 0x0F))
-                Return (BUF0) /* \_SB_.FUR1._CRS.BUF0 */
-            }
-
+                IRQ (Edge, ActiveHigh, Exclusive, )
+                    {4}
+                Memory32Fixed (ReadWrite,
+                    0xFEDCA000,         // Address Base
+                    0x00001000,         // Address Length
+                    )
+                Memory32Fixed (ReadWrite,
+                    0xFEDC8000,         // Address Base
+                    0x00001000,         // Address Length
+                    )
+            })
             Method (_STA, 0, NotSerialized)  // _STA: Status
             {
                 If ((TSOS >= 0x70))
@@ -4735,69 +4434,25 @@ DefinitionBlock ("", "DSDT", 2, "ALASKA", "A M I ", 0x0107200a)
                     Return (Zero)
                 }
             }
-
-            Method (_S0W, 0, NotSerialized)  // _S0W: S0 Device Wake State
-            {
-                If ((UT1D && UT1E))
-                {
-                    Return (0x04)
-                }
-                Else
-                {
-                    Return (Zero)
-                }
-            }
-
-            Method (_PS0, 0, NotSerialized)  // _PS0: Power State 0
-            {
-                If ((UT1D && UT1E))
-                {
-                    DSAD (0x0C, Zero)
-                }
-            }
-
-            Method (_PS3, 0, NotSerialized)  // _PS3: Power State 3
-            {
-                If ((UT1D && UT1E))
-                {
-                    DSAD (0x0C, 0x03)
-                }
-            }
         }
 
         Device (FUR2)
         {
-            Method (_HID, 0, Serialized)  // _HID: Hardware ID
-            {
-                If ((UT2O == One))
-                {
-                    Return ("AMDIX020")
-                }
-
-                Return ("AMDI0020")
-            }
-
+            Name (_HID, "AMDI0020")  // _HID: Hardware ID
             Name (_UID, 0x02)  // _UID: Unique ID
-            Method (_CRS, 0, Serialized)  // _CRS: Current Resource Settings
+            Name (_CRS, ResourceTemplate ()  // _CRS: Current Resource Settings
             {
-                Name (BUF0, ResourceTemplate ()
-                {
-                    IRQ (Edge, ActiveHigh, Exclusive, )
-                        {3}
-                    Memory32Fixed (ReadWrite,
-                        0xFEDCE000,         // Address Base
-                        0x00001000,         // Address Length
-                        )
-                    Memory32Fixed (ReadWrite,
-                        0xFEDCC000,         // Address Base
-                        0x00001000,         // Address Length
-                        )
-                })
-                CreateWordField (BUF0, One, IRQW)
-                IRQW = (One << (UR2I & 0x0F))
-                Return (BUF0) /* \_SB_.FUR2._CRS.BUF0 */
-            }
-
+                IRQ (Edge, ActiveHigh, Exclusive, )
+                    {3}
+                Memory32Fixed (ReadWrite,
+                    0xFEDCE000,         // Address Base
+                    0x00001000,         // Address Length
+                    )
+                Memory32Fixed (ReadWrite,
+                    0xFEDCC000,         // Address Base
+                    0x00001000,         // Address Length
+                    )
+            })
             Method (_STA, 0, NotSerialized)  // _STA: Status
             {
                 If ((TSOS >= 0x70))
@@ -4819,69 +4474,25 @@ DefinitionBlock ("", "DSDT", 2, "ALASKA", "A M I ", 0x0107200a)
                     Return (Zero)
                 }
             }
-
-            Method (_S0W, 0, NotSerialized)  // _S0W: S0 Device Wake State
-            {
-                If ((UT2D && UT2E))
-                {
-                    Return (0x04)
-                }
-                Else
-                {
-                    Return (Zero)
-                }
-            }
-
-            Method (_PS0, 0, NotSerialized)  // _PS0: Power State 0
-            {
-                If ((UT2D && UT2E))
-                {
-                    DSAD (0x10, Zero)
-                }
-            }
-
-            Method (_PS3, 0, NotSerialized)  // _PS3: Power State 3
-            {
-                If ((UT2D && UT2E))
-                {
-                    DSAD (0x10, 0x03)
-                }
-            }
         }
 
         Device (FUR3)
         {
-            Method (_HID, 0, Serialized)  // _HID: Hardware ID
-            {
-                If ((UT3O == One))
-                {
-                    Return ("AMDIX020")
-                }
-
-                Return ("AMDI0020")
-            }
-
+            Name (_HID, "AMDI0020")  // _HID: Hardware ID
             Name (_UID, 0x03)  // _UID: Unique ID
-            Method (_CRS, 0, Serialized)  // _CRS: Current Resource Settings
+            Name (_CRS, ResourceTemplate ()  // _CRS: Current Resource Settings
             {
-                Name (BUF0, ResourceTemplate ()
-                {
-                    IRQ (Edge, ActiveHigh, Exclusive, )
-                        {4}
-                    Memory32Fixed (ReadWrite,
-                        0xFEDCF000,         // Address Base
-                        0x00001000,         // Address Length
-                        )
-                    Memory32Fixed (ReadWrite,
-                        0xFEDCD000,         // Address Base
-                        0x00001000,         // Address Length
-                        )
-                })
-                CreateWordField (BUF0, One, IRQW)
-                IRQW = (One << (UR3I & 0x0F))
-                Return (BUF0) /* \_SB_.FUR3._CRS.BUF0 */
-            }
-
+                IRQ (Edge, ActiveHigh, Exclusive, )
+                    {4}
+                Memory32Fixed (ReadWrite,
+                    0xFEDCF000,         // Address Base
+                    0x00001000,         // Address Length
+                    )
+                Memory32Fixed (ReadWrite,
+                    0xFEDCD000,         // Address Base
+                    0x00001000,         // Address Length
+                    )
+            })
             Method (_STA, 0, NotSerialized)  // _STA: Status
             {
                 If ((TSOS >= 0x70))
@@ -4903,126 +4514,21 @@ DefinitionBlock ("", "DSDT", 2, "ALASKA", "A M I ", 0x0107200a)
                     Return (Zero)
                 }
             }
-
-            Method (_S0W, 0, NotSerialized)  // _S0W: S0 Device Wake State
-            {
-                If ((UT3D && UT3E))
-                {
-                    Return (0x04)
-                }
-                Else
-                {
-                    Return (Zero)
-                }
-            }
-
-            Method (_PS0, 0, NotSerialized)  // _PS0: Power State 0
-            {
-                If ((UT3D && UT3E))
-                {
-                    DSAD (0x1A, Zero)
-                }
-            }
-
-            Method (_PS3, 0, NotSerialized)  // _PS3: Power State 3
-            {
-                If ((UT3D && UT3E))
-                {
-                    DSAD (0x1A, 0x03)
-                }
-            }
-        }
-
-        Device (FUR4)
-        {
-            Name (_HID, "AMDI0020")  // _HID: Hardware ID
-            Name (_UID, 0x04)  // _UID: Unique ID
-            Method (_CRS, 0, Serialized)  // _CRS: Current Resource Settings
-            {
-                Name (BUF0, ResourceTemplate ()
-                {
-                    IRQ (Edge, ActiveHigh, Exclusive, )
-                        {15}
-                    Memory32Fixed (ReadWrite,
-                        0xFEDD1000,         // Address Base
-                        0x00001000,         // Address Length
-                        )
-                    Memory32Fixed (ReadWrite,
-                        0xFEDD0000,         // Address Base
-                        0x00001000,         // Address Length
-                        )
-                })
-                CreateWordField (BUF0, One, IRQW)
-                IRQW = (One << (UR4I & 0x0F))
-                Return (BUF0) /* \_SB_.FUR4._CRS.BUF0 */
-            }
-
-            Method (_STA, 0, NotSerialized)  // _STA: Status
-            {
-                If ((TSOS >= 0x70))
-                {
-                    If ((UT4E == One))
-                    {
-                        Return (0x0F)
-                    }
-
-                    Return (Zero)
-                }
-                Else
-                {
-                    Return (Zero)
-                }
-            }
-
-            Method (_S0W, 0, NotSerialized)  // _S0W: S0 Device Wake State
-            {
-                If ((UT4D && UT4E))
-                {
-                    Return (0x04)
-                }
-                Else
-                {
-                    Return (Zero)
-                }
-            }
-
-            Method (_PS0, 0, NotSerialized)  // _PS0: Power State 0
-            {
-                If ((UT4D && UT4E))
-                {
-                    DSAD (0x14, Zero)
-                }
-            }
-
-            Method (_PS3, 0, NotSerialized)  // _PS3: Power State 3
-            {
-                If ((UT4D && UT4E))
-                {
-                    DSAD (0x14, 0x03)
-                }
-            }
         }
 
         Device (I2CA)
         {
             Name (_HID, "AMDI0010")  // _HID: Hardware ID
             Name (_UID, Zero)  // _UID: Unique ID
-            Method (_CRS, 0, Serialized)  // _CRS: Current Resource Settings
+            Name (_CRS, ResourceTemplate ()  // _CRS: Current Resource Settings
             {
-                Name (BUF0, ResourceTemplate ()
-                {
-                    IRQ (Edge, ActiveHigh, Exclusive, )
-                        {10}
-                    Memory32Fixed (ReadWrite,
-                        0xFEDC2000,         // Address Base
-                        0x00001000,         // Address Length
-                        )
-                })
-                CreateWordField (BUF0, One, IRQW)
-                IRQW = (One << (IC0I & 0x0F))
-                Return (BUF0) /* \_SB_.I2CA._CRS.BUF0 */
-            }
-
+                IRQ (Edge, ActiveHigh, Exclusive, )
+                    {10}
+                Memory32Fixed (ReadWrite,
+                    0xFEDC2000,         // Address Base
+                    0x00001000,         // Address Length
+                    )
+            })
             Method (_STA, 0, NotSerialized)  // _STA: Status
             {
                 If ((TSOS >= 0x70))
@@ -5040,69 +4546,9 @@ DefinitionBlock ("", "DSDT", 2, "ALASKA", "A M I ", 0x0107200a)
                 }
             }
 
-            Method (_DSM, 4, Serialized)  // _DSM: Device-Specific Method
-            {
-                If ((Arg0 == ToUUID ("d93e4d1c-58bb-493c-a06a-605a717f9e2e") /* Unknown UUID */))
-                {
-                    Switch (ToInteger (Arg2))
-                    {
-                        Case (Zero)
-                        {
-                            Return (Buffer (One)
-                            {
-                                 0x03                                             // .
-                            })
-                        }
-                        Case (One)
-                        {
-                            Return (Buffer (0x04)
-                            {
-                                 0xE5, 0x00, 0x6A, 0x00                           // ..j.
-                            })
-                        }
-
-                    }
-                }
-                Else
-                {
-                    Return (Buffer (One)
-                    {
-                         0x00                                             // .
-                    })
-                }
-            }
-
             Method (RSET, 0, NotSerialized)
             {
                 SRAD (0x05, 0xC8)
-            }
-
-            Method (_S0W, 0, NotSerialized)  // _S0W: S0 Device Wake State
-            {
-                If ((IC0D && IC0E))
-                {
-                    Return (0x04)
-                }
-                Else
-                {
-                    Return (Zero)
-                }
-            }
-
-            Method (_PS0, 0, NotSerialized)  // _PS0: Power State 0
-            {
-                If ((IC0D && IC0E))
-                {
-                    DSAD (0x05, Zero)
-                }
-            }
-
-            Method (_PS3, 0, NotSerialized)  // _PS3: Power State 3
-            {
-                If ((IC0D && IC0E))
-                {
-                    DSAD (0x05, 0x03)
-                }
             }
         }
 
@@ -5110,22 +4556,15 @@ DefinitionBlock ("", "DSDT", 2, "ALASKA", "A M I ", 0x0107200a)
         {
             Name (_HID, "AMDI0010")  // _HID: Hardware ID
             Name (_UID, One)  // _UID: Unique ID
-            Method (_CRS, 0, Serialized)  // _CRS: Current Resource Settings
+            Name (_CRS, ResourceTemplate ()  // _CRS: Current Resource Settings
             {
-                Name (BUF0, ResourceTemplate ()
-                {
-                    IRQ (Edge, ActiveHigh, Exclusive, )
-                        {11}
-                    Memory32Fixed (ReadWrite,
-                        0xFEDC3000,         // Address Base
-                        0x00001000,         // Address Length
-                        )
-                })
-                CreateWordField (BUF0, One, IRQW)
-                IRQW = (One << (IC1I & 0x0F))
-                Return (BUF0) /* \_SB_.I2CB._CRS.BUF0 */
-            }
-
+                IRQ (Edge, ActiveHigh, Exclusive, )
+                    {11}
+                Memory32Fixed (ReadWrite,
+                    0xFEDC3000,         // Address Base
+                    0x00001000,         // Address Length
+                    )
+            })
             Method (_STA, 0, NotSerialized)  // _STA: Status
             {
                 If ((TSOS >= 0x70))
@@ -5143,69 +4582,9 @@ DefinitionBlock ("", "DSDT", 2, "ALASKA", "A M I ", 0x0107200a)
                 }
             }
 
-            Method (_DSM, 4, Serialized)  // _DSM: Device-Specific Method
-            {
-                If ((Arg0 == ToUUID ("d93e4d1c-58bb-493c-a06a-605a717f9e2e") /* Unknown UUID */))
-                {
-                    Switch (ToInteger (Arg2))
-                    {
-                        Case (Zero)
-                        {
-                            Return (Buffer (One)
-                            {
-                                 0x03                                             // .
-                            })
-                        }
-                        Case (One)
-                        {
-                            Return (Buffer (0x04)
-                            {
-                                 0xE5, 0x00, 0x6A, 0x00                           // ..j.
-                            })
-                        }
-
-                    }
-                }
-                Else
-                {
-                    Return (Buffer (One)
-                    {
-                         0x00                                             // .
-                    })
-                }
-            }
-
             Method (RSET, 0, NotSerialized)
             {
                 SRAD (0x06, 0xC8)
-            }
-
-            Method (_S0W, 0, NotSerialized)  // _S0W: S0 Device Wake State
-            {
-                If ((IC1D && IC1E))
-                {
-                    Return (0x04)
-                }
-                Else
-                {
-                    Return (Zero)
-                }
-            }
-
-            Method (_PS0, 0, NotSerialized)  // _PS0: Power State 0
-            {
-                If ((IC1D && IC1E))
-                {
-                    DSAD (0x06, Zero)
-                }
-            }
-
-            Method (_PS3, 0, NotSerialized)  // _PS3: Power State 3
-            {
-                If ((IC1D && IC1E))
-                {
-                    DSAD (0x06, 0x03)
-                }
             }
         }
 
@@ -5213,22 +4592,15 @@ DefinitionBlock ("", "DSDT", 2, "ALASKA", "A M I ", 0x0107200a)
         {
             Name (_HID, "AMDI0010")  // _HID: Hardware ID
             Name (_UID, 0x02)  // _UID: Unique ID
-            Method (_CRS, 0, Serialized)  // _CRS: Current Resource Settings
+            Name (_CRS, ResourceTemplate ()  // _CRS: Current Resource Settings
             {
-                Name (BUF0, ResourceTemplate ()
-                {
-                    IRQ (Edge, ActiveHigh, Exclusive, )
-                        {4}
-                    Memory32Fixed (ReadWrite,
-                        0xFEDC4000,         // Address Base
-                        0x00001000,         // Address Length
-                        )
-                })
-                CreateWordField (BUF0, One, IRQW)
-                IRQW = (One << (IC2I & 0x0F))
-                Return (BUF0) /* \_SB_.I2CC._CRS.BUF0 */
-            }
-
+                IRQ (Edge, ActiveHigh, Exclusive, )
+                    {4}
+                Memory32Fixed (ReadWrite,
+                    0xFEDC4000,         // Address Base
+                    0x00001000,         // Address Length
+                    )
+            })
             Method (_STA, 0, NotSerialized)  // _STA: Status
             {
                 If ((TSOS >= 0x70))
@@ -5246,69 +4618,9 @@ DefinitionBlock ("", "DSDT", 2, "ALASKA", "A M I ", 0x0107200a)
                 }
             }
 
-            Method (_DSM, 4, Serialized)  // _DSM: Device-Specific Method
-            {
-                If ((Arg0 == ToUUID ("d93e4d1c-58bb-493c-a06a-605a717f9e2e") /* Unknown UUID */))
-                {
-                    Switch (ToInteger (Arg2))
-                    {
-                        Case (Zero)
-                        {
-                            Return (Buffer (One)
-                            {
-                                 0x03                                             // .
-                            })
-                        }
-                        Case (One)
-                        {
-                            Return (Buffer (0x04)
-                            {
-                                 0xE5, 0x00, 0x6A, 0x00                           // ..j.
-                            })
-                        }
-
-                    }
-                }
-                Else
-                {
-                    Return (Buffer (One)
-                    {
-                         0x00                                             // .
-                    })
-                }
-            }
-
             Method (RSET, 0, NotSerialized)
             {
                 SRAD (0x07, 0xC8)
-            }
-
-            Method (_S0W, 0, NotSerialized)  // _S0W: S0 Device Wake State
-            {
-                If ((IC2D && IC2E))
-                {
-                    Return (0x04)
-                }
-                Else
-                {
-                    Return (Zero)
-                }
-            }
-
-            Method (_PS0, 0, NotSerialized)  // _PS0: Power State 0
-            {
-                If ((IC2D && IC2E))
-                {
-                    DSAD (0x07, Zero)
-                }
-            }
-
-            Method (_PS3, 0, NotSerialized)  // _PS3: Power State 3
-            {
-                If ((IC2D && IC2E))
-                {
-                    DSAD (0x07, 0x03)
-                }
             }
         }
 
@@ -5316,22 +4628,15 @@ DefinitionBlock ("", "DSDT", 2, "ALASKA", "A M I ", 0x0107200a)
         {
             Name (_HID, "AMDI0010")  // _HID: Hardware ID
             Name (_UID, 0x03)  // _UID: Unique ID
-            Method (_CRS, 0, Serialized)  // _CRS: Current Resource Settings
+            Name (_CRS, ResourceTemplate ()  // _CRS: Current Resource Settings
             {
-                Name (BUF0, ResourceTemplate ()
-                {
-                    IRQ (Edge, ActiveHigh, Exclusive, )
-                        {6}
-                    Memory32Fixed (ReadWrite,
-                        0xFEDC5000,         // Address Base
-                        0x00001000,         // Address Length
-                        )
-                })
-                CreateWordField (BUF0, One, IRQW)
-                IRQW = (One << (IC3I & 0x0F))
-                Return (BUF0) /* \_SB_.I2CD._CRS.BUF0 */
-            }
-
+                IRQ (Edge, ActiveHigh, Exclusive, )
+                    {6}
+                Memory32Fixed (ReadWrite,
+                    0xFEDC5000,         // Address Base
+                    0x00001000,         // Address Length
+                    )
+            })
             Method (_STA, 0, NotSerialized)  // _STA: Status
             {
                 If ((TSOS >= 0x70))
@@ -5349,48 +4654,35 @@ DefinitionBlock ("", "DSDT", 2, "ALASKA", "A M I ", 0x0107200a)
                 }
             }
 
-            Method (_DSM, 4, Serialized)  // _DSM: Device-Specific Method
-            {
-                If ((Arg0 == ToUUID ("d93e4d1c-58bb-493c-a06a-605a717f9e2e") /* Unknown UUID */))
-                {
-                    Switch (ToInteger (Arg2))
-                    {
-                        Case (Zero)
-                        {
-                            Return (Buffer (One)
-                            {
-                                 0x03                                             // .
-                            })
-                        }
-                        Case (One)
-                        {
-                            Return (Buffer (0x04)
-                            {
-                                 0xE5, 0x00, 0x6A, 0x00                           // ..j.
-                            })
-                        }
-
-                    }
-                }
-                Else
-                {
-                    Return (Buffer (One)
-                    {
-                         0x00                                             // .
-                    })
-                }
-            }
-
             Method (RSET, 0, NotSerialized)
             {
                 SRAD (0x08, 0xC8)
             }
+        }
 
-            Method (_S0W, 0, NotSerialized)  // _S0W: S0 Device Wake State
+        Device (I2CE)
+        {
+            Name (_HID, "AMDI0010")  // _HID: Hardware ID
+            Name (_UID, 0x04)  // _UID: Unique ID
+            Name (_CRS, ResourceTemplate ()  // _CRS: Current Resource Settings
             {
-                If ((IC3D && IC3E))
+                IRQ (Edge, ActiveHigh, Exclusive, )
+                    {14}
+                Memory32Fixed (ReadWrite,
+                    0xFEDC6000,         // Address Base
+                    0x00001000,         // Address Length
+                    )
+            })
+            Method (_STA, 0, NotSerialized)  // _STA: Status
+            {
+                If ((TSOS >= 0x70))
                 {
-                    Return (0x04)
+                    If ((IC4E == One))
+                    {
+                        Return (0x0F)
+                    }
+
+                    Return (Zero)
                 }
                 Else
                 {
@@ -5398,61 +4690,152 @@ DefinitionBlock ("", "DSDT", 2, "ALASKA", "A M I ", 0x0107200a)
                 }
             }
 
-            Method (_PS0, 0, NotSerialized)  // _PS0: Power State 0
+            Method (RSET, 0, NotSerialized)
             {
-                If ((IC3D && IC3E))
-                {
-                    DSAD (0x08, Zero)
-                }
-            }
-
-            Method (_PS3, 0, NotSerialized)  // _PS3: Power State 3
-            {
-                If ((IC3D && IC3E))
-                {
-                    DSAD (0x08, 0x03)
-                }
+                SRAD (0x09, 0xC8)
             }
         }
 
-        Name (I3ID, "AMDI0015")
-        Name (I2ID, "AMDI0016")
-        Device (I3CA)
+        Device (I2CF)
         {
-            Method (_HID, 0, Serialized)  // _HID: Hardware ID
+            Name (_HID, "AMDI0010")  // _HID: Hardware ID
+            Name (_UID, 0x05)  // _UID: Unique ID
+            Name (_CRS, ResourceTemplate ()  // _CRS: Current Resource Settings
             {
-                If ((I30M == Zero))
+                IRQ (Edge, ActiveHigh, Exclusive, )
+                    {15}
+                Memory32Fixed (ReadWrite,
+                    0xFEDCB000,         // Address Base
+                    0x00001000,         // Address Length
+                    )
+            })
+            Method (_STA, 0, NotSerialized)  // _STA: Status
+            {
+                If ((TSOS >= 0x70))
                 {
-                    Return (I3ID) /* \_SB_.I3ID */
+                    If ((IC5E == One))
+                    {
+                        Return (0x0F)
+                    }
+
+                    Return (Zero)
                 }
                 Else
                 {
-                    Return (I2ID) /* \_SB_.I2ID */
+                    Return (Zero)
+                }
+            }
+
+            Method (RSET, 0, NotSerialized)
+            {
+                SRAD (0x0A, 0xC8)
+            }
+        }
+
+        Method (EPIN, 0, NotSerialized)
+        {
+            IPDE = Zero
+            IMPE = Zero
+            IM15 = One
+            IM16 = One
+            IM20 = One
+            IM44 = One
+            IM46 = One
+            IM68 = One
+            IM69 = One
+            IM6A = One
+            IM6B = One
+            IM4A = One
+            IM58 = One
+            IM4B = One
+            IM57 = One
+            IM6D = One
+            IM1F = One
+            SECR ()
+        }
+
+        Name (NCRS, ResourceTemplate ()
+        {
+            Interrupt (ResourceConsumer, Level, ActiveLow, Shared, ,, )
+            {
+                0x00000005,
+            }
+            Memory32Fixed (ReadWrite,
+                0xFEDD5000,         // Address Base
+                0x00001000,         // Address Length
+                )
+        })
+        Name (DCRS, ResourceTemplate ()
+        {
+            Interrupt (ResourceConsumer, Level, ActiveLow, Shared, ,, )
+            {
+                0x00000005,
+            }
+            Memory32Fixed (ReadWrite,
+                0xFEDD5000,         // Address Base
+                0x00001000,         // Address Length
+                )
+            GpioInt (Edge, ActiveBoth, SharedAndWake, PullUp, 0x0BB8,
+                "\\_SB.GPIO", 0x00, ResourceConsumer, ,
+                )
+                {   // Pin list
+                    0x0044
+                }
+            GpioIo (Shared, PullUp, 0x0000, 0x0000, IoRestrictionNone,
+                "\\_SB.GPIO", 0x00, ResourceConsumer, ,
+                )
+                {   // Pin list
+                    0x0044
+                }
+        })
+        Name (AHID, "AMDI0040")
+        Name (ACID, "AMDI0040")
+        Name (SHID, 0x400DD041)
+        Name (SCID, "PCICC_080501")
+        Device (EMM0)
+        {
+            Method (_HID, 0, Serialized)  // _HID: Hardware ID
+            {
+                If (EMMD)
+                {
+                    Return (SHID) /* \_SB_.SHID */
+                }
+                Else
+                {
+                    Return (AHID) /* \_SB_.AHID */
+                }
+            }
+
+            Method (_CID, 0, Serialized)  // _CID: Compatible ID
+            {
+                If (EMMD)
+                {
+                    Return (SCID) /* \_SB_.SCID */
+                }
+                Else
+                {
+                    Return (ACID) /* \_SB_.ACID */
                 }
             }
 
             Name (_UID, Zero)  // _UID: Unique ID
             Method (_CRS, 0, Serialized)  // _CRS: Current Resource Settings
             {
-                Name (BUF0, ResourceTemplate ()
+                If (EMD3)
                 {
-                    IRQ (Edge, ActiveHigh, Exclusive, )
-                        {10}
-                    Memory32Fixed (ReadWrite,
-                        0xFEDD2000,         // Address Base
-                        0x00001000,         // Address Length
-                        )
-                })
-                CreateWordField (BUF0, One, IRQW)
-                IRQW = (One << (IC0I & 0x0F))
-                Return (BUF0) /* \_SB_.I3CA._CRS.BUF0 */
+                    Return (DCRS) /* \_SB_.DCRS */
+                }
+                Else
+                {
+                    Return (NCRS) /* \_SB_.NCRS */
+                }
             }
 
             Method (_STA, 0, NotSerialized)  // _STA: Status
             {
                 If ((TSOS >= 0x70))
                 {
-                    If ((I30E == One))
+                    If (EMME)
                     {
                         Return (0x0F)
                     }
@@ -5465,14 +4848,17 @@ DefinitionBlock ("", "DSDT", 2, "ALASKA", "A M I ", 0x0107200a)
                 }
             }
 
-            Method (RSET, 0, NotSerialized)
+            Method (_INI, 0, NotSerialized)  // _INI: Initialize
             {
-                SRAD (0x15, 0xC8)
+                If (EMME)
+                {
+                    EPIN ()
+                }
             }
 
             Method (_S0W, 0, NotSerialized)  // _S0W: S0 Device Wake State
             {
-                If ((I30D && I30E))
+                If ((EMD3 && EMME))
                 {
                     Return (0x04)
                 }
@@ -5484,263 +4870,18 @@ DefinitionBlock ("", "DSDT", 2, "ALASKA", "A M I ", 0x0107200a)
 
             Method (_PS0, 0, NotSerialized)  // _PS0: Power State 0
             {
-                If ((I30D && I30E))
+                If ((EMD3 && EMME))
                 {
-                    DSAD (0x15, Zero)
+                    HSAD (0x1C, Zero)
+                    RECR ()
                 }
             }
 
             Method (_PS3, 0, NotSerialized)  // _PS3: Power State 3
             {
-                If ((I30D && I30E))
+                If ((EMD3 && EMME))
                 {
-                    DSAD (0x15, 0x03)
-                }
-            }
-        }
-
-        Device (I3CB)
-        {
-            Method (_HID, 0, Serialized)  // _HID: Hardware ID
-            {
-                If ((I31M == Zero))
-                {
-                    Return (I3ID) /* \_SB_.I3ID */
-                }
-                Else
-                {
-                    Return (I2ID) /* \_SB_.I2ID */
-                }
-            }
-
-            Name (_UID, One)  // _UID: Unique ID
-            Method (_CRS, 0, Serialized)  // _CRS: Current Resource Settings
-            {
-                Name (BUF0, ResourceTemplate ()
-                {
-                    IRQ (Edge, ActiveHigh, Exclusive, )
-                        {11}
-                    Memory32Fixed (ReadWrite,
-                        0xFEDD3000,         // Address Base
-                        0x00001000,         // Address Length
-                        )
-                })
-                CreateWordField (BUF0, One, IRQW)
-                IRQW = (One << (IC1I & 0x0F))
-                Return (BUF0) /* \_SB_.I3CB._CRS.BUF0 */
-            }
-
-            Method (_STA, 0, NotSerialized)  // _STA: Status
-            {
-                If ((TSOS >= 0x70))
-                {
-                    If ((I31E == One))
-                    {
-                        Return (0x0F)
-                    }
-
-                    Return (Zero)
-                }
-                Else
-                {
-                    Return (Zero)
-                }
-            }
-
-            Method (RSET, 0, NotSerialized)
-            {
-                SRAD (0x0D, 0xC8)
-            }
-
-            Method (_S0W, 0, NotSerialized)  // _S0W: S0 Device Wake State
-            {
-                If ((I31D && I31E))
-                {
-                    Return (0x04)
-                }
-                Else
-                {
-                    Return (Zero)
-                }
-            }
-
-            Method (_PS0, 0, NotSerialized)  // _PS0: Power State 0
-            {
-                If ((I31D && I31E))
-                {
-                    DSAD (0x0D, Zero)
-                }
-            }
-
-            Method (_PS3, 0, NotSerialized)  // _PS3: Power State 3
-            {
-                If ((I31D && I31E))
-                {
-                    DSAD (0x0D, 0x03)
-                }
-            }
-        }
-
-        Device (I3CC)
-        {
-            Method (_HID, 0, Serialized)  // _HID: Hardware ID
-            {
-                If ((I32M == Zero))
-                {
-                    Return (I3ID) /* \_SB_.I3ID */
-                }
-                Else
-                {
-                    Return (I2ID) /* \_SB_.I2ID */
-                }
-            }
-
-            Name (_UID, 0x02)  // _UID: Unique ID
-            Method (_CRS, 0, Serialized)  // _CRS: Current Resource Settings
-            {
-                Name (BUF0, ResourceTemplate ()
-                {
-                    IRQ (Edge, ActiveHigh, Exclusive, )
-                        {4}
-                    Memory32Fixed (ReadWrite,
-                        0xFEDD4000,         // Address Base
-                        0x00001000,         // Address Length
-                        )
-                })
-                CreateWordField (BUF0, One, IRQW)
-                IRQW = (One << (IC2I & 0x0F))
-                Return (BUF0) /* \_SB_.I3CC._CRS.BUF0 */
-            }
-
-            Method (_STA, 0, NotSerialized)  // _STA: Status
-            {
-                If ((TSOS >= 0x70))
-                {
-                    If ((I32E == One))
-                    {
-                        Return (0x0F)
-                    }
-
-                    Return (Zero)
-                }
-                Else
-                {
-                    Return (Zero)
-                }
-            }
-
-            Method (RSET, 0, NotSerialized)
-            {
-                SRAD (0x0E, 0xC8)
-            }
-
-            Method (_S0W, 0, NotSerialized)  // _S0W: S0 Device Wake State
-            {
-                If ((I32D && I32E))
-                {
-                    Return (0x04)
-                }
-                Else
-                {
-                    Return (Zero)
-                }
-            }
-
-            Method (_PS0, 0, NotSerialized)  // _PS0: Power State 0
-            {
-                If ((I32D && I32E))
-                {
-                    DSAD (0x0E, Zero)
-                }
-            }
-
-            Method (_PS3, 0, NotSerialized)  // _PS3: Power State 3
-            {
-                If ((I32D && I32E))
-                {
-                    DSAD (0x0E, 0x03)
-                }
-            }
-        }
-
-        Device (I3CD)
-        {
-            Method (_HID, 0, Serialized)  // _HID: Hardware ID
-            {
-                If ((I33M == Zero))
-                {
-                    Return (I3ID) /* \_SB_.I3ID */
-                }
-                Else
-                {
-                    Return (I2ID) /* \_SB_.I2ID */
-                }
-            }
-
-            Name (_UID, 0x03)  // _UID: Unique ID
-            Method (_CRS, 0, Serialized)  // _CRS: Current Resource Settings
-            {
-                Name (BUF0, ResourceTemplate ()
-                {
-                    IRQ (Edge, ActiveHigh, Exclusive, )
-                        {6}
-                    Memory32Fixed (ReadWrite,
-                        0xFEDD6000,         // Address Base
-                        0x00001000,         // Address Length
-                        )
-                })
-                CreateWordField (BUF0, One, IRQW)
-                IRQW = (One << (IC3I & 0x0F))
-                Return (BUF0) /* \_SB_.I3CD._CRS.BUF0 */
-            }
-
-            Method (_STA, 0, NotSerialized)  // _STA: Status
-            {
-                If ((TSOS >= 0x70))
-                {
-                    If ((I33E == One))
-                    {
-                        Return (0x0F)
-                    }
-
-                    Return (Zero)
-                }
-                Else
-                {
-                    Return (Zero)
-                }
-            }
-
-            Method (RSET, 0, NotSerialized)
-            {
-                SRAD (0x0F, 0xC8)
-            }
-
-            Method (_S0W, 0, NotSerialized)  // _S0W: S0 Device Wake State
-            {
-                If ((I33D && I33E))
-                {
-                    Return (0x04)
-                }
-                Else
-                {
-                    Return (Zero)
-                }
-            }
-
-            Method (_PS0, 0, NotSerialized)  // _PS0: Power State 0
-            {
-                If ((I33D && I33E))
-                {
-                    DSAD (0x0F, Zero)
-                }
-            }
-
-            Method (_PS3, 0, NotSerialized)  // _PS3: Power State 3
-            {
-                If ((I33D && I33E))
-                {
-                    DSAD (0x0F, 0x03)
+                    HSAD (0x1C, 0x03)
                 }
             }
         }
@@ -6041,130 +5182,39 @@ DefinitionBlock ("", "DSDT", 2, "ALASKA", "A M I ", 0x0107200a)
         }
     }
 
-    Scope (_SB.PCI0.SBRG)
+    Device (HPET)
     {
-        Device (PS2M)
+        Name (_HID, EisaId ("PNP0103") /* HPET System Timer */)  // _HID: Hardware ID
+        Method (_STA, 0, NotSerialized)  // _STA: Status
         {
-            Name (_HID, EisaId ("PNP0F03") /* Microsoft PS/2-style Mouse */)  // _HID: Hardware ID
-            Name (_UID, Zero)  // _UID: Unique ID
-            Method (_STA, 0, NotSerialized)  // _STA: Status
+            If ((HPEN == One))
             {
-                Return (0x0F)
+                If ((OSVR >= 0x0C))
+                {
+                    Return (0x0F)
+                }
+
+                HPEN = Zero
+                Return (One)
             }
 
-            Name (CRS1, ResourceTemplate ()
+            Return (One)
+        }
+
+        Method (_CRS, 0, NotSerialized)  // _CRS: Current Resource Settings
+        {
+            Name (BUF0, ResourceTemplate ()
             {
                 IRQNoFlags ()
-                    {12}
-            })
-            Name (CRS2, ResourceTemplate ()
-            {
-                IO (Decode16,
-                    0x0060,             // Range Minimum
-                    0x0060,             // Range Maximum
-                    0x00,               // Alignment
-                    0x01,               // Length
-                    )
-                IO (Decode16,
-                    0x0064,             // Range Minimum
-                    0x0064,             // Range Maximum
-                    0x00,               // Alignment
-                    0x01,               // Length
-                    )
+                    {0}
                 IRQNoFlags ()
-                    {12}
-            })
-            Method (_CRS, 0, NotSerialized)  // _CRS: Current Resource Settings
-            {
-                If ((IOST & 0x0400))
-                {
-                    Return (CRS1) /* \_SB_.PCI0.SBRG.PS2M.CRS1 */
-                }
-                Else
-                {
-                    Return (CRS2) /* \_SB_.PCI0.SBRG.PS2M.CRS2 */
-                }
-            }
-
-            Name (_PRS, ResourceTemplate ()  // _PRS: Possible Resource Settings
-            {
-                StartDependentFn (0x00, 0x00)
-                {
-                    IRQNoFlags ()
-                        {12}
-                }
-                EndDependentFn ()
-            })
-            Method (_PSW, 1, NotSerialized)  // _PSW: Power State Wake
-            {
-                MSFG = Arg0
-            }
-        }
-
-        Scope (\)
-        {
-            Name (MSFG, One)
-        }
-    }
-
-    Scope (_SB.PCI0.SBRG)
-    {
-        Device (PS2K)
-        {
-            Name (_HID, "MSFT0001")  // _HID: Hardware ID
-            Name (_CID, EisaId ("PNP0303") /* IBM Enhanced Keyboard (101/102-key, PS/2 Mouse) */)  // _CID: Compatible ID
-            Method (_STA, 0, NotSerialized)  // _STA: Status
-            {
-                Return (0x0F)
-            }
-
-            Name (_CRS, ResourceTemplate ()  // _CRS: Current Resource Settings
-            {
-                IO (Decode16,
-                    0x0060,             // Range Minimum
-                    0x0060,             // Range Maximum
-                    0x00,               // Alignment
-                    0x01,               // Length
+                    {8}
+                Memory32Fixed (ReadOnly,
+                    0xFED00000,         // Address Base
+                    0x00000400,         // Address Length
                     )
-                IO (Decode16,
-                    0x0064,             // Range Minimum
-                    0x0064,             // Range Maximum
-                    0x00,               // Alignment
-                    0x01,               // Length
-                    )
-                IRQ (Edge, ActiveLow, Shared, )
-                    {1}
             })
-            Name (_PRS, ResourceTemplate ()  // _PRS: Possible Resource Settings
-            {
-                StartDependentFn (0x00, 0x00)
-                {
-                    IO (Decode16,
-                        0x0060,             // Range Minimum
-                        0x0060,             // Range Maximum
-                        0x00,               // Alignment
-                        0x01,               // Length
-                        )
-                    IO (Decode16,
-                        0x0064,             // Range Minimum
-                        0x0064,             // Range Maximum
-                        0x00,               // Alignment
-                        0x01,               // Length
-                        )
-                    IRQNoFlags ()
-                        {1}
-                }
-                EndDependentFn ()
-            })
-            Method (_PSW, 1, NotSerialized)  // _PSW: Power State Wake
-            {
-                KBFG = Arg0
-            }
-        }
-
-        Scope (\)
-        {
-            Name (KBFG, One)
+            Return (BUF0) /* \HPET._CRS.BUF0 */
         }
     }
 
@@ -6172,10 +5222,6 @@ DefinitionBlock ("", "DSDT", 2, "ALASKA", "A M I ", 0x0107200a)
     {
         Name (TMRQ, 0xFFFFFFFF)
         Name (TLVL, 0xFFFFFFFF)
-        Name (HPMB, 0xFFFFFFFF)
-        Name (HPML, 0xFFFFFFFF)
-        Name (ITRV, 0xFFFFFFFF)
-        Name (ILVV, 0xFFFFFFFF)
         Method (_HID, 0, NotSerialized)  // _HID: Hardware ID
         {
             If (TCMF)
@@ -6262,13 +5308,6 @@ DefinitionBlock ("", "DSDT", 2, "ALASKA", "A M I ", 0x0107200a)
                     0x0000
                 }
         })
-        Name (CRSI, ResourceTemplate ()
-        {
-            Memory32Fixed (ReadWrite,
-                0x00000000,         // Address Base
-                0x00000000,         // Address Length
-                _Y25)
-        })
         Method (_CRS, 0, Serialized)  // _CRS: Current Resource Settings
         {
             If ((AMDT == One))
@@ -6314,19 +5353,6 @@ DefinitionBlock ("", "DSDT", 2, "ALASKA", "A M I ", 0x0107200a)
                 }
                 ElseIf ((TTPF == Zero))
                 {
-                    If ((AMDT == 0x02))
-                    {
-                        If (((HPMB != Zero) && (HPMB != 0xFFFFFFFF)))
-                        {
-                            CreateDWordField (CRSI, \_SB.TPM._Y25._BAS, HSPB)  // _BAS: Base Address
-                            CreateDWordField (CRSI, \_SB.TPM._Y25._LEN, HSPL)  // _LEN: Length
-                            HSPB = HPMB /* \_SB_.TPM_.HPMB */
-                            HSPL = HPML /* \_SB_.TPM_.HPML */
-                        }
-
-                        Return (CRSI) /* \_SB_.TPM_.CRSI */
-                    }
-
                     CreateDWordField (CRST, \_SB.TPM._Y21._BAS, MTFF)  // _BAS: Base Address
                     MTFF = FTPM /* \FTPM */
                     Return (CRST) /* \_SB_.TPM_.CRST */
@@ -6344,23 +5370,16 @@ DefinitionBlock ("", "DSDT", 2, "ALASKA", "A M I ", 0x0107200a)
         {
             If (((TMRQ != Zero) && (TMRQ != 0xFFFFFFFF)))
             {
-                If ((AMDT == 0x02)){}
-                Else
-                {
-                    CreateWordField (Arg0, 0x23, IRQ0)
-                    CreateWordField (CREI, 0x23, LIRQ)
-                    LIRQ = IRQ0 /* \_SB_.TPM_._SRS.IRQ0 */
-                    TMRQ = IRQ0 /* \_SB_.TPM_._SRS.IRQ0 */
-                    CreateBitField (Arg0, 0x98, ITRG)
-                    CreateBitField (CREI, \_SB.TPM._Y24._MOD, LTRG)  // _MOD: Mode
-                    LTRG = ITRG /* \_SB_.TPM_._SRS.ITRG */
-                    ITRV = ITRG /* \_SB_.TPM_._SRS.ITRG */
-                    CreateBitField (Arg0, 0x99, ILVL)
-                    CreateBitField (CREI, \_SB.TPM._Y24._POL, LLVL)  // _POL: Polarity
-                    LLVL = ILVL /* \_SB_.TPM_._SRS.ILVL */
-                    ILVV = ILVL /* \_SB_.TPM_._SRS.ILVL */
-                }
-
+                CreateWordField (Arg0, 0x23, IRQ0)
+                CreateWordField (CREI, 0x23, LIRQ)
+                LIRQ = IRQ0 /* \_SB_.TPM_._SRS.IRQ0 */
+                TMRQ = IRQ0 /* \_SB_.TPM_._SRS.IRQ0 */
+                CreateBitField (Arg0, 0x98, ITRG)
+                CreateBitField (CREI, \_SB.TPM._Y24._MOD, LTRG)  // _MOD: Mode
+                LTRG = ITRG /* \_SB_.TPM_._SRS.ITRG */
+                CreateBitField (Arg0, 0x99, ILVL)
+                CreateBitField (CREI, \_SB.TPM._Y24._POL, LLVL)  // _POL: Polarity
+                LLVL = ILVL /* \_SB_.TPM_._SRS.ILVL */
                 If ((((IDTF & 0x0F) == Zero) || ((IDTF & 0x0F
                     ) == 0x0F)))
                 {
@@ -6369,7 +5388,7 @@ DefinitionBlock ("", "DSDT", 2, "ALASKA", "A M I ", 0x0107200a)
                         INTV = (IRQ0 & 0x0F)
                     }
 
-                    If ((ITRV == One))
+                    If ((ITRG == One))
                     {
                         INTE |= 0x10
                     }
@@ -6378,7 +5397,7 @@ DefinitionBlock ("", "DSDT", 2, "ALASKA", "A M I ", 0x0107200a)
                         INTE &= 0xFFFFFFEF
                     }
 
-                    If ((ILVV == Zero))
+                    If ((ILVL == Zero))
                     {
                         INTE |= 0x08
                     }
@@ -6717,14 +5736,13 @@ DefinitionBlock ("", "DSDT", 2, "ALASKA", "A M I ", 0x0107200a)
                 Name (_ADR, One)  // _ADR: Address
                 Name (UPC1, Package (0x04)
                 {
-                    Zero, 
-                    Zero, 
+                    0xFF, 
+                    0x09, 
                     Zero, 
                     Zero
                 })
                 Method (_UPC, 0, Serialized)  // _UPC: USB Port Capabilities
                 {
-                    M460 ("PLA-ASL-\\_SB.PCI0.GP17.XHC0.RHUB.PRT1._UPC\n", Zero, Zero, Zero, Zero, Zero, Zero)
                     Return (UPC1) /* \_SB_.PCI0.GP17.XHC0.RHUB.PRT1.UPC1 */
                 }
 
@@ -6733,13 +5751,12 @@ DefinitionBlock ("", "DSDT", 2, "ALASKA", "A M I ", 0x0107200a)
                     Buffer (0x14)
                     {
                         /* 0000 */  0x82, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,  // ........
-                        /* 0008 */  0x00, 0x00, 0x80, 0x00, 0x03, 0x00, 0x00, 0x00,  // ........
-                        /* 0010 */  0x00, 0x00, 0x00, 0x00                           // ....
+                        /* 0008 */  0x11, 0x0C, 0x80, 0x00, 0x01, 0x00, 0x00, 0x00,  // ........
+                        /* 0010 */  0xFF, 0xFF, 0xFF, 0xFF                           // ....
                     }
                 })
                 Method (_PLD, 0, Serialized)  // _PLD: Physical Location of Device
                 {
-                    M460 ("PLA-ASL-\\_SB.PCI0.GP17.XHC0.RHUB.PRT1_PLD\n", Zero, Zero, Zero, Zero, Zero, Zero)
                     Return (PLD1) /* \_SB_.PCI0.GP17.XHC0.RHUB.PRT1.PLD1 */
                 }
             }
@@ -6749,14 +5766,13 @@ DefinitionBlock ("", "DSDT", 2, "ALASKA", "A M I ", 0x0107200a)
                 Name (_ADR, 0x02)  // _ADR: Address
                 Name (UPC1, Package (0x04)
                 {
-                    Zero, 
-                    Zero, 
+                    0xFF, 
+                    0x03, 
                     Zero, 
                     Zero
                 })
                 Method (_UPC, 0, Serialized)  // _UPC: USB Port Capabilities
                 {
-                    M460 ("PLA-ASL-\\_SB.PCI0.GP17.XHC0.RHUB.PRT2._UPC\n", Zero, Zero, Zero, Zero, Zero, Zero)
                     Return (UPC1) /* \_SB_.PCI0.GP17.XHC0.RHUB.PRT2.UPC1 */
                 }
 
@@ -6765,13 +5781,12 @@ DefinitionBlock ("", "DSDT", 2, "ALASKA", "A M I ", 0x0107200a)
                     Buffer (0x14)
                     {
                         /* 0000 */  0x82, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,  // ........
-                        /* 0008 */  0x00, 0x00, 0x00, 0x01, 0x03, 0x00, 0x00, 0x00,  // ........
-                        /* 0010 */  0x00, 0x00, 0x00, 0x00                           // ....
+                        /* 0008 */  0x91, 0x0C, 0x00, 0x01, 0x01, 0x00, 0x00, 0x00,  // ........
+                        /* 0010 */  0xFF, 0xFF, 0xFF, 0xFF                           // ....
                     }
                 })
                 Method (_PLD, 0, Serialized)  // _PLD: Physical Location of Device
                 {
-                    M460 ("PLA-ASL-\\_SB.PCI0.GP17.XHC0.RHUB.PRT2._PLD\n", Zero, Zero, Zero, Zero, Zero, Zero)
                     Return (PLD1) /* \_SB_.PCI0.GP17.XHC0.RHUB.PRT2.PLD1 */
                 }
             }
@@ -6782,13 +5797,12 @@ DefinitionBlock ("", "DSDT", 2, "ALASKA", "A M I ", 0x0107200a)
                 Name (UPC1, Package (0x04)
                 {
                     0xFF, 
-                    Zero, 
+                    0x03, 
                     Zero, 
                     Zero
                 })
                 Method (_UPC, 0, Serialized)  // _UPC: USB Port Capabilities
                 {
-                    M460 ("PLA-ASL-\\_SB.PCI0.GP17.XHC0.RHUB.PRT3._UPC\n", Zero, Zero, Zero, Zero, Zero, Zero)
                     Return (UPC1) /* \_SB_.PCI0.GP17.XHC0.RHUB.PRT3.UPC1 */
                 }
 
@@ -6797,13 +5811,12 @@ DefinitionBlock ("", "DSDT", 2, "ALASKA", "A M I ", 0x0107200a)
                     Buffer (0x14)
                     {
                         /* 0000 */  0x82, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,  // ........
-                        /* 0008 */  0x01, 0x00, 0x80, 0x01, 0x03, 0x00, 0x00, 0x00,  // ........
-                        /* 0010 */  0x00, 0x00, 0x00, 0x00                           // ....
+                        /* 0008 */  0x91, 0x1C, 0x80, 0x01, 0x01, 0x00, 0x00, 0x00,  // ........
+                        /* 0010 */  0xFF, 0xFF, 0xFF, 0xFF                           // ....
                     }
                 })
                 Method (_PLD, 0, Serialized)  // _PLD: Physical Location of Device
                 {
-                    M460 ("PLA-ASL-\\_SB.PCI0.GP17.XHC0.RHUB.PRT3._PLD\n", Zero, Zero, Zero, Zero, Zero, Zero)
                     Return (PLD1) /* \_SB_.PCI0.GP17.XHC0.RHUB.PRT3.PLD1 */
                 }
             }
@@ -6813,14 +5826,13 @@ DefinitionBlock ("", "DSDT", 2, "ALASKA", "A M I ", 0x0107200a)
                 Name (_ADR, 0x04)  // _ADR: Address
                 Name (UPC1, Package (0x04)
                 {
-                    0xFF, 
                     Zero, 
+                    0xFF, 
                     Zero, 
                     Zero
                 })
                 Method (_UPC, 0, Serialized)  // _UPC: USB Port Capabilities
                 {
-                    M460 ("PLA-ASL-\\_SB.PCI0.GP17.XHC0.RHUB.PRT4._UPC\n", Zero, Zero, Zero, Zero, Zero, Zero)
                     Return (UPC1) /* \_SB_.PCI0.GP17.XHC0.RHUB.PRT4.UPC1 */
                 }
 
@@ -6829,14 +5841,49 @@ DefinitionBlock ("", "DSDT", 2, "ALASKA", "A M I ", 0x0107200a)
                     Buffer (0x14)
                     {
                         /* 0000 */  0x82, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,  // ........
-                        /* 0008 */  0x01, 0x00, 0x00, 0x02, 0x03, 0x00, 0x00, 0x00,  // ........
-                        /* 0010 */  0x00, 0x00, 0x00, 0x00                           // ....
+                        /* 0008 */  0x91, 0x1D, 0x00, 0x02, 0x01, 0x00, 0x00, 0x00,  // ........
+                        /* 0010 */  0xFF, 0xFF, 0xFF, 0xFF                           // ....
                     }
                 })
                 Method (_PLD, 0, Serialized)  // _PLD: Physical Location of Device
                 {
-                    M460 ("PLA-ASL-\\_SB.PCI0.GP17.XHC0.RHUB.PRT4._PLD\n", Zero, Zero, Zero, Zero, Zero, Zero)
                     Return (PLD1) /* \_SB_.PCI0.GP17.XHC0.RHUB.PRT4.PLD1 */
+                }
+
+                Device (WCAM)
+                {
+                    Name (_ADR, 0x04)  // _ADR: Address
+                    Method (_PLD, 0, Serialized)  // _PLD: Physical Location of Device
+                    {
+                        Name (PLDP, Package (0x01)
+                        {
+                            Buffer (0x14)
+                            {
+                                /* 0000 */  0x82, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,  // ........
+                                /* 0008 */  0x24, 0x1D, 0x00, 0x04, 0x00, 0x00, 0x00, 0x00,  // $.......
+                                /* 0010 */  0xE1, 0x00, 0xAF, 0x00                           // ....
+                            }
+                        })
+                        Return (PLDP) /* \_SB_.PCI0.GP17.XHC0.RHUB.PRT4.WCAM._PLD.PLDP */
+                    }
+                }
+
+                Device (CAMI)
+                {
+                    Name (_ADR, 0x06)  // _ADR: Address
+                    Method (_PLD, 0, Serialized)  // _PLD: Physical Location of Device
+                    {
+                        Name (PLDP, Package (0x01)
+                        {
+                            Buffer (0x14)
+                            {
+                                /* 0000 */  0x82, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,  // ........
+                                /* 0008 */  0x24, 0x1D, 0x00, 0x04, 0x00, 0x00, 0x00, 0x00,  // $.......
+                                /* 0010 */  0xE1, 0x00, 0xAF, 0x00                           // ....
+                            }
+                        })
+                        Return (PLDP) /* \_SB_.PCI0.GP17.XHC0.RHUB.PRT4.CAMI._PLD.PLDP */
+                    }
                 }
             }
 
@@ -6845,14 +5892,13 @@ DefinitionBlock ("", "DSDT", 2, "ALASKA", "A M I ", 0x0107200a)
                 Name (_ADR, 0x05)  // _ADR: Address
                 Name (UPC1, Package (0x04)
                 {
-                    Zero, 
-                    Zero, 
+                    0xFF, 
+                    0x09, 
                     Zero, 
                     Zero
                 })
                 Method (_UPC, 0, Serialized)  // _UPC: USB Port Capabilities
                 {
-                    M460 ("PLA-ASL-\\_SB.PCI0.GP17.XHC0.RHUB.PRT5._UPC\n", Zero, Zero, Zero, Zero, Zero, Zero)
                     Return (UPC1) /* \_SB_.PCI0.GP17.XHC0.RHUB.PRT5.UPC1 */
                 }
 
@@ -6861,13 +5907,12 @@ DefinitionBlock ("", "DSDT", 2, "ALASKA", "A M I ", 0x0107200a)
                     Buffer (0x14)
                     {
                         /* 0000 */  0x82, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,  // ........
-                        /* 0008 */  0x00, 0x00, 0x80, 0x00, 0x03, 0x00, 0x00, 0x00,  // ........
-                        /* 0010 */  0x00, 0x00, 0x00, 0x00                           // ....
+                        /* 0008 */  0x11, 0x0C, 0x80, 0x00, 0x01, 0x00, 0x00, 0x00,  // ........
+                        /* 0010 */  0xFF, 0xFF, 0xFF, 0xFF                           // ....
                     }
                 })
                 Method (_PLD, 0, Serialized)  // _PLD: Physical Location of Device
                 {
-                    M460 ("PLA-ASL-\\_SB.PCI0.GP17.XHC0.RHUB.PRT5._PLD\n", Zero, Zero, Zero, Zero, Zero, Zero)
                     Return (PLD1) /* \_SB_.PCI0.GP17.XHC0.RHUB.PRT5.PLD1 */
                 }
             }
@@ -6877,14 +5922,13 @@ DefinitionBlock ("", "DSDT", 2, "ALASKA", "A M I ", 0x0107200a)
                 Name (_ADR, 0x06)  // _ADR: Address
                 Name (UPC1, Package (0x04)
                 {
-                    Zero, 
-                    Zero, 
+                    0xFF, 
+                    0x03, 
                     Zero, 
                     Zero
                 })
                 Method (_UPC, 0, Serialized)  // _UPC: USB Port Capabilities
                 {
-                    M460 ("PLA-ASL-\\_SB.PCI0.GP17.XHC0.RHUB.PRT6._UPC\n", Zero, Zero, Zero, Zero, Zero, Zero)
                     Return (UPC1) /* \_SB_.PCI0.GP17.XHC0.RHUB.PRT6.UPC1 */
                 }
 
@@ -6893,13 +5937,12 @@ DefinitionBlock ("", "DSDT", 2, "ALASKA", "A M I ", 0x0107200a)
                     Buffer (0x14)
                     {
                         /* 0000 */  0x82, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,  // ........
-                        /* 0008 */  0x00, 0x00, 0x00, 0x01, 0x03, 0x00, 0x00, 0x00,  // ........
-                        /* 0010 */  0x00, 0x00, 0x00, 0x00                           // ....
+                        /* 0008 */  0x91, 0x0C, 0x00, 0x01, 0x01, 0x00, 0x00, 0x00,  // ........
+                        /* 0010 */  0xFF, 0xFF, 0xFF, 0xFF                           // ....
                     }
                 })
                 Method (_PLD, 0, Serialized)  // _PLD: Physical Location of Device
                 {
-                    M460 ("PLA-ASL-\\_SB.PCI0.GP17.XHC0.RHUB.PRT6._PLD\n", Zero, Zero, Zero, Zero, Zero, Zero)
                     Return (PLD1) /* \_SB_.PCI0.GP17.XHC0.RHUB.PRT6.PLD1 */
                 }
             }
@@ -6921,20 +5964,20 @@ DefinitionBlock ("", "DSDT", 2, "ALASKA", "A M I ", 0x0107200a)
                     Zero, 
                     Zero
                 })
-                Name (PLD1, Package (0x01)
-                {
-                    Buffer (0x14)
-                    {
-                        /* 0000 */  0x82, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,  // ........
-                        /* 0008 */  0x01, 0x00, 0x80, 0x02, 0x03, 0x00, 0x00, 0x00,  // ........
-                        /* 0010 */  0x00, 0x00, 0x00, 0x00                           // ....
-                    }
-                })
                 Method (_UPC, 0, Serialized)  // _UPC: USB Port Capabilities
                 {
                     Return (UPC1) /* \_SB_.PCI0.GP17.XHC1.RHUB.PRT1.UPC1 */
                 }
 
+                Name (PLD1, Package (0x01)
+                {
+                    Buffer (0x14)
+                    {
+                        /* 0000 */  0x82, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,  // ........
+                        /* 0008 */  0x11, 0x0C, 0x80, 0x02, 0x01, 0x00, 0x00, 0x00,  // ........
+                        /* 0010 */  0xFF, 0xFF, 0xFF, 0xFF                           // ....
+                    }
+                })
                 Method (_PLD, 0, Serialized)  // _PLD: Physical Location of Device
                 {
                     Return (PLD1) /* \_SB_.PCI0.GP17.XHC1.RHUB.PRT1.PLD1 */
@@ -6947,24 +5990,24 @@ DefinitionBlock ("", "DSDT", 2, "ALASKA", "A M I ", 0x0107200a)
                 Name (UPC1, Package (0x04)
                 {
                     0xFF, 
-                    0x03, 
+                    0xFF, 
                     Zero, 
                     Zero
-                })
-                Name (PLD1, Package (0x01)
-                {
-                    Buffer (0x14)
-                    {
-                        /* 0000 */  0x82, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,  // ........
-                        /* 0008 */  0x01, 0x00, 0x00, 0x03, 0x03, 0x00, 0x00, 0x00,  // ........
-                        /* 0010 */  0x00, 0x00, 0x00, 0x00                           // ....
-                    }
                 })
                 Method (_UPC, 0, Serialized)  // _UPC: USB Port Capabilities
                 {
                     Return (UPC1) /* \_SB_.PCI0.GP17.XHC1.RHUB.PRT2.UPC1 */
                 }
 
+                Name (PLD1, Package (0x01)
+                {
+                    Buffer (0x14)
+                    {
+                        /* 0000 */  0x82, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,  // ........
+                        /* 0008 */  0x91, 0x0C, 0x00, 0x03, 0x01, 0x00, 0x00, 0x00,  // ........
+                        /* 0010 */  0xFF, 0xFF, 0xFF, 0xFF                           // ....
+                    }
+                })
                 Method (_PLD, 0, Serialized)  // _PLD: Physical Location of Device
                 {
                     Return (PLD1) /* \_SB_.PCI0.GP17.XHC1.RHUB.PRT2.PLD1 */
@@ -6976,14 +6019,13 @@ DefinitionBlock ("", "DSDT", 2, "ALASKA", "A M I ", 0x0107200a)
                 Name (_ADR, 0x03)  // _ADR: Address
                 Name (UPC1, Package (0x04)
                 {
-                    Zero, 
                     0xFF, 
+                    0x03, 
                     Zero, 
                     Zero
                 })
                 Method (_UPC, 0, Serialized)  // _UPC: USB Port Capabilities
                 {
-                    M460 ("PLA-ASL-\\_SB.PCI0.GP17.XHC1.RHUB._UPC\n", Zero, Zero, Zero, Zero, Zero, Zero)
                     Return (UPC1) /* \_SB_.PCI0.GP17.XHC1.RHUB.PRT3.UPC1 */
                 }
 
@@ -6992,13 +6034,25 @@ DefinitionBlock ("", "DSDT", 2, "ALASKA", "A M I ", 0x0107200a)
                     Buffer (0x14)
                     {
                         /* 0000 */  0x82, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,  // ........
-                        /* 0008 */  0x01, 0x00, 0x80, 0x03, 0x03, 0x00, 0x00, 0x00,  // ........
-                        /* 0010 */  0x00, 0x00, 0x00, 0x00                           // ....
+                        /* 0008 */  0x91, 0x1C, 0x80, 0x03, 0x01, 0x00, 0x00, 0x00,  // ........
+                        /* 0010 */  0xFF, 0xFF, 0xFF, 0xFF                           // ....
                     }
                 })
                 Method (_PLD, 0, Serialized)  // _PLD: Physical Location of Device
                 {
                     Return (PLD1) /* \_SB_.PCI0.GP17.XHC1.RHUB.PRT3.PLD1 */
+                }
+
+                Method (_RMV, 0, NotSerialized)  // _RMV: Removal Status
+                {
+                    If ((THPN == 0x04))
+                    {
+                        Return (Zero)
+                    }
+                    Else
+                    {
+                        Return (One)
+                    }
                 }
             }
 
@@ -7007,25 +6061,25 @@ DefinitionBlock ("", "DSDT", 2, "ALASKA", "A M I ", 0x0107200a)
                 Name (_ADR, 0x04)  // _ADR: Address
                 Name (UPC1, Package (0x04)
                 {
+                    Zero, 
                     0xFF, 
-                    0x09, 
                     Zero, 
                     Zero
-                })
-                Name (PLD1, Package (0x01)
-                {
-                    Buffer (0x14)
-                    {
-                        /* 0000 */  0x82, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,  // ........
-                        /* 0008 */  0x01, 0x00, 0x80, 0x02, 0x03, 0x00, 0x00, 0x00,  // ........
-                        /* 0010 */  0x00, 0x00, 0x00, 0x00                           // ....
-                    }
                 })
                 Method (_UPC, 0, Serialized)  // _UPC: USB Port Capabilities
                 {
                     Return (UPC1) /* \_SB_.PCI0.GP17.XHC1.RHUB.PRT4.UPC1 */
                 }
 
+                Name (PLD1, Package (0x01)
+                {
+                    Buffer (0x14)
+                    {
+                        /* 0000 */  0x82, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,  // ........
+                        /* 0008 */  0x91, 0x1D, 0x00, 0x04, 0x01, 0x00, 0x00, 0x00,  // ........
+                        /* 0010 */  0xFF, 0xFF, 0xFF, 0xFF                           // ....
+                    }
+                })
                 Method (_PLD, 0, Serialized)  // _PLD: Physical Location of Device
                 {
                     Return (PLD1) /* \_SB_.PCI0.GP17.XHC1.RHUB.PRT4.PLD1 */
@@ -7038,50 +6092,43 @@ DefinitionBlock ("", "DSDT", 2, "ALASKA", "A M I ", 0x0107200a)
                 Name (UPC1, Package (0x04)
                 {
                     0xFF, 
-                    0x03, 
+                    0x09, 
                     Zero, 
                     Zero
-                })
-                Name (PLD1, Package (0x01)
-                {
-                    Buffer (0x14)
-                    {
-                        /* 0000 */  0x82, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,  // ........
-                        /* 0008 */  0x01, 0x00, 0x00, 0x03, 0x03, 0x00, 0x00, 0x00,  // ........
-                        /* 0010 */  0x00, 0x00, 0x00, 0x00                           // ....
-                    }
                 })
                 Method (_UPC, 0, Serialized)  // _UPC: USB Port Capabilities
                 {
                     Return (UPC1) /* \_SB_.PCI0.GP17.XHC1.RHUB.PRT5.UPC1 */
                 }
 
+                Name (PLD1, Package (0x01)
+                {
+                    Buffer (0x14)
+                    {
+                        /* 0000 */  0x82, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,  // ........
+                        /* 0008 */  0x11, 0x0C, 0x80, 0x02, 0x01, 0x00, 0x00, 0x00,  // ........
+                        /* 0010 */  0xFF, 0xFF, 0xFF, 0xFF                           // ....
+                    }
+                })
                 Method (_PLD, 0, Serialized)  // _PLD: Physical Location of Device
                 {
                     Return (PLD1) /* \_SB_.PCI0.GP17.XHC1.RHUB.PRT5.PLD1 */
                 }
             }
-        }
-    }
 
-    Scope (_SB.PCI0.GP19.XHC2)
-    {
-        Device (RHUB)
-        {
-            Name (_ADR, Zero)  // _ADR: Address
-            Device (PRT1)
+            Device (PRT6)
             {
-                Name (_ADR, One)  // _ADR: Address
+                Name (_ADR, 0x06)  // _ADR: Address
                 Name (UPC1, Package (0x04)
                 {
                     0xFF, 
-                    Zero, 
+                    0xFF, 
                     Zero, 
                     Zero
                 })
                 Method (_UPC, 0, Serialized)  // _UPC: USB Port Capabilities
                 {
-                    Return (UPC1) /* \_SB_.PCI0.GP19.XHC2.RHUB.PRT1.UPC1 */
+                    Return (UPC1) /* \_SB_.PCI0.GP17.XHC1.RHUB.PRT6.UPC1 */
                 }
 
                 Name (PLD1, Package (0x01)
@@ -7089,259 +6136,59 @@ DefinitionBlock ("", "DSDT", 2, "ALASKA", "A M I ", 0x0107200a)
                     Buffer (0x14)
                     {
                         /* 0000 */  0x82, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,  // ........
-                        /* 0008 */  0x00, 0x00, 0x00, 0x04, 0x00, 0x00, 0x00, 0x00,  // ........
-                        /* 0010 */  0x00, 0x00, 0x00, 0x00                           // ....
+                        /* 0008 */  0x91, 0x0C, 0x00, 0x03, 0x01, 0x00, 0x00, 0x00,  // ........
+                        /* 0010 */  0xFF, 0xFF, 0xFF, 0xFF                           // ....
                     }
                 })
                 Method (_PLD, 0, Serialized)  // _PLD: Physical Location of Device
                 {
-                    Return (PLD1) /* \_SB_.PCI0.GP19.XHC2.RHUB.PRT1.PLD1 */
+                    Return (PLD1) /* \_SB_.PCI0.GP17.XHC1.RHUB.PRT6.PLD1 */
+                }
+            }
+        }
+    }
+
+    Scope (_SB.PCI0)
+    {
+        Scope (GPP4)
+        {
+            Device (BTH0)
+            {
+                Name (_HID, "QCOM6390")  // _HID: Hardware ID
+                Name (_S4W, 0x02)  // _S4W: S4 Device Wake State
+                Name (_S0W, 0x02)  // _S0W: S0 Device Wake State
+                Method (_STA, 0, NotSerialized)  // _STA: Status
+                {
+                    Return (Zero)
                 }
 
-                Device (CAM0)
+                Method (_CRS, 0, NotSerialized)  // _CRS: Current Resource Settings
                 {
-                    Name (_ADR, One)  // _ADR: Address
-                    Method (_PLD, 0, Serialized)  // _PLD: Physical Location of Device
+                    Name (UBUF, ResourceTemplate ()
                     {
-                        Name (PLDP, Package (0x01)
-                        {
-                            Buffer (0x14)
-                            {
-                                /* 0000 */  0x82, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,  // ........
-                                /* 0008 */  0x24, 0x1D, 0x00, 0x04, 0x00, 0x00, 0x00, 0x00,  // $.......
-                                /* 0010 */  0xE1, 0x00, 0xAF, 0x00                           // ....
+                        UartSerialBusV2 (0x0001C200, DataBitsEight, StopBitsOne,
+                            0xC0, LittleEndian, ParityTypeNone, FlowControlHardware,
+                            0x0020, 0x0020, "\\_SB.FUR0",
+                            0x00, ResourceConsumer, , Exclusive,
+                            )
+                        GpioInt (Edge, ActiveLow, ExclusiveAndWake, PullUp, 0x0000,
+                            "\\_SB.GPIO", 0x00, ResourceConsumer, ,
+                            )
+                            {   // Pin list
+                                0x0003
                             }
-                        })
-                        Return (PLDP) /* \_SB_.PCI0.GP19.XHC2.RHUB.PRT1.CAM0._PLD.PLDP */
-                    }
-                }
-
-                Device (CAM1)
-                {
-                    Name (_ADR, 0x03)  // _ADR: Address
-                    Method (_PLD, 0, Serialized)  // _PLD: Physical Location of Device
-                    {
-                        Name (PLDP, Package (0x01)
-                        {
-                            Buffer (0x14)
-                            {
-                                /* 0000 */  0x82, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,  // ........
-                                /* 0008 */  0x24, 0x1D, 0x00, 0x04, 0x00, 0x00, 0x00, 0x00,  // $.......
-                                /* 0010 */  0xE1, 0x00, 0xAF, 0x00                           // ....
-                            }
-                        })
-                        Return (PLDP) /* \_SB_.PCI0.GP19.XHC2.RHUB.PRT1.CAM1._PLD.PLDP */
-                    }
-                }
-            }
-
-            Device (PRT2)
-            {
-                Name (_ADR, 0x02)  // _ADR: Address
-                Name (UPC1, Package (0x04)
-                {
-                    Zero, 
-                    Zero, 
-                    Zero, 
-                    Zero
-                })
-                Name (PLD1, Package (0x01)
-                {
-                    Buffer (0x14)
-                    {
-                        /* 0000 */  0x82, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,  // ........
-                        /* 0008 */  0x00, 0x00, 0x00, 0x04, 0x00, 0x00, 0x00, 0x00,  // ........
-                        /* 0010 */  0x00, 0x00, 0x00, 0x00                           // ....
-                    }
-                })
-                Method (_UPC, 0, Serialized)  // _UPC: USB Port Capabilities
-                {
-                    Return (UPC1) /* \_SB_.PCI0.GP19.XHC2.RHUB.PRT2.UPC1 */
-                }
-
-                Method (_PLD, 0, Serialized)  // _PLD: Physical Location of Device
-                {
-                    Return (PLD1) /* \_SB_.PCI0.GP19.XHC2.RHUB.PRT2.PLD1 */
+                    })
+                    Return (UBUF) /* \_SB_.PCI0.GPP4.BTH0._CRS.UBUF */
                 }
             }
         }
     }
 
-    Scope (_SB.PCI0.GP19.XHC3)
+    Scope (_SB.PCI0.GP17.ACP)
     {
-        Device (RHUB)
+        Method (_WOV, 0, NotSerialized)
         {
-            Name (_ADR, Zero)  // _ADR: Address
-            Device (PRT1)
-            {
-                Name (_ADR, One)  // _ADR: Address
-                Name (UPC1, Package (0x04)
-                {
-                    0xFF, 
-                    0x09, 
-                    Zero, 
-                    Zero
-                })
-                Name (PLD1, Package (0x01)
-                {
-                    Buffer (0x14)
-                    {
-                        /* 0000 */  0x82, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,  // ........
-                        /* 0008 */  0x69, 0x90, 0x00, 0x05, 0x01, 0x00, 0x00, 0x00,  // i.......
-                        /* 0010 */  0xFF, 0xFF, 0xFF, 0xFF                           // ....
-                    }
-                })
-                Method (_UPC, 0, Serialized)  // _UPC: USB Port Capabilities
-                {
-                    Return (UPC1) /* \_SB_.PCI0.GP19.XHC3.RHUB.PRT1.UPC1 */
-                }
-
-                Method (_PLD, 0, Serialized)  // _PLD: Physical Location of Device
-                {
-                    Return (PLD1) /* \_SB_.PCI0.GP19.XHC3.RHUB.PRT1.PLD1 */
-                }
-            }
-
-            Device (PRT2)
-            {
-                Name (_ADR, 0x02)  // _ADR: Address
-                Name (UPC2, Package (0x04)
-                {
-                    0xFF, 
-                    0x09, 
-                    Zero, 
-                    Zero
-                })
-                Name (PLD2, Package (0x01)
-                {
-                    Buffer (0x14)
-                    {
-                        /* 0000 */  0x82, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,  // ........
-                        /* 0008 */  0x69, 0x90, 0x00, 0x05, 0x01, 0x00, 0x00, 0x00,  // i.......
-                        /* 0010 */  0xFF, 0xFF, 0xFF, 0xFF                           // ....
-                    }
-                })
-                Method (_UPC, 0, Serialized)  // _UPC: USB Port Capabilities
-                {
-                    Return (UPC2) /* \_SB_.PCI0.GP19.XHC3.RHUB.PRT2.UPC2 */
-                }
-
-                Method (_PLD, 0, Serialized)  // _PLD: Physical Location of Device
-                {
-                    Return (PLD2) /* \_SB_.PCI0.GP19.XHC3.RHUB.PRT2.PLD2 */
-                }
-            }
-        }
-    }
-
-    Scope (_SB.PCI0.GP19.XHC4)
-    {
-        Device (RHUB)
-        {
-            Name (_ADR, Zero)  // _ADR: Address
-            Device (PRT1)
-            {
-                Name (_ADR, One)  // _ADR: Address
-                Name (UPC3, Package (0x04)
-                {
-                    0xFF, 
-                    0x09, 
-                    Zero, 
-                    Zero
-                })
-                Name (PLD3, Package (0x01)
-                {
-                    Buffer (0x14)
-                    {
-                        /* 0000 */  0x82, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,  // ........
-                        /* 0008 */  0x69, 0x90, 0x80, 0x05, 0x01, 0x00, 0x00, 0x00,  // i.......
-                        /* 0010 */  0xFF, 0xFF, 0xFF, 0xFF                           // ....
-                    }
-                })
-                Method (_UPC, 0, Serialized)  // _UPC: USB Port Capabilities
-                {
-                    Return (UPC3) /* \_SB_.PCI0.GP19.XHC4.RHUB.PRT1.UPC3 */
-                }
-
-                Method (_PLD, 0, Serialized)  // _PLD: Physical Location of Device
-                {
-                    Return (PLD3) /* \_SB_.PCI0.GP19.XHC4.RHUB.PRT1.PLD3 */
-                }
-            }
-
-            Device (PRT2)
-            {
-                Name (_ADR, 0x02)  // _ADR: Address
-                Name (UPC4, Package (0x04)
-                {
-                    0xFF, 
-                    0x09, 
-                    Zero, 
-                    Zero
-                })
-                Name (PLD4, Package (0x01)
-                {
-                    Buffer (0x14)
-                    {
-                        /* 0000 */  0x82, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,  // ........
-                        /* 0008 */  0x69, 0x90, 0x80, 0x05, 0x01, 0x00, 0x00, 0x00,  // i.......
-                        /* 0010 */  0xFF, 0xFF, 0xFF, 0xFF                           // ....
-                    }
-                })
-                Method (_UPC, 0, Serialized)  // _UPC: USB Port Capabilities
-                {
-                    Return (UPC4) /* \_SB_.PCI0.GP19.XHC4.RHUB.PRT2.UPC4 */
-                }
-
-                Method (_PLD, 0, Serialized)  // _PLD: Physical Location of Device
-                {
-                    Return (PLD4) /* \_SB_.PCI0.GP19.XHC4.RHUB.PRT2.PLD4 */
-                }
-            }
-        }
-    }
-
-    Method (TPST, 1, Serialized)
-    {
-        Local0 = (Arg0 + 0xB0000000)
-        OperationRegion (VARM, SystemIO, 0x80, 0x04)
-        Field (VARM, DWordAcc, NoLock, Preserve)
-        {
-            VARR,   32
-        }
-
-        VARR = Local0
-    }
-
-    Scope (_SB.PCI0.GPP2)
-    {
-        Device (WWAN)
-        {
-            Name (_ADR, Zero)  // _ADR: Address
-        }
-    }
-
-    Scope (_SB.PCI0.GPP5)
-    {
-        Device (RUSB)
-        {
-            Name (_ADR, 0x04)  // _ADR: Address
-        }
-    }
-
-    Scope (_SB.PCI0.GPP6)
-    {
-        Device (WLAN)
-        {
-            Name (_ADR, Zero)  // _ADR: Address
-        }
-    }
-
-    Scope (_SB.PCI0.GPP7)
-    {
-        Device (DEV0)
-        {
-            Name (_ADR, Zero)  // _ADR: Address
+            Return (WOVS) /* \WOVS */
         }
     }
 
@@ -8419,6 +7266,52 @@ DefinitionBlock ("", "DSDT", 2, "ALASKA", "A M I ", 0x0107200a)
 
     Scope (_SB.I2CA)
     {
+        Device (NFC1)
+        {
+            Name (_HID, EisaId ("NXP8013"))  // _HID: Hardware ID
+            Name (_UID, One)  // _UID: Unique ID
+            Method (_CRS, 0, NotSerialized)  // _CRS: Current Resource Settings
+            {
+                Name (RBUF, ResourceTemplate ()
+                {
+                    I2cSerialBusV2 (0x0029, ControllerInitiated, 0x00061A80,
+                        AddressingMode7Bit, "\\_SB.I2CA",
+                        0x00, ResourceConsumer, , Exclusive,
+                        )
+                    GpioInt (Level, ActiveHigh, ExclusiveAndWake, PullNone, 0x0000,
+                        "\\_SB.GPIO", 0x00, ResourceConsumer, ,
+                        )
+                        {   // Pin list
+                            0x0045
+                        }
+                    GpioIo (Exclusive, PullNone, 0x0000, 0x0000, IoRestrictionOutputOnly,
+                        "\\_SB.GPIO", 0x00, ResourceConsumer, ,
+                        )
+                        {   // Pin list
+                            0x0057
+                        }
+                    GpioIo (Exclusive, PullNone, 0x0000, 0x0000, IoRestrictionOutputOnly,
+                        "\\_SB.GPIO", 0x00, ResourceConsumer, ,
+                        )
+                        {   // Pin list
+                            0x0059
+                        }
+                })
+                Return (RBUF) /* \_SB_.I2CA.NFC1._CRS.RBUF */
+            }
+
+            Method (_STA, 0, NotSerialized)  // _STA: Status
+            {
+                If (((TPOS >= 0x60) & (NFCS == Zero)))
+                {
+                    Return (0x0F)
+                }
+                Else
+                {
+                    Return (Zero)
+                }
+            }
+        }
     }
 
     Scope (_SB.I2CB)
@@ -8435,23 +7328,23 @@ DefinitionBlock ("", "DSDT", 2, "ALASKA", "A M I ", 0x0107200a)
                         AddressingMode7Bit, "\\_SB.I2CB",
                         0x00, ResourceConsumer, , Exclusive,
                         )
-                    GpioInt (Level, ActiveLow, ExclusiveAndWake, PullNone, 0x0000,
+                    GpioInt (Level, ActiveHigh, ExclusiveAndWake, PullNone, 0x0000,
                         "\\_SB.GPIO", 0x00, ResourceConsumer, ,
                         )
                         {   // Pin list
-                            0x005B
+                            0x0045
                         }
                     GpioIo (Exclusive, PullNone, 0x0000, 0x0000, IoRestrictionOutputOnly,
                         "\\_SB.GPIO", 0x00, ResourceConsumer, ,
                         )
                         {   // Pin list
-                            0x0099
+                            0x0057
                         }
                     GpioIo (Exclusive, PullNone, 0x0000, 0x0000, IoRestrictionOutputOnly,
                         "\\_SB.GPIO", 0x00, ResourceConsumer, ,
                         )
                         {   // Pin list
-                            0x009A
+                            0x0059
                         }
                 })
                 Return (RBUF) /* \_SB_.I2CB.NFC1._CRS.RBUF */
@@ -8485,23 +7378,23 @@ DefinitionBlock ("", "DSDT", 2, "ALASKA", "A M I ", 0x0107200a)
                         AddressingMode7Bit, "\\_SB.I2CC",
                         0x00, ResourceConsumer, , Exclusive,
                         )
-                    GpioInt (Level, ActiveLow, ExclusiveAndWake, PullNone, 0x0000,
+                    GpioInt (Level, ActiveHigh, ExclusiveAndWake, PullNone, 0x0000,
                         "\\_SB.GPIO", 0x00, ResourceConsumer, ,
                         )
                         {   // Pin list
-                            0x005B
+                            0x0045
                         }
                     GpioIo (Exclusive, PullNone, 0x0000, 0x0000, IoRestrictionOutputOnly,
                         "\\_SB.GPIO", 0x00, ResourceConsumer, ,
                         )
                         {   // Pin list
-                            0x0099
+                            0x0057
                         }
                     GpioIo (Exclusive, PullNone, 0x0000, 0x0000, IoRestrictionOutputOnly,
                         "\\_SB.GPIO", 0x00, ResourceConsumer, ,
                         )
                         {   // Pin list
-                            0x009A
+                            0x0059
                         }
                 })
                 Return (RBUF) /* \_SB_.I2CC.NFC1._CRS.RBUF */
@@ -8511,7 +7404,7 @@ DefinitionBlock ("", "DSDT", 2, "ALASKA", "A M I ", 0x0107200a)
             {
                 If (((TPOS >= 0x60) & (NFCS == 0x02)))
                 {
-                    Return (0x0F)
+                    Return (Zero)
                 }
                 Else
                 {
@@ -8535,23 +7428,23 @@ DefinitionBlock ("", "DSDT", 2, "ALASKA", "A M I ", 0x0107200a)
                         AddressingMode7Bit, "\\_SB.I2CD",
                         0x00, ResourceConsumer, , Exclusive,
                         )
-                    GpioInt (Level, ActiveLow, ExclusiveAndWake, PullNone, 0x0000,
+                    GpioInt (Level, ActiveHigh, ExclusiveAndWake, PullNone, 0x0000,
                         "\\_SB.GPIO", 0x00, ResourceConsumer, ,
                         )
                         {   // Pin list
-                            0x005B
+                            0x0045
                         }
                     GpioIo (Exclusive, PullNone, 0x0000, 0x0000, IoRestrictionOutputOnly,
                         "\\_SB.GPIO", 0x00, ResourceConsumer, ,
                         )
                         {   // Pin list
-                            0x0099
+                            0x0057
                         }
                     GpioIo (Exclusive, PullNone, 0x0000, 0x0000, IoRestrictionOutputOnly,
                         "\\_SB.GPIO", 0x00, ResourceConsumer, ,
                         )
                         {   // Pin list
-                            0x009A
+                            0x0059
                         }
                 })
                 Return (RBUF) /* \_SB_.I2CD.NFC1._CRS.RBUF */
@@ -8573,6 +7466,203 @@ DefinitionBlock ("", "DSDT", 2, "ALASKA", "A M I ", 0x0107200a)
 
     Scope (_SB.I2CA)
     {
+        Device (TPNL)
+        {
+            Name (_HID, EisaId ("PNP0C50") /* HID Protocol Device (I2C bus) */)  // _HID: Hardware ID
+            Name (_CID, "PNP0C50" /* HID Protocol Device (I2C bus) */)  // _CID: Compatible ID
+            Name (_UID, One)  // _UID: Unique ID
+            Method (_CRS, 0, NotSerialized)  // _CRS: Current Resource Settings
+            {
+                Name (RBUF, ResourceTemplate ()
+                {
+                    I2cSerialBusV2 (0x004A, ControllerInitiated, 0x000F4240,
+                        AddressingMode7Bit, "\\_SB.I2CA",
+                        0x00, ResourceConsumer, , Exclusive,
+                        )
+                    GpioInt (Level, ActiveLow, Shared, PullUp, 0x0000,
+                        "\\_SB.GPIO", 0x00, ResourceConsumer, ,
+                        )
+                        {   // Pin list
+                            0x000C
+                        }
+                })
+                Return (RBUF) /* \_SB_.I2CA.TPNL._CRS.RBUF */
+            }
+
+            Method (_STA, 0, NotSerialized)  // _STA: Status
+            {
+                If (((TPOS >= 0x60) & (THPN == Zero)))
+                {
+                    Return (Zero)
+                }
+                Else
+                {
+                    Return (Zero)
+                }
+            }
+
+            Method (_DSW, 3, NotSerialized)  // _DSW: Device Sleep Wake
+            {
+                If (Arg0){}
+                Else
+                {
+                }
+            }
+
+            Method (_PS0, 0, NotSerialized)  // _PS0: Power State 0
+            {
+            }
+
+            Method (_PS3, 0, NotSerialized)  // _PS3: Power State 3
+            {
+            }
+
+            Method (_DSM, 4, Serialized)  // _DSM: Device-Specific Method
+            {
+                If ((Arg0 == ToUUID ("3cdff6f7-4267-4555-ad05-b30a3d8938de") /* HID I2C Device */))
+                {
+                    Switch (ToInteger (Arg2))
+                    {
+                        Case (Zero)
+                        {
+                            Switch (ToInteger (Arg1))
+                            {
+                                Case (One)
+                                {
+                                    Return (Buffer (One)
+                                    {
+                                         0x03                                             // .
+                                    })
+                                }
+                                Default
+                                {
+                                    Return (Buffer (One)
+                                    {
+                                         0x00                                             // .
+                                    })
+                                }
+
+                            }
+                        }
+                        Case (One)
+                        {
+                            Return (Zero)
+                        }
+                        Default
+                        {
+                            Return (Zero)
+                        }
+
+                    }
+                }
+                Else
+                {
+                    Return (Buffer (One)
+                    {
+                         0x00                                             // .
+                    })
+                }
+            }
+        }
+
+        Device (ELAN)
+        {
+            Name (_HID, EisaId ("PNP0C50") /* HID Protocol Device (I2C bus) */)  // _HID: Hardware ID
+            Name (_CID, "PNP0C50" /* HID Protocol Device (I2C bus) */)  // _CID: Compatible ID
+            Name (_UID, One)  // _UID: Unique ID
+            Method (_CRS, 0, NotSerialized)  // _CRS: Current Resource Settings
+            {
+                Name (RBUF, ResourceTemplate ()
+                {
+                    I2cSerialBusV2 (0x0010, ControllerInitiated, 0x000F4240,
+                        AddressingMode7Bit, "\\_SB.I2CA",
+                        0x00, ResourceConsumer, , Exclusive,
+                        )
+                    GpioInt (Level, ActiveLow, Shared, PullUp, 0x0000,
+                        "\\_SB.GPIO", 0x00, ResourceConsumer, ,
+                        )
+                        {   // Pin list
+                            0x000C
+                        }
+                })
+                Return (RBUF) /* \_SB_.I2CA.ELAN._CRS.RBUF */
+            }
+
+            Method (_STA, 0, NotSerialized)  // _STA: Status
+            {
+                If (((TPOS >= 0x60) & (THPN == 0x10)))
+                {
+                    Return (0x0F)
+                }
+                Else
+                {
+                    Return (Zero)
+                }
+            }
+
+            Method (_DSW, 3, NotSerialized)  // _DSW: Device Sleep Wake
+            {
+                If (Arg0){}
+                Else
+                {
+                }
+            }
+
+            Method (_PS0, 0, NotSerialized)  // _PS0: Power State 0
+            {
+            }
+
+            Method (_PS3, 0, NotSerialized)  // _PS3: Power State 3
+            {
+            }
+
+            Method (_DSM, 4, Serialized)  // _DSM: Device-Specific Method
+            {
+                If ((Arg0 == ToUUID ("3cdff6f7-4267-4555-ad05-b30a3d8938de") /* HID I2C Device */))
+                {
+                    Switch (ToInteger (Arg2))
+                    {
+                        Case (Zero)
+                        {
+                            Switch (ToInteger (Arg1))
+                            {
+                                Case (One)
+                                {
+                                    Return (Buffer (One)
+                                    {
+                                         0x03                                             // .
+                                    })
+                                }
+                                Default
+                                {
+                                    Return (Buffer (One)
+                                    {
+                                         0x00                                             // .
+                                    })
+                                }
+
+                            }
+                        }
+                        Case (One)
+                        {
+                            Return (One)
+                        }
+                        Default
+                        {
+                            Return (Zero)
+                        }
+
+                    }
+                }
+                Else
+                {
+                    Return (Buffer (One)
+                    {
+                         0x00                                             // .
+                    })
+                }
+            }
+        }
     }
 
     Scope (_SB.I2CB)
@@ -8590,11 +7680,11 @@ DefinitionBlock ("", "DSDT", 2, "ALASKA", "A M I ", 0x0107200a)
                         AddressingMode7Bit, "\\_SB.I2CB",
                         0x00, ResourceConsumer, , Exclusive,
                         )
-                    GpioInt (Level, ActiveLow, SharedAndWake, PullUp, 0x0000,
+                    GpioInt (Level, ActiveLow, Shared, PullUp, 0x0000,
                         "\\_SB.GPIO", 0x00, ResourceConsumer, ,
                         )
                         {   // Pin list
-                            0x0020
+                            0x000C
                         }
                 })
                 Return (RBUF) /* \_SB_.I2CB.TPNL._CRS.RBUF */
@@ -8689,11 +7779,11 @@ DefinitionBlock ("", "DSDT", 2, "ALASKA", "A M I ", 0x0107200a)
                         AddressingMode7Bit, "\\_SB.I2CB",
                         0x00, ResourceConsumer, , Exclusive,
                         )
-                    GpioInt (Level, ActiveLow, SharedAndWake, PullUp, 0x0000,
+                    GpioInt (Level, ActiveLow, Shared, PullUp, 0x0000,
                         "\\_SB.GPIO", 0x00, ResourceConsumer, ,
                         )
                         {   // Pin list
-                            0x0020
+                            0x000C
                         }
                 })
                 Return (RBUF) /* \_SB_.I2CB.ELAN._CRS.RBUF */
@@ -8791,11 +7881,11 @@ DefinitionBlock ("", "DSDT", 2, "ALASKA", "A M I ", 0x0107200a)
                         AddressingMode7Bit, "\\_SB.I2CC",
                         0x00, ResourceConsumer, , Exclusive,
                         )
-                    GpioInt (Level, ActiveLow, SharedAndWake, PullUp, 0x0000,
+                    GpioInt (Level, ActiveLow, Shared, PullUp, 0x0000,
                         "\\_SB.GPIO", 0x00, ResourceConsumer, ,
                         )
                         {   // Pin list
-                            0x0020
+                            0x000C
                         }
                 })
                 Return (RBUF) /* \_SB_.I2CC.TPNL._CRS.RBUF */
@@ -8890,11 +7980,11 @@ DefinitionBlock ("", "DSDT", 2, "ALASKA", "A M I ", 0x0107200a)
                         AddressingMode7Bit, "\\_SB.I2CC",
                         0x00, ResourceConsumer, , Exclusive,
                         )
-                    GpioInt (Level, ActiveLow, SharedAndWake, PullUp, 0x0000,
+                    GpioInt (Level, ActiveLow, Shared, PullUp, 0x0000,
                         "\\_SB.GPIO", 0x00, ResourceConsumer, ,
                         )
                         {   // Pin list
-                            0x0020
+                            0x000C
                         }
                 })
                 Return (RBUF) /* \_SB_.I2CC.ELAN._CRS.RBUF */
@@ -8992,11 +8082,11 @@ DefinitionBlock ("", "DSDT", 2, "ALASKA", "A M I ", 0x0107200a)
                         AddressingMode7Bit, "\\_SB.I2CD",
                         0x00, ResourceConsumer, , Exclusive,
                         )
-                    GpioInt (Level, ActiveLow, SharedAndWake, PullUp, 0x0000,
+                    GpioInt (Level, ActiveLow, Shared, PullUp, 0x0000,
                         "\\_SB.GPIO", 0x00, ResourceConsumer, ,
                         )
                         {   // Pin list
-                            0x0020
+                            0x000C
                         }
                 })
                 Return (RBUF) /* \_SB_.I2CD.TPNL._CRS.RBUF */
@@ -9091,11 +8181,11 @@ DefinitionBlock ("", "DSDT", 2, "ALASKA", "A M I ", 0x0107200a)
                         AddressingMode7Bit, "\\_SB.I2CD",
                         0x00, ResourceConsumer, , Exclusive,
                         )
-                    GpioInt (Level, ActiveLow, SharedAndWake, PullUp, 0x0000,
+                    GpioInt (Level, ActiveLow, Shared, PullUp, 0x0000,
                         "\\_SB.GPIO", 0x00, ResourceConsumer, ,
                         )
                         {   // Pin list
-                            0x0020
+                            0x000C
                         }
                 })
                 Return (RBUF) /* \_SB_.I2CD.ELAN._CRS.RBUF */
@@ -9180,102 +8270,101 @@ DefinitionBlock ("", "DSDT", 2, "ALASKA", "A M I ", 0x0107200a)
 
     Scope (_SB.I2CA)
     {
-        OperationRegion (GPM1, SystemMemory, 0xFED81582, 0x08)
-        Field (GPM1, ByteAcc, Lock, Preserve)
+        Device (TPDD)
         {
-            TINT,   8
-        }
-
-        OperationRegion (GPM2, SystemMemory, 0xFED8166A, 0x08)
-        Field (GPM2, ByteAcc, Lock, Preserve)
-        {
-            TRST,   8
-        }
-
-        Device (TCS1)
-        {
-            Name (_ADR, Zero)  // _ADR: Address
-            Name (_HID, "GDIX1002")  // _HID: Hardware ID
-            Name (_CID, "GDIX1002")  // _CID: Compatible ID
-            Name (_S0W, Zero)  // _S0W: S0 Device Wake State
-            Name (XDEP, Package (0x02)
-            {
-                GPIO, 
-                I2CA
-            })
-            Method (_PS3, 0, Serialized)  // _PS3: Power State 3
-            {
-            }
-
-            Method (_PS0, 0, Serialized)  // _PS0: Power State 0
-            {
-            }
-
-            OperationRegion (GIOA, SystemMemory, 0xFED81500, 0x0400)
-            Field (GIOA, DWordAcc, NoLock, Preserve)
-            {
-                Offset (0x80), 
-                TP_I,   32, 
-                Offset (0x168), 
-                TP_R,   32
-            }
-
-            Method (ASEL, 0, Serialized)
-            {
-                TP_R = 0x00A50000
-                Sleep (0x0A)
-                TP_I = 0x00E50000
-                Sleep (One)
-                TP_R = 0x00E50000
-                Sleep (0x05)
-                TP_I = 0x00A50000
-                Sleep (0x3C)
-                TP_I = 0x10041A00
-            }
-
+            Name (_HID, EisaId ("PNP0C50") /* HID Protocol Device (I2C bus) */)  // _HID: Hardware ID
+            Name (_CID, "PNP0C50" /* HID Protocol Device (I2C bus) */)  // _CID: Compatible ID
+            Name (_UID, 0x05)  // _UID: Unique ID
             Method (_CRS, 0, NotSerialized)  // _CRS: Current Resource Settings
             {
-                Name (WBUF, ResourceTemplate ()
+                Name (RBUF, ResourceTemplate ()
                 {
-                    I2cSerialBusV2 (0x0014, ControllerInitiated, 0x00061A80,
+                    I2cSerialBusV2 (0x002C, ControllerInitiated, 0x00061A80,
                         AddressingMode7Bit, "\\_SB.I2CA",
                         0x00, ResourceConsumer, , Exclusive,
                         )
-                    GpioInt (Edge, ActiveLow, Shared, PullDefault, 0x0000,
+                    GpioInt (Level, ActiveLow, ExclusiveAndWake, PullUp, 0x0000,
                         "\\_SB.GPIO", 0x00, ResourceConsumer, ,
                         )
                         {   // Pin list
-                            0x0020
-                        }
-                    GpioIo (Shared, PullDefault, 0x0000, 0x0000, IoRestrictionOutputOnly,
-                        "\\_SB.GPIO", 0x00, ResourceConsumer, ,
-                        )
-                        {   // Pin list
-                            0x005A
+                            0x0009
                         }
                 })
-                Return (WBUF) /* \_SB_.I2CA.TCS1._CRS.WBUF */
+                Return (RBUF) /* \_SB_.I2CA.TPDD._CRS.RBUF */
             }
 
             Method (_STA, 0, NotSerialized)  // _STA: Status
             {
-                Return (0x0F)
-            }
-
-            Method (INTI, 0, Serialized)
-            {
-                TP_I = 0x10041A00
-            }
-
-            Method (INTO, 1, Serialized)
-            {
-                If ((Arg0 == One))
+                If (((TPOS >= 0x60) & (THPD == Zero)))
                 {
-                    TP_I = 0x00E50000
+                    Return (0x0F)
                 }
-                ElseIf ((Arg0 == Zero))
+                Else
                 {
-                    TP_I = 0x00A50000
+                    Return (Zero)
+                }
+            }
+
+            Method (_DSW, 3, NotSerialized)  // _DSW: Device Sleep Wake
+            {
+                If (Arg0){}
+                Else
+                {
+                }
+            }
+
+            Method (_PS0, 0, NotSerialized)  // _PS0: Power State 0
+            {
+            }
+
+            Method (_PS3, 0, NotSerialized)  // _PS3: Power State 3
+            {
+            }
+
+            Method (_DSM, 4, Serialized)  // _DSM: Device-Specific Method
+            {
+                If ((Arg0 == ToUUID ("3cdff6f7-4267-4555-ad05-b30a3d8938de") /* HID I2C Device */))
+                {
+                    Switch (ToInteger (Arg2))
+                    {
+                        Case (Zero)
+                        {
+                            Switch (ToInteger (Arg1))
+                            {
+                                Case (One)
+                                {
+                                    Return (Buffer (One)
+                                    {
+                                         0x03                                             // .
+                                    })
+                                }
+                                Default
+                                {
+                                    Return (Buffer (One)
+                                    {
+                                         0x00                                             // .
+                                    })
+                                }
+
+                            }
+                        }
+                        Case (One)
+                        {
+                            Return (0x20)
+                        }
+                        Default
+                        {
+                            Return (Zero)
+                        }
+
+                    }
+                }
+                Else
+                {
+                    Return (Buffer (One)
+                    {
+                         0x00                                             // .
+                    })
                 }
             }
         }
@@ -9283,50 +8372,102 @@ DefinitionBlock ("", "DSDT", 2, "ALASKA", "A M I ", 0x0107200a)
 
     Scope (_SB.I2CB)
     {
-        Device (ACC)
+        Device (TPDD)
         {
-            Name (_ADR, Zero)  // _ADR: Address
-            Name (_HID, "BOSC0200")  // _HID: Hardware ID
-            Name (_CID, "BOSC0200")  // _CID: Compatible ID
-            Name (_DDN, "Accelerometer")  // _DDN: DOS Device Name
-            Name (_UID, One)  // _UID: Unique ID
+            Name (_HID, EisaId ("PNP0C50") /* HID Protocol Device (I2C bus) */)  // _HID: Hardware ID
+            Name (_CID, "PNP0C50" /* HID Protocol Device (I2C bus) */)  // _CID: Compatible ID
+            Name (_UID, 0x06)  // _UID: Unique ID
             Method (_CRS, 0, NotSerialized)  // _CRS: Current Resource Settings
             {
                 Name (RBUF, ResourceTemplate ()
                 {
-                    I2cSerialBusV2 (0x0068, ControllerInitiated, 0x00061A80,
+                    I2cSerialBusV2 (0x002C, ControllerInitiated, 0x00061A80,
                         AddressingMode7Bit, "\\_SB.I2CB",
                         0x00, ResourceConsumer, , Exclusive,
                         )
+                    GpioInt (Level, ActiveLow, ExclusiveAndWake, PullUp, 0x0000,
+                        "\\_SB.GPIO", 0x00, ResourceConsumer, ,
+                        )
+                        {   // Pin list
+                            0x0009
+                        }
                 })
-                Return (RBUF) /* \_SB_.I2CB.ACC_._CRS.RBUF */
-            }
-
-            Method (ROMS, 0, NotSerialized)
-            {
-                Name (SBUF, Package (0x03)
-                {
-                    "-1, 0, 0", 
-                    "0, -1 , 0", 
-                    "0, 0, -1"
-                })
-                Return (SBUF) /* \_SB_.I2CB.ACC_.ROMS.SBUF */
-            }
-
-            Method (ROMK, 0, NotSerialized)
-            {
-                Name (SBUF, Package (0x03)
-                {
-                    "1, 0,0", 
-                    "0, 1, 0", 
-                    "0, 0, 1"
-                })
-                Return (SBUF) /* \_SB_.I2CB.ACC_.ROMK.SBUF */
+                Return (RBUF) /* \_SB_.I2CB.TPDD._CRS.RBUF */
             }
 
             Method (_STA, 0, NotSerialized)  // _STA: Status
             {
-                Return (0x0F)
+                If (((TPOS >= 0x60) & (THPD == One)))
+                {
+                    Return (0x0F)
+                }
+                Else
+                {
+                    Return (Zero)
+                }
+            }
+
+            Method (_DSW, 3, NotSerialized)  // _DSW: Device Sleep Wake
+            {
+                If (Arg0){}
+                Else
+                {
+                }
+            }
+
+            Method (_PS0, 0, NotSerialized)  // _PS0: Power State 0
+            {
+            }
+
+            Method (_PS3, 0, NotSerialized)  // _PS3: Power State 3
+            {
+            }
+
+            Method (_DSM, 4, Serialized)  // _DSM: Device-Specific Method
+            {
+                If ((Arg0 == ToUUID ("3cdff6f7-4267-4555-ad05-b30a3d8938de") /* HID I2C Device */))
+                {
+                    Switch (ToInteger (Arg2))
+                    {
+                        Case (Zero)
+                        {
+                            Switch (ToInteger (Arg1))
+                            {
+                                Case (One)
+                                {
+                                    Return (Buffer (One)
+                                    {
+                                         0x03                                             // .
+                                    })
+                                }
+                                Default
+                                {
+                                    Return (Buffer (One)
+                                    {
+                                         0x00                                             // .
+                                    })
+                                }
+
+                            }
+                        }
+                        Case (One)
+                        {
+                            Return (0x20)
+                        }
+                        Default
+                        {
+                            Return (Zero)
+                        }
+
+                    }
+                }
+                Else
+                {
+                    Return (Buffer (One)
+                    {
+                         0x00                                             // .
+                    })
+                }
             }
         }
     }
@@ -9350,7 +8491,7 @@ DefinitionBlock ("", "DSDT", 2, "ALASKA", "A M I ", 0x0107200a)
                         "\\_SB.GPIO", 0x00, ResourceConsumer, ,
                         )
                         {   // Pin list
-                            0x0008
+                            0x0009
                         }
                 })
                 Return (RBUF) /* \_SB_.I2CC.TPDD._CRS.RBUF */
@@ -9452,7 +8593,7 @@ DefinitionBlock ("", "DSDT", 2, "ALASKA", "A M I ", 0x0107200a)
                         "\\_SB.GPIO", 0x00, ResourceConsumer, ,
                         )
                         {   // Pin list
-                            0x0008
+                            0x0009
                         }
                 })
                 Return (RBUF) /* \_SB_.I2CD.TPDD._CRS.RBUF */
@@ -9535,17 +8676,864 @@ DefinitionBlock ("", "DSDT", 2, "ALASKA", "A M I ", 0x0107200a)
         }
     }
 
+    Scope (_SB.I2CA)
+    {
+        Device (CMSZ)
+        {
+            Name (_ADR, Zero)  // _ADR: Address
+            Name (_HID, "CPLM3218" /* Capella Micro CM3218x Ambient Light Sensor */)  // _HID: Hardware ID
+            Name (_CID, "CPLM3218" /* Capella Micro CM3218x Ambient Light Sensor */)  // _CID: Compatible ID
+            Name (_UID, One)  // _UID: Unique ID
+            Name (_DEP, Package (0x01)  // _DEP: Dependencies
+            {
+                I2CA
+            })
+            Method (_STA, 0, NotSerialized)  // _STA: Status
+            {
+                If (((TPOS >= 0x60) & (ALST == Zero)))
+                {
+                    Return (0x0F)
+                }
+
+                Return (Zero)
+            }
+
+            Method (_CRS, 0, NotSerialized)  // _CRS: Current Resource Settings
+            {
+                Name (SBUF, ResourceTemplate ()
+                {
+                    I2cSerialBusV2 (0x0010, ControllerInitiated, 0x00061A80,
+                        AddressingMode7Bit, "\\_SB.I2CA",
+                        0x00, ResourceConsumer, , Exclusive,
+                        )
+                    GpioInt (Level, ActiveLow, ExclusiveAndWake, PullUp, 0x0000,
+                        "\\_SB.GPIO", 0x00, ResourceConsumer, ,
+                        )
+                        {   // Pin list
+                            0x0090
+                        }
+                })
+                Return (SBUF) /* \_SB_.I2CA.CMSZ._CRS.SBUF */
+            }
+
+            Name (CPM0, Package (0x07)
+            {
+                0x7DB5, 
+                One, 
+                0x0F, 
+                0x0840, 
+                0x013B, 
+                0x011D, 
+                Zero
+            })
+            Name (CPM1, Package (0x03)
+            {
+                0x0898, 
+                0x000186A0, 
+                0x000186A0
+            })
+            Name (CPM2, Package (0x06)
+            {
+                0x61A8, 
+                0x000186A0, 
+                0x000186A0, 
+                0x000186A0, 
+                0x00030D40, 
+                0x00186A00
+            })
+            Name (CPM3, Package (0x04)
+            {
+                Package (0x02)
+                {
+                    0x3C, 
+                    0x0A
+                }, 
+
+                Package (0x02)
+                {
+                    0x64, 
+                    0x0B
+                }, 
+
+                Package (0x02)
+                {
+                    0x64, 
+                    0x1F40
+                }, 
+
+                Package (0x02)
+                {
+                    0x01F4, 
+                    0x1F41
+                }
+            })
+            Name (CPM5, Package (0x07)
+            {
+                Zero, 
+                0x000249F0, 
+                0x0190, 
+                0x03E8, 
+                0x02, 
+                0x32, 
+                0x05
+            })
+            Method (_DSM, 4, NotSerialized)  // _DSM: Device-Specific Method
+            {
+                If ((Arg0 == ToUUID ("0703c6b6-1cca-4144-9fe7-4654f53a0bd9") /* Unknown UUID */))
+                {
+                    If ((Arg2 == Zero))
+                    {
+                        Return (Buffer (One)
+                        {
+                             0x03                                             // .
+                        })
+                    }
+
+                    If ((Arg2 == One))
+                    {
+                        If ((ToInteger (Arg3) == Zero))
+                        {
+                            Return (CPM0) /* \_SB_.I2CA.CMSZ.CPM0 */
+                        }
+
+                        If ((ToInteger (Arg3) == One))
+                        {
+                            Return (CPM1) /* \_SB_.I2CA.CMSZ.CPM1 */
+                        }
+
+                        If ((ToInteger (Arg3) == 0x02))
+                        {
+                            Return (CPM2) /* \_SB_.I2CA.CMSZ.CPM2 */
+                        }
+
+                        If ((ToInteger (Arg3) == 0x03))
+                        {
+                            Return (CPM3) /* \_SB_.I2CA.CMSZ.CPM3 */
+                        }
+
+                        If ((ToInteger (Arg3) == 0x05))
+                        {
+                            Return (CPM5) /* \_SB_.I2CA.CMSZ.CPM5 */
+                        }
+                    }
+                }
+
+                Return (Buffer (One)
+                {
+                     0x00                                             // .
+                })
+            }
+        }
+    }
+
+    Scope (_SB.I2CB)
+    {
+        Device (CMSZ)
+        {
+            Name (_ADR, Zero)  // _ADR: Address
+            Name (_HID, "CPLM3218" /* Capella Micro CM3218x Ambient Light Sensor */)  // _HID: Hardware ID
+            Name (_CID, "CPLM3218" /* Capella Micro CM3218x Ambient Light Sensor */)  // _CID: Compatible ID
+            Name (_UID, One)  // _UID: Unique ID
+            Name (_DEP, Package (0x01)  // _DEP: Dependencies
+            {
+                I2CB
+            })
+            Method (_STA, 0, NotSerialized)  // _STA: Status
+            {
+                If (((TPOS >= 0x60) & (ALST == One)))
+                {
+                    Return (0x0F)
+                }
+
+                Return (Zero)
+            }
+
+            Method (_CRS, 0, NotSerialized)  // _CRS: Current Resource Settings
+            {
+                Name (SBUF, ResourceTemplate ()
+                {
+                    I2cSerialBusV2 (0x0010, ControllerInitiated, 0x00061A80,
+                        AddressingMode7Bit, "\\_SB.I2CB",
+                        0x00, ResourceConsumer, , Exclusive,
+                        )
+                    GpioInt (Level, ActiveLow, ExclusiveAndWake, PullUp, 0x0000,
+                        "\\_SB.GPIO", 0x00, ResourceConsumer, ,
+                        )
+                        {   // Pin list
+                            0x0090
+                        }
+                })
+                Return (SBUF) /* \_SB_.I2CB.CMSZ._CRS.SBUF */
+            }
+
+            Name (CPM0, Package (0x07)
+            {
+                0x7DB5, 
+                One, 
+                0x0F, 
+                0x0840, 
+                0x013B, 
+                0x011D, 
+                Zero
+            })
+            Name (CPM1, Package (0x03)
+            {
+                0x0898, 
+                0x000186A0, 
+                0x000186A0
+            })
+            Name (CPM2, Package (0x06)
+            {
+                0x61A8, 
+                0x000186A0, 
+                0x000186A0, 
+                0x000186A0, 
+                0x00030D40, 
+                0x00186A00
+            })
+            Name (CPM3, Package (0x04)
+            {
+                Package (0x02)
+                {
+                    0x3C, 
+                    0x0A
+                }, 
+
+                Package (0x02)
+                {
+                    0x64, 
+                    0x0B
+                }, 
+
+                Package (0x02)
+                {
+                    0x64, 
+                    0x1F40
+                }, 
+
+                Package (0x02)
+                {
+                    0x01F4, 
+                    0x1F41
+                }
+            })
+            Name (CPM5, Package (0x07)
+            {
+                Zero, 
+                0x000249F0, 
+                0x0190, 
+                0x03E8, 
+                0x02, 
+                0x32, 
+                0x05
+            })
+            Method (_DSM, 4, NotSerialized)  // _DSM: Device-Specific Method
+            {
+                If ((Arg0 == ToUUID ("0703c6b6-1cca-4144-9fe7-4654f53a0bd9") /* Unknown UUID */))
+                {
+                    If ((Arg2 == Zero))
+                    {
+                        Return (Buffer (One)
+                        {
+                             0x03                                             // .
+                        })
+                    }
+
+                    If ((Arg2 == One))
+                    {
+                        If ((ToInteger (Arg3) == Zero))
+                        {
+                            Return (CPM0) /* \_SB_.I2CB.CMSZ.CPM0 */
+                        }
+
+                        If ((ToInteger (Arg3) == One))
+                        {
+                            Return (CPM1) /* \_SB_.I2CB.CMSZ.CPM1 */
+                        }
+
+                        If ((ToInteger (Arg3) == 0x02))
+                        {
+                            Return (CPM2) /* \_SB_.I2CB.CMSZ.CPM2 */
+                        }
+
+                        If ((ToInteger (Arg3) == 0x03))
+                        {
+                            Return (CPM3) /* \_SB_.I2CB.CMSZ.CPM3 */
+                        }
+
+                        If ((ToInteger (Arg3) == 0x05))
+                        {
+                            Return (CPM5) /* \_SB_.I2CB.CMSZ.CPM5 */
+                        }
+                    }
+                }
+
+                Return (Buffer (One)
+                {
+                     0x00                                             // .
+                })
+            }
+        }
+    }
+
+    Scope (_SB.I2CC)
+    {
+        Device (CMSZ)
+        {
+            Name (_ADR, Zero)  // _ADR: Address
+            Name (_HID, "CPLM3218" /* Capella Micro CM3218x Ambient Light Sensor */)  // _HID: Hardware ID
+            Name (_CID, "CPLM3218" /* Capella Micro CM3218x Ambient Light Sensor */)  // _CID: Compatible ID
+            Name (_UID, One)  // _UID: Unique ID
+            Name (_DEP, Package (0x01)  // _DEP: Dependencies
+            {
+                I2CC
+            })
+            Method (_STA, 0, NotSerialized)  // _STA: Status
+            {
+                If (((TPOS >= 0x60) & (ALST == 0x02)))
+                {
+                    Return (Zero)
+                }
+
+                Return (Zero)
+            }
+
+            Method (_CRS, 0, NotSerialized)  // _CRS: Current Resource Settings
+            {
+                Name (SBUF, ResourceTemplate ()
+                {
+                    I2cSerialBusV2 (0x0010, ControllerInitiated, 0x00061A80,
+                        AddressingMode7Bit, "\\_SB.I2CC",
+                        0x00, ResourceConsumer, , Exclusive,
+                        )
+                    GpioInt (Level, ActiveLow, ExclusiveAndWake, PullUp, 0x0000,
+                        "\\_SB.GPIO", 0x00, ResourceConsumer, ,
+                        )
+                        {   // Pin list
+                            0x0090
+                        }
+                })
+                Return (SBUF) /* \_SB_.I2CC.CMSZ._CRS.SBUF */
+            }
+
+            Name (CPM0, Package (0x07)
+            {
+                0x7DB5, 
+                One, 
+                0x0F, 
+                0x0840, 
+                0x013B, 
+                0x011D, 
+                Zero
+            })
+            Name (CPM1, Package (0x03)
+            {
+                0x0898, 
+                0x000186A0, 
+                0x000186A0
+            })
+            Name (CPM2, Package (0x06)
+            {
+                0x61A8, 
+                0x000186A0, 
+                0x000186A0, 
+                0x000186A0, 
+                0x00030D40, 
+                0x00186A00
+            })
+            Name (CPM3, Package (0x04)
+            {
+                Package (0x02)
+                {
+                    0x3C, 
+                    0x0A
+                }, 
+
+                Package (0x02)
+                {
+                    0x64, 
+                    0x0B
+                }, 
+
+                Package (0x02)
+                {
+                    0x64, 
+                    0x1F40
+                }, 
+
+                Package (0x02)
+                {
+                    0x01F4, 
+                    0x1F41
+                }
+            })
+            Name (CPM5, Package (0x07)
+            {
+                Zero, 
+                0x000249F0, 
+                0x0190, 
+                0x03E8, 
+                0x02, 
+                0x32, 
+                0x05
+            })
+            Method (_DSM, 4, NotSerialized)  // _DSM: Device-Specific Method
+            {
+                If ((Arg0 == ToUUID ("0703c6b6-1cca-4144-9fe7-4654f53a0bd9") /* Unknown UUID */))
+                {
+                    If ((Arg2 == Zero))
+                    {
+                        Return (Buffer (One)
+                        {
+                             0x03                                             // .
+                        })
+                    }
+
+                    If ((Arg2 == One))
+                    {
+                        If ((ToInteger (Arg3) == Zero))
+                        {
+                            Return (CPM0) /* \_SB_.I2CC.CMSZ.CPM0 */
+                        }
+
+                        If ((ToInteger (Arg3) == One))
+                        {
+                            Return (CPM1) /* \_SB_.I2CC.CMSZ.CPM1 */
+                        }
+
+                        If ((ToInteger (Arg3) == 0x02))
+                        {
+                            Return (CPM2) /* \_SB_.I2CC.CMSZ.CPM2 */
+                        }
+
+                        If ((ToInteger (Arg3) == 0x03))
+                        {
+                            Return (CPM3) /* \_SB_.I2CC.CMSZ.CPM3 */
+                        }
+
+                        If ((ToInteger (Arg3) == 0x05))
+                        {
+                            Return (CPM5) /* \_SB_.I2CC.CMSZ.CPM5 */
+                        }
+                    }
+                }
+
+                Return (Buffer (One)
+                {
+                     0x00                                             // .
+                })
+            }
+        }
+    }
+
+    Scope (_SB.I2CD)
+    {
+        Device (CMSZ)
+        {
+            Name (_ADR, Zero)  // _ADR: Address
+            Name (_HID, "CPLM3218" /* Capella Micro CM3218x Ambient Light Sensor */)  // _HID: Hardware ID
+            Name (_CID, "CPLM3218" /* Capella Micro CM3218x Ambient Light Sensor */)  // _CID: Compatible ID
+            Name (_UID, One)  // _UID: Unique ID
+            Name (_DEP, Package (0x01)  // _DEP: Dependencies
+            {
+                I2CD
+            })
+            Method (_STA, 0, NotSerialized)  // _STA: Status
+            {
+                If (((TPOS >= 0x60) & (ALST == 0x03)))
+                {
+                    Return (0x0F)
+                }
+
+                Return (Zero)
+            }
+
+            Method (_CRS, 0, NotSerialized)  // _CRS: Current Resource Settings
+            {
+                Name (SBUF, ResourceTemplate ()
+                {
+                    I2cSerialBusV2 (0x0010, ControllerInitiated, 0x00061A80,
+                        AddressingMode7Bit, "\\_SB.I2CD",
+                        0x00, ResourceConsumer, , Exclusive,
+                        )
+                    GpioInt (Level, ActiveLow, ExclusiveAndWake, PullUp, 0x0000,
+                        "\\_SB.GPIO", 0x00, ResourceConsumer, ,
+                        )
+                        {   // Pin list
+                            0x0090
+                        }
+                })
+                Return (SBUF) /* \_SB_.I2CD.CMSZ._CRS.SBUF */
+            }
+
+            Name (CPM0, Package (0x07)
+            {
+                0x7DB5, 
+                One, 
+                0x0F, 
+                0x0840, 
+                0x013B, 
+                0x011D, 
+                Zero
+            })
+            Name (CPM1, Package (0x03)
+            {
+                0x0898, 
+                0x000186A0, 
+                0x000186A0
+            })
+            Name (CPM2, Package (0x06)
+            {
+                0x61A8, 
+                0x000186A0, 
+                0x000186A0, 
+                0x000186A0, 
+                0x00030D40, 
+                0x00186A00
+            })
+            Name (CPM3, Package (0x04)
+            {
+                Package (0x02)
+                {
+                    0x3C, 
+                    0x0A
+                }, 
+
+                Package (0x02)
+                {
+                    0x64, 
+                    0x0B
+                }, 
+
+                Package (0x02)
+                {
+                    0x64, 
+                    0x1F40
+                }, 
+
+                Package (0x02)
+                {
+                    0x01F4, 
+                    0x1F41
+                }
+            })
+            Name (CPM5, Package (0x07)
+            {
+                Zero, 
+                0x000249F0, 
+                0x0190, 
+                0x03E8, 
+                0x02, 
+                0x32, 
+                0x05
+            })
+            Method (_DSM, 4, NotSerialized)  // _DSM: Device-Specific Method
+            {
+                If ((Arg0 == ToUUID ("0703c6b6-1cca-4144-9fe7-4654f53a0bd9") /* Unknown UUID */))
+                {
+                    If ((Arg2 == Zero))
+                    {
+                        Return (Buffer (One)
+                        {
+                             0x03                                             // .
+                        })
+                    }
+
+                    If ((Arg2 == One))
+                    {
+                        If ((ToInteger (Arg3) == Zero))
+                        {
+                            Return (CPM0) /* \_SB_.I2CD.CMSZ.CPM0 */
+                        }
+
+                        If ((ToInteger (Arg3) == One))
+                        {
+                            Return (CPM1) /* \_SB_.I2CD.CMSZ.CPM1 */
+                        }
+
+                        If ((ToInteger (Arg3) == 0x02))
+                        {
+                            Return (CPM2) /* \_SB_.I2CD.CMSZ.CPM2 */
+                        }
+
+                        If ((ToInteger (Arg3) == 0x03))
+                        {
+                            Return (CPM3) /* \_SB_.I2CD.CMSZ.CPM3 */
+                        }
+
+                        If ((ToInteger (Arg3) == 0x05))
+                        {
+                            Return (CPM5) /* \_SB_.I2CD.CMSZ.CPM5 */
+                        }
+                    }
+                }
+
+                Return (Buffer (One)
+                {
+                     0x00                                             // .
+                })
+            }
+        }
+    }
+
+    Scope (_TZ)
+    {
+        ThermalZone (TZ01)
+        {
+            Name (CRTT, 0x6E)
+            Name (PSVT, 0x32)
+            Name (TSPS, 0x14)
+            Method (_TMP, 0, Serialized)  // _TMP: Temperature
+            {
+                If (\_SB.PCI0.SBRG.ECOK ())
+                {
+                    If (!Acquire (\_SB.PCI0.SBRG.EC0.Z009, 0x012C))
+                    {
+                        Local0 = \_SB.PCI0.SBRG.EC0.DIEH
+                        Release (\_SB.PCI0.SBRG.EC0.Z009)
+                        Return ((0x0AAC + (Local0 * 0x0A)))
+                    }
+
+                    Return (0x0B74)
+                }
+                Else
+                {
+                    Return (0x0B74)
+                }
+            }
+
+            Method (_PSL, 0, Serialized)  // _PSL: Passive List
+            {
+                Return (Package (0x10)
+                {
+                    \_SB.PLTF.P000, 
+                    \_SB.PLTF.P001, 
+                    \_SB.PLTF.P002, 
+                    \_SB.PLTF.P003, 
+                    \_SB.PLTF.P004, 
+                    \_SB.PLTF.P005, 
+                    \_SB.PLTF.P006, 
+                    \_SB.PLTF.P007, 
+                    \_SB.PLTF.P008, 
+                    \_SB.PLTF.P009, 
+                    \_SB.PLTF.P00A, 
+                    \_SB.PLTF.P00B, 
+                    \_SB.PLTF.P00C, 
+                    \_SB.PLTF.P00D, 
+                    \_SB.PLTF.P00E, 
+                    \_SB.PLTF.P00F
+                })
+            }
+
+            Method (_CRT, 0, Serialized)  // _CRT: Critical Temperature
+            {
+                Return ((0x0AAC + (CRTT * 0x0A)))
+            }
+
+            Method (_PSV, 0, Serialized)  // _PSV: Passive Temperature
+            {
+                Return ((0x0AAC + (PSVT * 0x0A)))
+            }
+
+            Method (_TC1, 0, Serialized)  // _TC1: Thermal Constant 1
+            {
+                Return (One)
+            }
+
+            Method (_TC2, 0, Serialized)  // _TC2: Thermal Constant 2
+            {
+                Return (0x02)
+            }
+
+            Method (_TSP, 0, Serialized)  // _TSP: Thermal Sampling Period
+            {
+                Return (TSPS) /* \_TZ_.TZ01.TSPS */
+            }
+        }
+    }
+
     Scope (_SB.PCI0.SBRG)
     {
+        Device (PS2K)
+        {
+            Name (_HID, "MSFT0001")  // _HID: Hardware ID
+            Name (_CID, EisaId ("PNP0303") /* IBM Enhanced Keyboard (101/102-key, PS/2 Mouse) */)  // _CID: Compatible ID
+            Method (_STA, 0, NotSerialized)  // _STA: Status
+            {
+                Return (0x0F)
+            }
+
+            Name (_CRS, ResourceTemplate ()  // _CRS: Current Resource Settings
+            {
+                IO (Decode16,
+                    0x0060,             // Range Minimum
+                    0x0060,             // Range Maximum
+                    0x00,               // Alignment
+                    0x01,               // Length
+                    )
+                IO (Decode16,
+                    0x0064,             // Range Minimum
+                    0x0064,             // Range Maximum
+                    0x00,               // Alignment
+                    0x01,               // Length
+                    )
+                IRQNoFlags ()
+                    {1}
+            })
+            Name (_PRS, ResourceTemplate ()  // _PRS: Possible Resource Settings
+            {
+                StartDependentFn (0x00, 0x00)
+                {
+                    IO (Decode16,
+                        0x0060,             // Range Minimum
+                        0x0060,             // Range Maximum
+                        0x00,               // Alignment
+                        0x01,               // Length
+                        )
+                    IO (Decode16,
+                        0x0064,             // Range Minimum
+                        0x0064,             // Range Maximum
+                        0x00,               // Alignment
+                        0x01,               // Length
+                        )
+                    IRQNoFlags ()
+                        {1}
+                }
+                EndDependentFn ()
+            })
+            Method (_PSW, 1, NotSerialized)  // _PSW: Power State Wake
+            {
+                KBFG = Arg0
+            }
+        }
+
+        Scope (\)
+        {
+            Name (KBFG, One)
+        }
+    }
+
+    Scope (_SB)
+    {
+        Device (ACAD)
+        {
+            Name (_HID, "ACPI0003" /* Power Source Device */)  // _HID: Hardware ID
+            Name (_PCL, Package (0x01)  // _PCL: Power Consumer List
+            {
+                _SB
+            })
+            Name (XX00, Buffer (0x03){})
+            Name (ACDC, 0xFF)
+            Method (_PSR, 0, NotSerialized)  // _PSR: Power Source
+            {
+                Local0 = One
+                If (^^PCI0.SBRG.ECOK ())
+                {
+                    If (!Acquire (^^PCI0.SBRG.EC0.Z009, 0x012C))
+                    {
+                        Local0 = ^^PCI0.SBRG.EC0.ECWR /* \_SB_.PCI0.SBRG.EC0_.ECWR */
+                        Local0 = (Local0 && One)
+                        CreateWordField (XX00, Zero, SSZE)
+                        CreateByteField (XX00, 0x02, ACST)
+                        SSZE = 0x03
+                        If ((Local0 != ACDC))
+                        {
+                            If (Local0)
+                            {
+                                P80H = 0xECAC
+                                AFN4 (One)
+                                ACST = Zero
+                            }
+                            Else
+                            {
+                                P80H = 0xECDC
+                                AFN4 (0x02)
+                                ACST = One
+                            }
+
+                            ALIB (One, XX00)
+                            ACDC = Local0
+                        }
+
+                        Release (^^PCI0.SBRG.EC0.Z009)
+                    }
+                }
+
+                Return (Local0)
+            }
+
+            Method (_STA, 0, NotSerialized)  // _STA: Status
+            {
+                Return (Zero)
+            }
+        }
+    }
+
+    Scope (_SB)
+    {
+        OperationRegion (DEB0, SystemIO, 0x72, 0x02)
+        Field (DEB0, ByteAcc, NoLock, Preserve)
+        {
+            CMS0,   8, 
+            CMS1,   8
+        }
+
+        Method (CMSW, 2, NotSerialized)
+        {
+            CMS0 = Arg0
+            Sleep (One)
+            CMS1 = Arg1
+            Sleep (One)
+        }
+
+        Method (CMSR, 1, NotSerialized)
+        {
+            CMS0 = Arg0
+            Sleep (One)
+            Local0 = CMS1 /* \_SB_.CMS1 */
+            Sleep (One)
+            Return (Local0)
+        }
+
+        Method (CMW4, 2, NotSerialized)
+        {
+            Local0 = (Arg1 & 0xFF000000)
+            Local0 >>= 0x18
+            CMSW ((Arg0 + Zero), Local0)
+            Local0 = (Arg1 & 0x00FF0000)
+            Local0 >>= 0x10
+            CMSW ((Arg0 + One), Local0)
+            Local0 = (Arg1 & 0xFF00)
+            Local0 >>= 0x08
+            CMSW ((Arg0 + 0x02), Local0)
+            Local0 = (Arg1 & 0xFF)
+            Local0 >>= Zero
+            CMSW ((Arg0 + 0x03), Local0)
+        }
+    }
+
+    Scope (_SB.PCI0.SBRG)
+    {
+        Method (ECOK, 0, NotSerialized)
+        {
+            If ((^EC0.OKEC == One))
+            {
+                Return (One)
+            }
+            Else
+            {
+                Return (Zero)
+            }
+        }
+
         Device (EC0)
         {
             Name (_HID, EisaId ("PNP0C09") /* Embedded Controller Device */)  // _HID: Hardware ID
-            Name (_GPE, 0x03)  // _GPE: General Purpose Events
             Name (ECFG, Zero)
             Name (WIBT, Zero)
             Name (_UID, One)  // _UID: Unique ID
             Name (APST, Zero)
-            Name (ECON, One)
+            Name (_GPE, 0x03)  // _GPE: General Purpose Events
             Name (B1CC, Zero)
             Name (B2CC, Zero)
             Name (B2ST, Zero)
@@ -9577,35 +9565,9 @@ DefinitionBlock ("", "DSDT", 2, "ALASKA", "A M I ", 0x0107200a)
             Name (PB10, Zero)
             Name (IWCW, Zero)
             Name (IWCR, Zero)
-            Name (BTEN, Zero)
-            Name (PWRS, Zero)
-            Name (BNUM, One)
+            Name (PVOL, Zero)
             Mutex (ECMT, 0x00)
-            Name (CPLT, Buffer (0x07){})
-            CreateWordField (CPLT, Zero, CSZE)
-            CreateByteField (CPLT, 0x02, CSID)
-            CreateDWordField (CPLT, 0x03, CSDV)
-            Method (_STA, 0, NotSerialized)  // _STA: Status
-            {
-                CSZE = 0x07
-                CSID = 0x04
-                CSDV = 0x6D60
-                ALIB (0x0C, CPLT)
-                CSID = 0x05
-                CSDV = 0x6D60
-                ALIB (0x0C, CPLT)
-                CSID = 0x06
-                CSDV = 0x6D60
-                ALIB (0x0C, CPLT)
-                CSID = 0x07
-                CSDV = 0x6D60
-                ALIB (0x0C, CPLT)
-                CSID = 0x08
-                CSDV = 0x05
-                ALIB (0x0C, CPLT)
-                Return (0x0F)
-            }
-
+            Mutex (Z009, 0x00)
             Method (_CRS, 0, NotSerialized)  // _CRS: Current Resource Settings
             {
                 Name (BFFR, ResourceTemplate ()
@@ -9613,35 +9575,41 @@ DefinitionBlock ("", "DSDT", 2, "ALASKA", "A M I ", 0x0107200a)
                     IO (Decode16,
                         0x0062,             // Range Minimum
                         0x0062,             // Range Maximum
-                        0x01,               // Alignment
+                        0x00,               // Alignment
                         0x01,               // Length
                         )
                     IO (Decode16,
                         0x0066,             // Range Minimum
                         0x0066,             // Range Maximum
-                        0x01,               // Alignment
+                        0x00,               // Alignment
                         0x01,               // Length
                         )
                 })
                 Return (BFFR) /* \_SB_.PCI0.SBRG.EC0_._CRS.BFFR */
             }
 
+            Method (_STA, 0, NotSerialized)  // _STA: Status
+            {
+                Return (0x0F)
+            }
+
             Method (_REG, 2, NotSerialized)  // _REG: Region Availability
             {
-                If (((Arg0 == 0x03) && (Arg1 == One)))
+                If ((Arg0 == 0x03))
                 {
-                    ECAV = One
-                    BNUM = Zero
-                    BNUM |= ((ECRD (RefOf (ECWR)) & 0x02) >> One)
-                    Local0 = PWRS /* \_SB_.PCI0.SBRG.EC0_.PWRS */
-                    If ((BNUM == Zero))
+                    If (!Acquire (Z009, 0x012C))
                     {
-                        PWRS = ECRD (RefOf (VPWR))
+                        Local0 = STAS /* \_SB_.PCI0.SBRG.EC0_.STAS */
+                        Local1 = (Local0 | 0x04)
+                        STAS = Local1
+                        Release (Z009)
                     }
-                    Else
-                    {
-                        PWRS = (ECRD (RefOf (ECWR)) & One)
-                    }
+
+                    OKEC = Arg1
+                    Notify (ACAD, 0x80) // Status Change
+                    Notify (BAT0, 0x80) // Status Change
+                    Notify (BAT0, 0x81) // Information Change
+                    If (OKEC){}
                 }
             }
 
@@ -9651,28 +9619,44 @@ DefinitionBlock ("", "DSDT", 2, "ALASKA", "A M I ", 0x0107200a)
                 XXX0,   8, 
                 XXX1,   8, 
                 XXX2,   8, 
+                Offset (0x07), 
+                SHIP,   8, 
+                Offset (0x0C), 
+                ECBY,   8, 
                 Offset (0x11), 
                 KBCD,   8, 
-                ECOS,   8, 
-                HDAO,   8, 
-                Offset (0x18), 
-                KLBS,   8, 
-                KLBE,   8, 
-                Offset (0x20), 
+                Offset (0x1F), 
+                RECV,   8, 
                 RCMD,   8, 
                 RCST,   8, 
-                Offset (0x60), 
-                TSR1,   8, 
+                TESR,   8, 
+                Offset (0x30), 
+                EC30,   8, 
+                EC31,   8, 
+                EC32,   8, 
+                EC33,   8, 
+                EC34,   8, 
+                EC35,   8, 
+                EC36,   8, 
+                Offset (0x4B), 
+                FNS1,   8, 
+                Offset (0x4F), 
+                FNS2,   8, 
+                Offset (0x62), 
                 TSR2,   8, 
-                TER4,   8, 
                 TSI,    4, 
                 HYST,   4, 
                 TSHT,   8, 
                 TSLT,   8, 
                 TSSR,   8, 
                 CHGR,   16, 
+                Offset (0x6A), 
+                TBAT,   8, 
                 Offset (0x72), 
-                TER2,   8, 
+                TSR1,   8, 
+                TSR3,   8, 
+                TS4H,   8, 
+                TS4L,   8, 
                 Offset (0x7F), 
                 LSTE,   1, 
                 Offset (0x80), 
@@ -9688,10 +9672,23 @@ DefinitionBlock ("", "DSDT", 2, "ALASKA", "A M I ", 0x0107200a)
                 B1RC,   16, 
                 B1VT,   16, 
                 BPCN,   8, 
-                Offset (0xA3), 
-                MUTE,   8, 
-                DBG1,   8, 
                 Offset (0xC0), 
+                VER1,   8, 
+                VER2,   8, 
+                RSV1,   8, 
+                RSV2,   8, 
+                CCI0,   8, 
+                CCI1,   8, 
+                CCI2,   8, 
+                CCI3,   8, 
+                CTL0,   8, 
+                CTL1,   8, 
+                CTL2,   8, 
+                CTL3,   8, 
+                CTL4,   8, 
+                CTL5,   8, 
+                CTL6,   8, 
+                STAS,   8, 
                 MGI0,   8, 
                 MGI1,   8, 
                 MGI2,   8, 
@@ -9722,33 +9719,73 @@ DefinitionBlock ("", "DSDT", 2, "ALASKA", "A M I ", 0x0107200a)
                 MGOB,   8, 
                 MGOC,   8, 
                 MGOD,   8, 
-                MGOE,   8, 
-                MGOF,   8, 
-                VER1,   8, 
-                VER2,   8, 
-                RSV1,   8, 
-                RSV2,   8, 
-                CCI0,   8, 
-                CCI1,   8, 
-                CCI2,   8, 
-                CCI3,   8, 
-                CTL0,   8, 
-                CTL1,   8, 
-                CTL2,   8, 
-                CTL3,   8, 
-                CTL4,   8, 
-                CTL5,   8, 
-                CTL6,   8, 
-                CTL7,   8, 
-                    ,   3, 
-                TPCC,   1, 
-                    ,   2, 
-                DRMD,   1, 
-                Offset (0xF1)
+                CHSH,   8, 
+                BALT,   8, 
+                KBFG,   8, 
+                SYSK,   8, 
+                DIEL,   8, 
+                DIEH,   8, 
+                Offset (0xF5), 
+                Offset (0xF8), 
+                Offset (0xF9), 
+                Offset (0xFA), 
+                Offset (0xFB), 
+                Offset (0xFC)
+            }
+
+            Name (OKEC, Zero)
+            Method (_Q54, 0, NotSerialized)  // _Qxx: EC Query, xx=0x00-0xFF
+            {
+            }
+
+            Method (_QD5, 0, NotSerialized)  // _Qxx: EC Query, xx=0x00-0xFF
+            {
+            }
+
+            Method (_QD6, 0, NotSerialized)  // _Qxx: EC Query, xx=0x00-0xFF
+            {
+            }
+
+            Name (DPTF, Buffer (0x11){})
+            Method (_Q49, 0, NotSerialized)  // _Qxx: EC Query, xx=0x00-0xFF
+            {
+                P80H = 0x49
+                If (!Acquire (Z009, 0x012C))
+                {
+                    CreateWordField (DPTF, Zero, SSZE)
+                    CreateByteField (DPTF, 0x02, CID1)
+                    CreateDWordField (DPTF, 0x03, PWR1)
+                    CreateByteField (DPTF, 0x07, CID2)
+                    CreateDWordField (DPTF, 0x08, PWR2)
+                    CreateByteField (DPTF, 0x0C, CID3)
+                    CreateDWordField (DPTF, 0x0D, PWR3)
+                    SSZE = 0x11
+                    CID1 = 0x05
+                    CID2 = 0x06
+                    CID3 = 0x07
+                    PWR1 = (EC31 * 0x03E8)
+                    PWR2 = (EC32 * 0x03E8)
+                    PWR3 = (EC33 * 0x03E8)
+                    If (!Acquire (Z009, 0x012C))
+                    {
+                        ALIB (0x0C, DPTF)
+                        Release (Z009)
+                    }
+                }
+            }
+
+            Method (_QF9, 0, NotSerialized)  // _Qxx: EC Query, xx=0x00-0xFF
+            {
+            }
+
+            Method (SECC, 1, NotSerialized)
+            {
+                RCMD = Arg0
             }
 
             Method (ECMD, 1, Serialized)
             {
+                SECC (Arg0)
             }
 
             Method (ECWT, 2, Serialized)
@@ -9788,26 +9825,19 @@ DefinitionBlock ("", "DSDT", 2, "ALASKA", "A M I ", 0x0107200a)
                 Name (_HID, "ACPI0003" /* Power Source Device */)  // _HID: Hardware ID
                 Method (_STA, 0, NotSerialized)  // _STA: Status
                 {
-                    If ((ECON == One))
-                    {
-                        Return (0x0F)
-                    }
-
-                    Return (Zero)
+                    Return (0x0F)
                 }
 
                 Method (_PSR, 0, NotSerialized)  // _PSR: Power Source
                 {
                     If ((ECWR & One))
                     {
-                        PWRS = One
+                        Return (One)
                     }
                     Else
                     {
-                        PWRS = Zero
+                        Return (Zero)
                     }
-
-                    Return (PWRS) /* \_SB_.PCI0.SBRG.EC0_.PWRS */
                 }
 
                 Method (_PCL, 0, NotSerialized)  // _PCL: Power Consumer List
@@ -9823,11 +9853,11 @@ DefinitionBlock ("", "DSDT", 2, "ALASKA", "A M I ", 0x0107200a)
             {
                 Name (_HID, EisaId ("PNP0C0A") /* Control Method Battery */)  // _HID: Hardware ID
                 Name (_UID, One)  // _UID: Unique ID
-                Name (DZVL, 0x72)
                 Method (_STA, 0, NotSerialized)  // _STA: Status
                 {
                     If ((ECWR & 0x02))
                     {
+                        RECV = Zero
                         Return (0x1F)
                     }
 
@@ -9836,7 +9866,7 @@ DefinitionBlock ("", "DSDT", 2, "ALASKA", "A M I ", 0x0107200a)
 
                 Method (_BIF, 0, NotSerialized)  // _BIF: Battery Information
                 {
-                    Name (BPKG, Package (0x0D)
+                    Name (BPK1, Package (0x0D)
                     {
                         Zero, 
                         Ones, 
@@ -9847,26 +9877,28 @@ DefinitionBlock ("", "DSDT", 2, "ALASKA", "A M I ", 0x0107200a)
                         Zero, 
                         0x64, 
                         Zero, 
-                        "Li-ion Battery", 
-                        "00", 
+                        "Li-ion Real Battery", 
+                        "123456789", 
                         "Lion", 
-                        "Picasoo"
+                        "Amd Battery"
                     })
-                    BPKG [One] = ((B1DC * DZVL) / 0x0A)
-                    BPKG [0x02] = ((B1FC * DZVL) / 0x0A)
+                    BPK1 [One] = ((B1DC * B1FV) / 0x03E8)
+                    BPK1 [0x02] = ((B1DC * B1FV) / 0x03E8)
                     If (B1FC)
                     {
-                        BPKG [0x05] = ((B1FC * DZVL) / DZVL)
-                        BPKG [0x06] = ((B1FC * DZVL) / 0xFA)
-                        BPKG [0x07] = ((B1DC * DZVL) / 0x03E8)
+                        BPK1 [0x05] = (((B1FC * B1FV) / 0x03E8
+                            ) / 0x0A)
+                        BPK1 [0x06] = (((B1FC * B1FV) / 0x03E8
+                            ) / 0x19)
+                        BPK1 [0x07] = (((B1DC * B1FV) / 0x03E8
+                            ) / 0x64)
                     }
 
-                    Return (BPKG) /* \_SB_.PCI0.SBRG.EC0_.BAT0._BIF.BPKG */
+                    Return (BPK1) /* \_SB_.PCI0.SBRG.EC0_.BAT0._BIF.BPK1 */
                 }
 
                 Method (_BST, 0, NotSerialized)  // _BST: Battery Status
                 {
-                    DZVL = (B1FV / 0x64)
                     Name (PKG1, Package (0x04)
                     {
                         Ones, 
@@ -9888,7 +9920,10 @@ DefinitionBlock ("", "DSDT", 2, "ALASKA", "A M I ", 0x0107200a)
                         PKG1 [One] = Local0
                     }
 
-                    PKG1 [0x02] = ((B1RC * DZVL) / 0x0A)
+                    Local1 = (B1DC * BPCN)
+                    Local1 = (Local1 / 0x64)
+                    Local2 = ((Local1 * B1FV) / 0x03E8)
+                    PKG1 [0x02] = Local2
                     PKG1 [0x03] = B1FV /* \_SB_.PCI0.SBRG.EC0_.B1FV */
                     Return (PKG1) /* \_SB_.PCI0.SBRG.EC0_.BAT0._BST.PKG1 */
                 }
@@ -9909,23 +9944,14 @@ DefinitionBlock ("", "DSDT", 2, "ALASKA", "A M I ", 0x0107200a)
                 Notify (^^^GP17.VGA.LCD, 0x86) // Device-Specific
             }
 
-            Method (_Q54, 0, NotSerialized)  // _Qxx: EC Query, xx=0x00-0xFF
-            {
-                If (CondRefOf (\_SB.PWRB))
-                {
-                    Notify (PWRB, 0x80) // Status Change
-                }
-            }
-
             Method (_Q0A, 0, NotSerialized)  // _Qxx: EC Query, xx=0x00-0xFF
             {
                 If ((ECWR & One))
                 {
-                    PWRS = One
+                    SHIP = Zero
                 }
                 Else
                 {
-                    PWRS = Zero
                 }
 
                 Sleep (0x01F4)
@@ -9944,24 +9970,326 @@ DefinitionBlock ("", "DSDT", 2, "ALASKA", "A M I ", 0x0107200a)
 
             Method (_Q0C, 0, NotSerialized)  // _Qxx: EC Query, xx=0x00-0xFF
             {
-                LSTA = One
-                Notify (LID, 0x80) // Status Change
+                LIDS = Zero
+                Notify (LID0, 0x80) // Status Change
             }
 
             Method (_Q0D, 0, NotSerialized)  // _Qxx: EC Query, xx=0x00-0xFF
             {
-                LSTA = Zero
-                Notify (LID, 0x80) // Status Change
+                LIDS = One
+                Notify (LID0, 0x80) // Status Change
             }
 
-            Name (LSTA, One)
-            Device (LID)
+            Name (PSEV, Package (0x02)
+            {
+                Package (0x08)
+                {
+                    Zero, 
+                    One, 
+                    0x02, 
+                    0x03, 
+                    0x04, 
+                    0x05, 
+                    0x06, 
+                    0x08
+                }, 
+
+                Package (0x08)
+                {
+                    Zero, 
+                    One, 
+                    0x02, 
+                    0x03, 
+                    0x04, 
+                    0x05, 
+                    0x07, 
+                    0x09
+                }
+            })
+            Device (LID0)
             {
                 Name (_HID, EisaId ("PNP0C0D") /* Lid Device */)  // _HID: Hardware ID
+                Method (_STA, 0, NotSerialized)  // _STA: Status
+                {
+                    Return (0x0F)
+                }
+
+                Name (_PRW, Package (0x02)  // _PRW: Power Resources for Wake
+                {
+                    0x16, 
+                    0x04
+                })
                 Method (_LID, 0, NotSerialized)  // _LID: Lid Status
                 {
-                    Return (LSTE) /* \_SB_.PCI0.SBRG.EC0_.LSTE */
+                    If ((ECRD (RefOf (LSTE)) == One))
+                    {
+                        Return (One)
+                    }
+                    Else
+                    {
+                        Return (Zero)
+                    }
                 }
+            }
+
+            Device (CIND)
+            {
+                Name (_HID, "INT33D3" /* Intel GPIO Buttons */)  // _HID: Hardware ID
+                Name (_CID, "PNP0C60" /* Display Sensor Device */)  // _CID: Compatible ID
+                Method (_STA, 0, Serialized)  // _STA: Status
+                {
+                    Return (0x0F)
+                }
+            }
+
+            Device (DIND)
+            {
+                Name (_HID, "INT33D4" /* Intel GPIO Buttons */)  // _HID: Hardware ID
+                Name (_CID, "PNP0C70" /* Dock Sensor Device */)  // _CID: Compatible ID
+                Method (_STA, 0, Serialized)  // _STA: Status
+                {
+                    Return (Zero)
+                }
+            }
+
+            Method (ECNT, 1, Serialized)
+            {
+                Return (Zero)
+            }
+        }
+    }
+
+    Device (_SB.PCI0.DOCK)
+    {
+        Name (_HID, "ABCD0000")  // _HID: Hardware ID
+        Name (_CID, EisaId ("PNP0C15") /* Docking Station */)  // _CID: Compatible ID
+        Name (_UID, 0x02)  // _UID: Unique ID
+        Method (_STA, 0, NotSerialized)  // _STA: Status
+        {
+            Return (Zero)
+        }
+    }
+
+    Scope (_SB.GPIO)
+    {
+        Method (_AEI, 0, NotSerialized)  // _AEI: ACPI Event Interrupts
+        {
+            Name (BUF0, ResourceTemplate ()
+            {
+                GpioInt (Edge, ActiveHigh, ExclusiveAndWake, PullDefault, 0x1388,
+                    "\\_SB.GPIO", 0x00, ResourceConsumer, ,
+                    )
+                    {   // Pin list
+                        0x0000
+                    }
+            })
+            Return (BUF0) /* \_SB_.GPIO._AEI.BUF0 */
+        }
+
+        OperationRegion (ECRM, EmbeddedControl, Zero, 0xFF)
+        Field (ECRM, ByteAcc, NoLock, Preserve)
+        {
+            Offset (0xCC), 
+            PBCN,   1
+        }
+
+        Method (_EVT, 1, Serialized)  // _EVT: Event
+        {
+            Switch (ToInteger (Arg0))
+            {
+                Case (Zero)
+                {
+                    Local0 = PBCN /* \_SB_.GPIO.PBCN */
+                    Local0 &= One
+                    If ((Local0 == One))
+                    {
+                        Notify (PWRB, 0x80) // Status Change
+                    }
+                }
+
+            }
+        }
+    }
+
+    Scope (_SB.I2CA)
+    {
+        Device (TCS3)
+        {
+            Name (_ADR, Zero)  // _ADR: Address
+            Name (_HID, "GDIX1002")  // _HID: Hardware ID
+            Name (_CID, "GDIX1002")  // _CID: Compatible ID
+            Name (_S0W, Zero)  // _S0W: S0 Device Wake State
+            Name (_DEP, Package (0x02)  // _DEP: Dependencies
+            {
+                GPIO, 
+                I2CA
+            })
+            Method (_STA, 0, NotSerialized)  // _STA: Status
+            {
+                Return (0x0F)
+            }
+
+            Method (_PS0, 0, NotSerialized)  // _PS0: Power State 0
+            {
+                INIT ()
+            }
+
+            Method (_PS3, 0, NotSerialized)  // _PS3: Power State 3
+            {
+            }
+
+            Method (_CRS, 0, NotSerialized)  // _CRS: Current Resource Settings
+            {
+                Name (RBUF, ResourceTemplate ()
+                {
+                    I2cSerialBusV2 (0x0014, ControllerInitiated, 0x00061A80,
+                        AddressingMode7Bit, "\\_SB.I2CA",
+                        0x00, ResourceConsumer, , Exclusive,
+                        )
+                    GpioInt (Edge, ActiveHigh, Exclusive, PullNone, 0x0000,
+                        "\\_SB.GPIO", 0x00, ResourceConsumer, ,
+                        )
+                        {   // Pin list
+                            0x000C
+                        }
+                })
+                Return (RBUF) /* \_SB_.I2CA.TCS3._CRS.RBUF */
+            }
+
+            OperationRegion (GIOA, SystemMemory, 0xFED81500, 0x0400)
+            Field (GIOA, DWordAcc, NoLock, Preserve)
+            {
+                Offset (0x30), 
+                TP_I,   32, 
+                Offset (0x16C), 
+                TP_R,   32
+            }
+
+            Method (INIT, 0, Serialized)
+            {
+                TP_I = 0x00A50000
+                TP_R = 0x00A50000
+                Sleep (0x0A)
+                TP_I = 0x00E50000
+                Sleep (One)
+                TP_R = 0x00E50000
+                Sleep (0x06)
+                TP_I = 0x00A50000
+                Sleep (0x3C)
+                TP_I = 0x00041800
+            }
+        }
+    }
+
+    Scope (_SB.I2CD)
+    {
+        Device (KXJ4)
+        {
+            Name (_ADR, Zero)  // _ADR: Address
+            Name (_HID, "KIOX000A")  // _HID: Hardware ID
+            Name (_CID, "KIOX000A")  // _CID: Compatible ID
+            Name (_DDN, "KionixKXCJ9 Accelerometer")  // _DDN: DOS Device Name
+            Name (_UID, One)  // _UID: Unique ID
+            Name (_DEP, Package (0x01)  // _DEP: Dependencies
+            {
+                I2CD
+            })
+            Method (_STA, 0, NotSerialized)  // _STA: Status
+            {
+                If ((GSSR == One))
+                {
+                    Return (0x0F)
+                }
+
+                Return (Zero)
+            }
+
+            Method (_CRS, 0, NotSerialized)  // _CRS: Current Resource Settings
+            {
+                Name (RBUF, ResourceTemplate ()
+                {
+                    I2cSerialBusV2 (0x000E, ControllerInitiated, 0x00061A80,
+                        AddressingMode7Bit, "\\_SB.I2CD",
+                        0x00, ResourceConsumer, , Exclusive,
+                        )
+                })
+                Return (RBUF) /* \_SB_.I2CD.KXJ4._CRS.RBUF */
+            }
+
+            Method (_CDM, 1, NotSerialized)  // _CDM: Clock Domain
+            {
+                Local0 = 0x00ABCD08
+                Return (Local0)
+            }
+        }
+    }
+
+    OperationRegion (CMOS, SystemIO, 0x72, 0x02)
+    Field (CMOS, ByteAcc, NoLock, Preserve)
+    {
+        CMI1,   7, 
+        Offset (0x01), 
+        CMD1,   8
+    }
+
+    IndexField (CMI1, CMD1, ByteAcc, NoLock, Preserve)
+    {
+        Offset (0x5C), 
+        BACS,   32
+    }
+
+    Scope (_SB.I2CD)
+    {
+        Device (SPBA)
+        {
+            Name (_ADR, Zero)  // _ADR: Address
+            Name (_HID, "BMI0160")  // _HID: Hardware ID
+            Name (_CID, "BMI0160")  // _CID: Compatible ID
+            Name (_UID, One)  // _UID: Unique ID
+            Method (_CRS, 0, NotSerialized)  // _CRS: Current Resource Settings
+            {
+                Name (RBUF, ResourceTemplate ()
+                {
+                    I2cSerialBusV2 (0x0068, ControllerInitiated, 0x00061A80,
+                        AddressingMode7Bit, "\\_SB.I2CD",
+                        0x00, ResourceConsumer, , Exclusive,
+                        )
+                })
+                Return (RBUF) /* \_SB_.I2CD.SPBA._CRS.RBUF */
+            }
+
+            Method (ROMS, 0, NotSerialized)
+            {
+                Name (SBUF, Package (0x03)
+                {
+                    "1 0 0", 
+                    "0 -1 0", 
+                    "0 0 -1"
+                })
+                Return (SBUF) /* \_SB_.I2CD.SPBA.ROMS.SBUF */
+            }
+
+            Method (CALS, 1, NotSerialized)
+            {
+                Local0 = Arg0
+                If (((Local0 == Zero) || (Local0 == Ones)))
+                {
+                    Return (Local0)
+                }
+                Else
+                {
+                    BACS = Local0
+                }
+            }
+
+            Method (_STA, 0, NotSerialized)  // _STA: Status
+            {
+                If ((GSSR == 0x02))
+                {
+                    Return (0x0F)
+                }
+
+                Return (Zero)
             }
         }
     }
