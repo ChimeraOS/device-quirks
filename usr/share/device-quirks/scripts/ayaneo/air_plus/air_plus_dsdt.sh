@@ -10,13 +10,6 @@ DEPLOYMENT_DSDT_PATH="${MOUNT_PATH}/usr/lib/firmware/dsdt/ayaneo_air_plus.dsl"
 BOOTLOADER_CONFIG="${MOUNT_PATH}/boot/loader/entries/frzr.conf"
 ACPI_OVERRIDE_DEVICE="ayaneo_air_plus_IRQ_fix"
 
-if pacman -Qs acpica > /dev/null && pacman -Qs cpio > /dev/null; then
-    echo "Required dependencies found."
-else
-    echo "Dependencies not met, aborting."
-    exit 1
-fi
-
 if ! grep -q "${ACPI_OVERRIDE_DEVICE}" ${BOOTLOADER_CONFIG}; then
 
    if [ ! -d "${MOUNT_PATH}${ACPI_DIR}" ]; then
