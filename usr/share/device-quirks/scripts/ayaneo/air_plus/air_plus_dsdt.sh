@@ -18,9 +18,9 @@ ACPI_OVERRIDE_DEVICE="ayaneo_air_plus_IRQ_fix"
 
 if ! grep -q "${ACPI_OVERRIDE_DEVICE}" ${BOOTLOADER_CONFIG}; then
 
-   if [ ! -d "${MOUNT_PATH}${ACPI_BUILD_DIR}" ]; then
+   if [ ! -d "${ACPI_BUILD_DIR}" ]; then
       # create directory for acpi DSDT overrides
-      mkdir -p "${MOUNT_PATH}${ACPI_BUILD_DIR}"
+      mkdir -p "${ACPI_BUILD_DIR}"
    fi
    
    cp ${DEPLOYMENT_DSDT_PATH} ${ACPI_BUILD_DIR}/dsdt.dsl
