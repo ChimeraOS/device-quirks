@@ -26,7 +26,7 @@ if ! grep -q "${ACPI_OVERRIDE_DEVICE}" ${BOOTLOADER_CONFIG}; then
    cp ${DEPLOYMENT_DSDT_PATH} ${ACPI_BUILD_DIR}/dsdt.dsl
    echo "Compiling DSDT..."
    iasl -tc ${ACPI_BUILD_DIR}/dsdt.dsl
-   cd ${MOUNT_PATH}/tmp/
+   cd /tmp/
    find kernel | cpio -H newc --create > ${ACPI_OVERRIDE_DEVICE}
    cp ${ACPI_OVERRIDE_DEVICE} ${MOUNT_PATH}/boot
    echo "Adding $ACPI_OVERRIDE_DEVICE to bootloader"
