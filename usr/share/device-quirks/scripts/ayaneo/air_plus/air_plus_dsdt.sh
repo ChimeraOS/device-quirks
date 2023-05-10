@@ -5,12 +5,10 @@ if [ $(whoami) != 'root' ]; then
    exit 1
 fi
 
-if [ -z "${MOUNT_PATH}" ]; then
-	MOUNT_PATH=""
-fi
-
-if [ -z "${SUBVOL}" ]; then
+# Detect if the install media is running or not
+if [ ! -d /tmp/frzr_root ]; then
 	SUBVOL=""
+	MOUNT_PATH=""
 fi
 
 ACPI_BUILD_DIR="/tmp/kernel/firmware/acpi"
@@ -30,7 +28,7 @@ if ! grep -q "${ACPI_OVERRIDE_DEVICE}" ${BOOTLOADER_CONFIG}; then
    iasl -tc ${ACPI_BUILD_DIR}/dsdt.dsl
    cd ${MOUNT_PATH}/tmp/
    find kernel | cpio -H newc --create > ${ACPI_OVERRIDE_DEVICE}
-   cp ${ACPI_OVERRIDE_DEVICE} /boot
+   cp ${ACPI_OVERRIDE_DEVICE} ${MOUNT_PATH}/boot
    echo "Adding $ACPI_OVERRIDE_DEVICE to bootloader"
    sed -i "s|linux .*/vmlinuz-linux|&\ninitrd /${ACPI_OVERRIDE_DEVICE}|" ${BOOTLOADER_CONFIG}
    echo "Done!"
