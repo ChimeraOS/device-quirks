@@ -5,10 +5,7 @@ if [ $(whoami) != 'root' ]; then
 fi
  
 # Force 16 bit audio, format S16LE, sample rate 96000.
-cp -a /usr/share/wireplumber /etc/
-sed -i 's/--\["audio.format"\]/\["audio.format"\]/' /etc/wireplumber/main.lua.d/50-alsa-config.lua
-sed -i 's/--\["audio.rate"\]/\["audio.rate"\]/' /etc/wireplumber/main.lua.d/50-alsa-config.lua
-sed -i 's/44100/96000/' /etc/wireplumber/main.lua.d/50-alsa-config.lua
+$DQ_PATH/override_bitrate
 
 # Fix rotation of TTY's.
 cp $DQ_PATH/scripts/aokzoe/a1/a1_fbcon.conf /etc/tmpfiles.d/a1_fbcon.conf
