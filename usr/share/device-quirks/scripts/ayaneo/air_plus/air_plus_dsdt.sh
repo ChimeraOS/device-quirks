@@ -4,4 +4,4 @@ if [ $(whoami) != 'root' ]; then
    exit 1
 fi
 
-$DQ_PATH/override_dsdt "ayaneo_air_plus.dsl"
+$DQ_PATH/scripts/override_dsdt "ayaneo_air_plus.dsl"
