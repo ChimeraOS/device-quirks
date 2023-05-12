@@ -5,7 +5,7 @@ if [ $(whoami) != 'root' ]; then
 fi
  
 # Force 16 bit audio, format S16LE, sample rate 96000.
-$DQ_PATH/override_bitrate
+$DQ_PATH/scripts/override_bitrate
 
 # Fix rotation of TTY's.
 cp $DQ_PATH/scripts/aokzoe/a1/a1_fbcon.conf /etc/tmpfiles.d/a1_fbcon.conf

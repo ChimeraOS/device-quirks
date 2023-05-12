@@ -4,5 +4,8 @@ if [ $(whoami) != 'root' ]; then
    exit 1
 fi
  
-# DSDT override.
-$DQ_PATH/scripts/ayaneo/air_plus/air_plus_dsdt.sh
+source /etc/device-quirks.conf
+if [ $USE_FIRMWARE_OVERRIDES == '1' ]; then
+  # Do EDID override.
+  $DQ_PATH/scripts/ayaneo/air_plus/air_plus_dsdt.sh
+fi

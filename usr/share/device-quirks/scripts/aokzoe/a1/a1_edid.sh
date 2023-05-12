@@ -4,4 +4,4 @@ if [ $(whoami) != 'root' ]; then
    exit 1
 fi
 
-$DQ_PATH/override_edid "eDP-1" "aokzoe_a1ar07_edid.bin"
+$DQ_PATH/scripts/override_edid "eDP-1" "aokzoe_a1ar07_edid.bin"

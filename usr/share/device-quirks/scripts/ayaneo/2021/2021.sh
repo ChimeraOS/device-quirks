@@ -4,5 +4,8 @@ if [ $(whoami) != 'root' ]; then
    exit 1
 fi
  
-# Uncomment to enable DSDT override.
-$DQ_PATH/scripts/ayaneo/2021/2021_dsdt.sh
+source /etc/device-quirks.conf
+if [ $USE_FIRMWARE_OVERRIDES == '1' ]; then
+  # Do EDID override.
+  $DQ_PATH/scripts/ayaneo/2021/2021_dsdt.sh
+fi
