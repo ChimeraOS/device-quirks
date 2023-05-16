@@ -13,4 +13,6 @@ fi
 if [[ $USE_FIRMWARE_OVERRIDES == 1 ]]; then
   # Do EDID override.
   $DQ_PATH/scripts/ayaneo/air_plus/air_plus_dsdt.sh
+else
+  echo "Firmware overrides are disabled, skipping.."
 fi
