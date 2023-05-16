@@ -10,7 +10,7 @@ else
 	source /etc/device-quirks.conf
 fi
 
-if [ $USE_FIRMWARE_OVERRIDES == '1' ]; then
+if [[ $USE_FIRMWARE_OVERRIDES == 1 ]]; then
   # Do EDID override.
   $DQ_PATH/scripts/ayaneo/air_plus/air_plus_dsdt.sh
 fi
