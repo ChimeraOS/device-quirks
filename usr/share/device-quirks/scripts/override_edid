@@ -21,3 +21,6 @@ then
     cp -a /boot/loader/entries/frzr.conf /boot/loader/entries/frzr.conf.bak
     sed -i "s#iomem=relaxed#iomem=relaxed drm.edid_firmware="${CONNECTION}":edid/"${EDID_FILE}"#" /boot/loader/entries/frzr.conf
 fi
+
+echo "Rebuilding initramfs with EDID binary"
+/usr/bin/frzr-initramfs
