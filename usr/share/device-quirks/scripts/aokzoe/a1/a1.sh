@@ -17,6 +17,3 @@ if [ $USE_FIRMWARE_OVERRIDES == '1' ]; then
 	echo "Requesting EDID Override"
 	$DQ_PATH/scripts/override_edid "eDP-1" "aokzoe_a1ar07_edid.bin"
 fi
-
-echo "Rebuilding initramfs with EDID binary"
-/usr/bin/frzr-initramfs
