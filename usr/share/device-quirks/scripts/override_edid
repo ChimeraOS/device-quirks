@@ -5,28 +5,19 @@ if [ $(whoami) != 'root' ]; then
    exit 1
 fi
 
-EDID_FILE=$1
-CONNECTION=$2
-
-# Get ChimeraOS Build Release
-CHIMERAOS_VERSIONID=`grep 'VERSION_ID' /etc/os-release | awk -F= '{ print $2 }' | sed s/\"//g`
-CHIMERAOS_BUILDID=`grep 'BUILD_ID' /etc/os-release | awk -F= '{ print $2 }' | sed s/\"//g`
-CHIMERAOS_BUILD=chimeraos-"$CHIMERAOS_VERSIONID"_"$CHIMERAOS_BUILDID"
+CONNECTION=$1
+EDID_FILE=$2
 
 # Inject EDID override into initramfs
-replace_string "/etc/mkinitcpio.conf" "FILES=()" "FILES=(/lib/firmware/edid/${EDID_FILE})"
+echo "Add EDID binary to mkinitcpio.conf"
+cp -a /etc/mkinitcpio.conf /etc/mkinitcpio.conf.bak
+sed -i 's#"FILES=()#FILES=(/lib/firmware/edid/${EDID_FILE})#' /etc/mkinitcpio.conf
 
 #  Update systemd-boot entries config
-if ! grep -q "drm.edid_firmware=${CONNECTION}:edid/${EDID_FILE}"
+echo "Add EDID bin firmware to boot parameters"
+if ! grep -q "drm.edid_firmware=${CONNECTION}:edid/${EDID_FILE}" /boot/loader/entries/frzr.conf
 
 then
-    replace_string "/boot/loader/entries/frzr.conf" "iomem=relaxed" "iomem=relaxed fbcon=rotate:3 drm.edid_firmware=${CONNECTION}:edid/${EDID_FILE}"
+    cp -a /boot/loader/entries/frzr.conf /boot/loader/entries/frzr.conf.bak
+    sed -i "s#iomem=relaxed#iomem=relaxed drm.edid_firmware="${CONNECTION}":edid/"${EDID_FILE}"#" /boot/loader/entries/frzr.conf
 fi
-
-replace_string() {
-mv $1 $1"+.backup" && \
-    awk -v "find=$2" "replace=$3" '{
-	gsub(/find/, replace);
-	print;
-    }' $1+".backup" > $1
-}
