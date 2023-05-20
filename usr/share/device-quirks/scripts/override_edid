@@ -14,9 +14,5 @@ sed -i 's#"FILES=()#FILES=(/lib/firmware/edid/${EDID_FILE})#' /etc/mkinitcpio.co
 
 #  Update systemd-boot entries config
 echo "Add EDID bin firmware to boot parameters"
-if ! grep -q "drm.edid_firmware=${CONNECTION}:edid/${EDID_FILE}" /boot/loader/entries/frzr.conf
-
-then
-  cp -a /boot/loader/entries/frzr.conf /boot/loader/entries/frzr.conf.bak
-  sed -i "s#iomem=relaxed#iomem=relaxed drm.edid_firmware="${CONNECTION}":edid/"${EDID_FILE}"#" /boot/loader/entries/frzr.conf
+$DQ_PATH/scripts/kernel-options-manager --append drm.edid_firmware=${CONNECTION}:edid/${EDID_FILE}
 fi
