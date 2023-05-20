@@ -9,7 +9,7 @@ echo "Force S16LE 96000hz"
 $DQ_PATH/scripts/override_bitrate
 
 # Fix rotation of TTY's.
-cp $DQ_PATH/scripts/aokzoe/a1/a1_fbcon.conf /etc/tmpfiles.d/a1_fbcon.conf
+$DQ_PATH/scripts/kernel-options-manager --append video=eDP-1:panel_orientation=left_side_up
 
 source /etc/device-quirks.conf
 if [[ $USE_FIRMWARE_OVERRIDES == 1 ]]; then
