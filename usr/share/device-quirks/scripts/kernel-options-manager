@@ -1,7 +1,19 @@
 #!/bin/bash
 
 # Define the bootloader entry file
-entry_file="/boot/loader/entries/frzr.conf"
+if [ -f "/boot/loader/entries/frzr.conf" ]; then
+	entry_file="/boot/loader/entries/frzr.conf"
+	opt_line="options"
+	bootloader="systemd"
+elif [ -f "/etc/default/grub" ]; then
+	entry_file="/etc/default/grub"
+	opt_line="GRUB_CMDLINE_LINUX_DEFAULT="
+	bootloader="grub"
+else
+	echo "No supported bootloader configuration file found."
+	exit 0
+fi
+	
 
 # Define usage function
 function usage() {
@@ -26,7 +38,13 @@ case "$1" in
         else
             # If the string is not present, append it to the end of the kernel parameters
             echo "The string '$search_string' is not present in $entry_file"
-            sed -i "/^options/ s~\$~ $search_string~" "$entry_file"
+            if [ $bootloader = "systemd" ]; then
+            	echo "Updating /boot/loader/entries/frzr.conf"
+		        sed -i "/^$opt_line/ s~\$~ $search_string~" "$entry_file"
+            elif [ $bootloader = "grub" ]; then
+            	echo "Updating /etc/default/grub"
+            	sed -i "s/quiet/quiet $search_string/" "$entry_file"
+	    fi
             echo "Added '$search_string' to the end of the kernel parameters in $entry_file"
         fi
         ;;
@@ -46,11 +64,10 @@ case "$1" in
     --list)
         # Print the current kernel parameters
         echo "Current kernel parameters:"
-        grep "^options" "$entry_file" | sed 's/^options //' | sed 's/\s*$//' | tr ' ' '\n'
+        grep "^$opt_line" "$entry_file" | sed 's/^"'$opt_line'" //' | sed 's/\s*$//' | tr ' ' '\n'
         ;;
     *)
         usage
         exit 1
         ;;
 esac
-
