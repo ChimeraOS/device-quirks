@@ -11,7 +11,12 @@ $DQ_PATH/scripts/override_bitrate
 # Fix rotation of TTY's.
 $DQ_PATH/scripts/kernel-options-manager --append video=eDP-1:panel_orientation=left_side_up
 
-source /etc/device-quirks.conf
+if [ -d /tmp/frzr_root ]; then
+  source ${SUBVOL}/etc/device-quirks.conf
+else
+  source /etc/device-quirks.conf
+fi
+
 if [[ $USE_FIRMWARE_OVERRIDES == 1 ]]; then
   # Do EDID override.
   echo "Enabling EDID Override"

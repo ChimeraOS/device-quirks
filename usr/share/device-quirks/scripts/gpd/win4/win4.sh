@@ -4,7 +4,12 @@ if [ $(whoami) != 'root' ]; then
   exit 1
 fi
  
-source /etc/device-quirks.conf
+if [ -d /tmp/frzr_root ]; then
+  source ${SUBVOL}/etc/device-quirks.conf
+else
+  source /etc/device-quirks.conf
+fi
+
 if [[ $USE_FIRMWARE_OVERRIDES == 1 ]]; then
   # Do EDID override.
   echo "Enabling EDID Override"
