@@ -40,7 +40,7 @@ case "$1" in
             echo "The string '$search_string' is not present in $entry_file"
             if [ $bootloader = "systemd" ]; then
             	echo "Updating /boot/loader/entries/frzr.conf"
-		        sed -i "/^$opt_line/ s~\$~ $search_string~" "$entry_file"
+            	sed -i "/^$opt_line/ s~\$~ $search_string~" "$entry_file"
             elif [ $bootloader = "grub" ]; then
             	echo "Updating /etc/default/grub"
             	sed -i "s/quiet/quiet $search_string/" "$entry_file"
