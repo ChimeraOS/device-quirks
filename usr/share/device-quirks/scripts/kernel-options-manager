@@ -38,11 +38,10 @@ case "$1" in
         else
             # If the string is not present, append it to the end of the kernel parameters
             echo "The string '$search_string' is not present in $entry_file"
+	    echo "Updating $entry_file"
             if [ $bootloader = "systemd" ]; then
-            	echo "Updating /boot/loader/entries/frzr.conf"
             	sed -i "/^$opt_line/ s~\$~ $search_string~" "$entry_file"
             elif [ $bootloader = "grub" ]; then
-            	echo "Updating /etc/default/grub"
             	sed -i "s/quiet/quiet $search_string/" "$entry_file"
 	    fi
             echo "Added '$search_string' to the kernel boot parameters in $entry_file"
