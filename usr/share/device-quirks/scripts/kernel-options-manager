@@ -45,7 +45,7 @@ case "$1" in
             	echo "Updating /etc/default/grub"
             	sed -i "s/quiet/quiet $search_string/" "$entry_file"
 	    fi
-            echo "Added '$search_string' to the end of the kernel parameters in $entry_file"
+            echo "Added '$search_string' to the kernel boot parameters in $entry_file"
         fi
         ;;
     --remove)
