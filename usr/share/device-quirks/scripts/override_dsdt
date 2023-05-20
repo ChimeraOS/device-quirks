@@ -10,6 +10,7 @@ if [ ! -d /tmp/frzr_root ]; then
   SUBVOL=""
   MOUNT_PATH=""
 fi
+
 IFS='.' read -ra split_arr <<< $1
 echo "${split_arr[0]}"
 ACPI_BUILD_DIR="/tmp/kernel/firmware/acpi"

@@ -1,7 +1,13 @@
 #!/bin/bash
 
+# Detect if the install media is running or not
+if [ ! -d /tmp/frzr_root ]; then
+  SUBVOL=""
+  MOUNT_PATH=""
+fi
+
 # Define the bootloader entry file
-entry_file="/boot/loader/entries/frzr.conf"
+entry_file="$MOUNT_PATH}/boot/loader/entries/frzr.conf"
 
 # Define usage function
 function usage() {
