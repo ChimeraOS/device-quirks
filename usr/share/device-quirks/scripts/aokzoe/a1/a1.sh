@@ -12,7 +12,7 @@ $DQ_PATH/scripts/override_bitrate
 $DQ_PATH/scripts/kernel-options-manager --append video=eDP-1:panel_orientation=left_side_up
 
 if [ -d /tmp/frzr_root ]; then
-  source ${SUBVOL}/etc/device-quirks.conf
+  source ${MOUNT_PATH}/etc/device-quirks.conf
 else
   source /etc/device-quirks.conf
 fi

@@ -5,7 +5,7 @@ if [ $(whoami) != 'root' ]; then
 fi
  
 if [ -d /tmp/frzr_root ]; then
-  source ${SUBVOL}/etc/device-quirks.conf
+  source ${MOUNT_PATH}/etc/device-quirks.conf
 else
   source /etc/device-quirks.conf
 fi
