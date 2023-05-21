@@ -1,7 +1,5 @@
 #/bin/bash
 ### SYSTEM IDENTIFICATION SCRIPT
-### This script has support for the frzr-deployment system that will Use exit codes to tell frzr-initramfs if the initramfs needs rebuilt
-### exit 0 to call frzr-initramfs, exit 7 to not call.
 export DQ_PATH=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 VENDOR="$(cat /sys/devices/virtual/dmi/id/board_vendor)"
 ### DEVICE LISTS
@@ -15,28 +13,23 @@ OXP_LIST="ONE-NETBOOK TECHNOLOGY CO., LTD."
 if [[ ":$AOK_LIST:" =~ "${VENDOR}" ]]; then
     echo "AOKZOE Device Found!"
     $DQ_PATH/scripts/aokzoe/aokzoe_table.sh
-    exit 0
 
 # Aya Neo Devices
 elif [[ ":$AYANEO_LIST:" =~ "${VENDOR}" ]]; then
     echo "AYANEO Device Found!"
     $DQ_PATH/scripts/ayaneo/ayaneo_table.sh
-    exit 7
 
 # GPD Devices
 elif [[ ":$GPD_LIST:" =~ "${VENDOR}" ]]; then
     echo "GPD Device Found!"
     $DQ_PATH/scripts/gpd/gpd_table.sh
-    exit 7
 
 # OXP Devices
 elif [[ ":$OXP_LIST:" =~ "${VENDOR}" ]]; then
     echo "OXP Device Found!"
     $DQPATH/scripts/oxp/oxp_table.sh
-    exit 0
 
 # Unrecognized Device
 else
     echo "${VENDOR} does not have any supported models. Exiting."
-    exit 7
 fi
