@@ -21,4 +21,3 @@ sed -i 's#"FILES=()#FILES=(/lib/firmware/edid/${EDID_FILE})#' ${MOUNT_PATH}/etc/
 #  Update systemd-boot entries config
 echo "Add EDID bin firmware to boot parameters"
 $DQ_PATH/scripts/kernel-options-manager --append drm.edid_firmware=${CONNECTION}:edid/${EDID_FILE}
-fi
