@@ -27,7 +27,7 @@ elif [[ ":$GPD_LIST:" =~ "${VENDOR}" ]]; then
 # OXP Devices
 elif [[ ":$OXP_LIST:" =~ "${VENDOR}" ]]; then
     echo "OXP Device Found!"
-    $DQPATH/scripts/oxp/oxp_table.sh
+    $DQ_PATH/scripts/oxp/oxp_table.sh
 
 # Unrecognized Device
 else
