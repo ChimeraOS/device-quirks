@@ -8,11 +8,17 @@ AOK_LIST="AOKZOE"
 AYANEO_LIST="AYA NEO:AYANEO"
 GPD_LIST="GPD"
 OXP_LIST="ONE-NETBOOK TECHNOLOGY CO., LTD."
+ASUS_LIST="ASUSTeK COMPUTER INC."
 
 # AOKZOE Devices
 if [[ ":$AOK_LIST:" =~ ":${VENDOR}:" ]]; then
     echo "AOKZOE Device Found!"
     $DQ_PATH/scripts/aokzoe/aokzoe_table.sh
+
+# ASUS Devices
+if [[ ":$ASUS_LIST:" =~ ":${VENDOR}:" ]]; then
+    echo "ASUS Device Found!"
+    $DQ_PATH/scripts/aokzoe/asus_table.sh
 
 # Aya Neo Devices
 elif [[ ":$AYANEO_LIST:" =~ ":${VENDOR}:" ]]; then
