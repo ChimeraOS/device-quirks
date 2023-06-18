@@ -13,10 +13,13 @@ fi
 # Do DSDT override.
 if [[ $USE_FIRMWARE_OVERRIDES == 1 ]]; then
   BIOS="$(cat /sys/devices/virtual/dmi/id/bios_version)"
-  if [[ $BIOS == "RC71L.317" ]]; then
+  if [[ $BIOS == "RC71L.314" ]]; then
+    echo "Enabling DSDT Override for v314 BIOS."
+    $DQ_PATH/scripts/override_dsdt "rog_ally_v317.dsl"
+  elif [[ $BIOS == "RC71L.317" ]]; then
     echo "Enabling DSDT Override for v317 BIOS."
     $DQ_PATH/scripts/override_dsdt "rog_ally_v317.dsl"
-  elif [[ $BIOS == "E.AB05_A_V.D32..006" ]]; then
+  elif [[ $BIOS == "RC71L.V319" ]]; then
     echo "Enabling DSDT Override for v319 BIOS."
     $DQ_PATH/scripts/override_dsdt "rog_ally_v319.dsl"
   else
