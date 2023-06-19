@@ -16,7 +16,7 @@ if [[ ":$AOK_LIST:" =~ ":${VENDOR}:" ]]; then
     $DQ_PATH/scripts/aokzoe/aokzoe_table.sh
 
 # ASUS Devices
-if [[ ":$ASUS_LIST:" =~ ":${VENDOR}:" ]]; then
+elif [[ ":$ASUS_LIST:" =~ ":${VENDOR}:" ]]; then
     echo "ASUS Device Found!"
     $DQ_PATH/scripts/asus/asus_table.sh
 
