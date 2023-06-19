@@ -19,7 +19,7 @@ if [[ $USE_FIRMWARE_OVERRIDES == 1 ]]; then
   elif [[ $BIOS == "RC71L.317" ]]; then
     echo "Enabling DSDT Override for v317 BIOS."
     $DQ_PATH/scripts/override_dsdt "rog_ally_v317.dsl"
-  elif [[ $BIOS == "RC71L.V319" ]]; then
+  elif [[ $BIOS == "RC71L.319" ]]; then
     echo "Enabling DSDT Override for v319 BIOS."
     $DQ_PATH/scripts/override_dsdt "rog_ally_v319.dsl"
   else
