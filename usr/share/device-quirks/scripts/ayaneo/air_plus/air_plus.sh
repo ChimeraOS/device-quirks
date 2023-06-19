@@ -28,5 +28,5 @@ if [[ $USE_FIRMWARE_OVERRIDES == 1 ]]; then
   fi
 else
   echo "Firmware overrides are disabled, skipping...\n"
-  echo "To enable firmware overrides, edit /etc/device-quirks/device-quirks.conf"
+  echo "To enable firmware overrides, edit /etc/device-quirks.conf"
 fi
