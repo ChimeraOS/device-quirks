@@ -1,0 +1,1 @@
+ACTION=="add", SUBSYSTEM=="input", ENV{ID_INPUT_JOYSTICK}=="1", RUN+="/bin/systemctl start controller-wake@%E{DEVNAME}.service"
