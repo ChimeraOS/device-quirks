@@ -17,6 +17,14 @@ ACPI_BUILD_DIR="/tmp/kernel/firmware/acpi"
 DEPLOYMENT_DSDT_PATH="${SUBVOL}/usr/lib/firmware/dsdt/${1}"
 BOOTLOADER_CONFIG="${MOUNT_PATH}/boot/loader/entries/frzr.conf"
 ACPI_OVERRIDE_DEVICE="${split_arr[0]}_acpi_override"
+OVERRIDE_LOG="/etc/device-quirks/dsdt_override.log"
+BIOS_DATE="$(cat "/sys/class/dmi/id/bios_date")"
+BIOS_RELEASE="$(cat "/sys/class/dmi/id/bios_release")"
+BIOS_VENDOR="$(cat "/sys/class/dmi/id/bios_vendor")"
+BIOS_VERSION="$(cat "/sys/class/dmi/id/bios_version")"
+
+# Grab previous stored values.
+source $OVERRIDE_LOG
 
 # Before doing anything we must check the checksum of the device in use against the known pool of patchable firmwares
 cat /sys/firmware/acpi/tables/DSDT > system-dumped-dsdt.dat
@@ -37,31 +45,39 @@ echo "Checksum of shipped DSDT: $checksum2"
 # Compare the checksums
 if [ "$checksum" = "$checksum2" ]; then
   echo "Checksums match! We are able to patch the firmware"
-  apply_patch=1
+
+if [ "$BIOS_DATE" == "$LAST_BIOS_DATE" ] && \
+     [ "$BIOS_RELEASE" == "$LAST_BIOS_RELEASE" ] && \
+     [ "$BIOS_VENDOR" == "$LAST_BIOS_VENDOR" ] && \
+     [ "$BIOS_VERSION" == "$LAST_BIOS_VERSION" ]; then # && \
+     [ "$1" == "$LAST_DSDT" ]; then
+  echo "ACPI Override confirmed in use. We can re-apply the override"
 else
   echo "Checksums do not match! We can't apply the patch!"
+  exit 1
 fi
 
-if [[ ${apply_patch} -eq 1 ]]; then
-  if ! grep -q "${ACPI_OVERRIDE_DEVICE}" ${BOOTLOADER_CONFIG}; then
-    if [ ! -d "${ACPI_BUILD_DIR}" ]; then
-      # create directory for acpi DSDT overrides
-      mkdir -p "${ACPI_BUILD_DIR}"
-    fi
-
-    cp ${DEPLOYMENT_DSDT_PATH} ${ACPI_BUILD_DIR}/dsdt.dsl
-    echo "Compiling DSDT..."
-    iasl -tc ${ACPI_BUILD_DIR}/dsdt.dsl
-    cd /tmp/
-    find kernel | cpio -H newc --create > ${ACPI_OVERRIDE_DEVICE}
-    cp ${ACPI_OVERRIDE_DEVICE} ${MOUNT_PATH}/boot
-    echo "Adding $ACPI_OVERRIDE_DEVICE to bootloader"
-    sed -i "s|linux .*/vmlinuz-linux|&\ninitrd /${ACPI_OVERRIDE_DEVICE}|" ${BOOTLOADER_CONFIG}
-    echo "Done!"
-  else
-    echo "$ACPI_OVERRIDE_DEVICE already detected in bootloader, exiting"
+# Apply the patch
+if ! grep -q "${ACPI_OVERRIDE_DEVICE}" ${BOOTLOADER_CONFIG}; then
+  if [ ! -d "${ACPI_BUILD_DIR}" ]; then
+    # create directory for acpi DSDT overrides
+    mkdir -p "${ACPI_BUILD_DIR}"
   fi
-else
-  echo "Cannot apply the patch. Checksums do not match!"
-fi
 
+  cp ${DEPLOYMENT_DSDT_PATH} ${ACPI_BUILD_DIR}/dsdt.dsl
+  echo "Compiling DSDT..."
+  iasl -tc ${ACPI_BUILD_DIR}/dsdt.dsl
+  cd /tmp/
+  find kernel | cpio -H newc --create > ${ACPI_OVERRIDE_DEVICE}
+  cp ${ACPI_OVERRIDE_DEVICE} ${MOUNT_PATH}/boot
+  echo "Adding $ACPI_OVERRIDE_DEVICE to bootloader"
+  sed -i "s|linux .*/vmlinuz-linux|&\ninitrd /${ACPI_OVERRIDE_DEVICE}|" ${BOOTLOADER_CONFIG}
+  sed -i "/LAST_BIOS_DATE/c LAST_BIOS_DATE='$BIOS_DATE'" $OVERRIDE_LOG
+  sed -i "/LAST_BIOS_RELEASE/c LAST_BIOS_RELEASE='$BIOS_RELEASE'" $OVERRIDE_LOG
+  sed -i "/LAST_BIOS_VENDOR/c LAST_BIOS_VENDOR='$BIOS_VENDOR'" $OVERRIDE_LOG
+  sed -i "/LAST_BIOS_VERSION/c LAST_BIOS_VERSION='$BIOS_VERSION'" $OVERRIDE_LOG
+  sed -i "/LAST_DSDT/c LAST_DSDT='$1'" $OVERRIDE_LOG
+  echo "Done!"
+else
+  echo "$ACPI_OVERRIDE_DEVICE already detected in bootloader, exiting"
+fi
