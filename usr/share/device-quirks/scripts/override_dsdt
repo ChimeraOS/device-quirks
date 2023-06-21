@@ -45,11 +45,10 @@ echo "Checksum of shipped DSDT: $checksum2"
 # Compare the checksums
 if [ "$checksum" = "$checksum2" ]; then
   echo "Checksums match! We are able to patch the firmware"
-
-if [ "$BIOS_DATE" == "$LAST_BIOS_DATE" ] && \
+elif [ "$BIOS_DATE" == "$LAST_BIOS_DATE" ] && \
      [ "$BIOS_RELEASE" == "$LAST_BIOS_RELEASE" ] && \
      [ "$BIOS_VENDOR" == "$LAST_BIOS_VENDOR" ] && \
-     [ "$BIOS_VERSION" == "$LAST_BIOS_VERSION" ]; then # && \
+     [ "$BIOS_VERSION" == "$LAST_BIOS_VERSION" ] && \
      [ "$1" == "$LAST_DSDT" ]; then
   echo "ACPI Override confirmed in use. We can re-apply the override"
 else
