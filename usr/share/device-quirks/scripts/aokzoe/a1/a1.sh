@@ -12,9 +12,9 @@ $DQ_PATH/scripts/override_bitrate
 $DQ_PATH/scripts/kernel-options-manager --append video=eDP-1:panel_orientation=left_side_up
 
 if [ -d /tmp/frzr_root ]; then
-  source ${MOUNT_PATH}/etc/device-quirks.conf
+  source ${MOUNT_PATH}/etc/device-quirks/device-quirks.conf
 else
-  source /etc/device-quirks.conf
+  source /etc/device-quirks/device-quirks.conf
 fi
 
 if [[ $USE_FIRMWARE_OVERRIDES == 1 ]]; then
@@ -23,5 +23,5 @@ if [[ $USE_FIRMWARE_OVERRIDES == 1 ]]; then
   $DQ_PATH/scripts/override_edid "eDP-1" "aokzoe_a1ar07_edid.bin"
 else
   echo "Firmware overrides are disabled, skipping...\n"
-  echo "To enable firmware overrides, edit /etc/device-quirks.conf"
+  echo "To enable firmware overrides, edit /etc/device-quirks/device-quirks.conf"
 fi
