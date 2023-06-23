@@ -45,7 +45,7 @@ case "$1" in
             echo "The string '$search_string' is not present in $entry_file"
              echo "Updating $entry_file"
             if [ $bootloader = "systemd" ]; then
-            	sed -i "/^$opt_line/ s~\$~ $search_string~" "$entry_file"
+            	sed -i "/^$options/ s~\$~ $search_string~" "$entry_file"
             elif [ $bootloader = "grub" ]; then
             	sed -i "s/quiet/quiet $search_string/" "$entry_file"
 	    	    fi
