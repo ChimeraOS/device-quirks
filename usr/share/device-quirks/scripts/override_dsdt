@@ -37,7 +37,6 @@ dsl_file="system-dumped-dsdt.dsl"
 # Use sed to extract the checksum value from the DSL file
 checksum=$(sed -n 's/.*Checksum[[:space:]]\+\(0x[[:xdigit:]]\+\).*/\1/p' "$dsl_file")
 checksum2=$(sed -n 's/.*Checksum[[:space:]]\+\(0x[[:xdigit:]]\+\).*/\1/p' "${SUBVOL}/usr/lib/firmware/dsdt/${1}")
-apply_patch=0
 
 echo "Checksum value from system dump: $checksum"
 echo "Checksum of shipped DSDT: $checksum2"
@@ -46,17 +45,17 @@ APPLY_PATCH=0
 # Compare the checksums
 if [ "$checksum" = "$checksum2" ]; then
   echo "Checksums match! We are able to patch the firmware"
-  $APPLY_PATCH=1
+  APPLY_PATCH=1
 elif [ "$BIOS_DATE" == "$LAST_BIOS_DATE" ] && \
      [ "$BIOS_RELEASE" == "$LAST_BIOS_RELEASE" ] && \
      [ "$BIOS_VENDOR" == "$LAST_BIOS_VENDOR" ] && \
      [ "$BIOS_VERSION" == "$LAST_BIOS_VERSION" ] && \
      [ "$1" == "$LAST_DSDT" ]; then
   echo "ACPI Override confirmed in use. We can re-apply the override"
-  $APPLY_PATCH=1
+  APPLY_PATCH=1
 else
   echo "Checksums do not match! We can't apply the patch!"
-  $APPLY_PATCH=0
+  APPLY_PATCH=0
 fi
 
 # Apply the patch
