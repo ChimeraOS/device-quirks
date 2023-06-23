@@ -18,7 +18,7 @@
  *     Compiler ID      "INTL"
  *     Compiler Version 0x20200717 (538969879)
  */
-DefinitionBlock ("", "DSDT", 2, "ALASKA", "A M I ", 0x01072009)
+DefinitionBlock ("", "DSDT", 2, "ALASKA", "A M I ", 0x0107200a)
 {
     External (_SB_.ALIB, MethodObj)    // 2 Arguments
     External (_SB_.ALS_, DeviceObj)
