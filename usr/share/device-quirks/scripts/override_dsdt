@@ -19,7 +19,6 @@ BOOTLOADER_CONFIG="${MOUNT_PATH}/boot/loader/entries/frzr.conf"
 ACPI_OVERRIDE_DEVICE="${split_arr[0]}_acpi_override"
 OVERRIDE_LOG="${MOUNT_PATH}/etc/device-quirks/dsdt_override.log"
 APPLY_PATCH=$($DQ_PATH/scripts/verify_dsdt $1)
-echo "Apply patch: ${APPLY_PATCH}"
 
 # Apply the patch
 if [[ $APPLY_PATCH = 1 ]]; then

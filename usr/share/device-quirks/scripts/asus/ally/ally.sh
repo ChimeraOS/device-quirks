@@ -5,9 +5,9 @@ if [ $(whoami) != 'root' ]; then
 fi
 
 if [ -d /tmp/frzr_root ]; then
-  source ${MOUNT_PATH}/etc/device_quirks/device-quirks.conf
+  source ${MOUNT_PATH}/etc/device-quirks/device-quirks.conf
 else
-  source /etc/device_quirks/device-quirks.conf
+  source /etc/device-quirks/device-quirks.conf
 fi
 
 # Do DSDT override.

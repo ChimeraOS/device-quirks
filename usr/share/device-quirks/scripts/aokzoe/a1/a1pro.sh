@@ -17,12 +17,12 @@ else
   source /etc/device-quirks/device-quirks.conf
 fi
 
-#prepare for EDID Overrides
-if [[ $USE_FIRMWARE_OVERRIDES == 1 ]]; then
+##prepare for EDID Overrides
+# if [[ $USE_FIRMWARE_OVERRIDES == 1 ]]; then
   # Do EDID override.
   # echo "Enabling EDID Override"
   # $DQ_PATH/scripts/override_edid "eDP-1" "aokzoe_a1pro_edid.bin"
-else
-  echo "Firmware overrides are disabled, skipping...\n"
-  echo "To enable firmware overrides, edit /etc/device-quirks/device-quirks.conf"
-fi
+# else
+  # echo "Firmware overrides are disabled, skipping...\n"
+  # echo "To enable firmware overrides, edit /etc/device-quirks/device-quirks.conf"
+# fi
