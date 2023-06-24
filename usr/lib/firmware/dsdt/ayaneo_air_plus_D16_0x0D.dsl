@@ -5,13 +5,13 @@
  * 
  * Disassembling to symbolic ASL+ operators
  *
- * Disassembly of dsdt.dat, Wed May  3 20:36:33 2023
+ * Disassembly of aya_air_plus_16G.dat, Sat Jun 17 10:06:34 2023
  *
  * Original Table Header:
  *     Signature        "DSDT"
  *     Length           0x00008A6C (35436)
  *     Revision         0x02
- *     Checksum         0xCF
+ *     Checksum         0x0D
  *     OEM ID           "ALASKA"
  *     OEM Table ID     "A M I "
  *     OEM Revision     0x01072009 (17244169)
@@ -74,13 +74,13 @@ DefinitionBlock ("", "DSDT", 2, "ALASKA", "A M I ", 0x0107200a)
     Name (TTPF, Zero)
     Name (DTPT, Zero)
     Name (TTDP, One)
-    Name (TPMB, 0x94356000)
+    Name (TPMB, 0x94359000)
     Name (TPBS, 0x4000)
-    Name (TPMC, 0x9435A000)
+    Name (TPMC, 0x9435D000)
     Name (TPCS, 0x4000)
     Name (TPMM, 0xFD210510)
     Name (FTPM, 0xFD210510)
-    Name (PPIM, 0x9944FF18)
+    Name (PPIM, 0x99452F18)
     Name (PPIL, 0x1C)
     Name (TPMF, One)
     Name (PPIV, One)
@@ -343,7 +343,7 @@ DefinitionBlock ("", "DSDT", 2, "ALASKA", "A M I ", 0x0107200a)
     Name (TOPM, 0x00000000)
     Name (ROMS, 0xFFE00000)
     Name (VGAF, One)
-    OperationRegion (GNVS, SystemMemory, 0x9943DD18, 0x0D)
+    OperationRegion (GNVS, SystemMemory, 0x99440D18, 0x0D)
     Field (GNVS, AnyAcc, Lock, Preserve)
     {
         CNSB,   8, 
@@ -6151,7 +6151,7 @@ DefinitionBlock ("", "DSDT", 2, "ALASKA", "A M I ", 0x0107200a)
                         0x00,               // Alignment
                         0x01,               // Length
                         )
-                    IRQNoFlags ()
+                    IRQ (Edge, ActiveLow, Shared, )
                         {1}
                 }
                 EndDependentFn ()

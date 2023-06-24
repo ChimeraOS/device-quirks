@@ -19,7 +19,14 @@ if [[ $USE_FIRMWARE_OVERRIDES == 1 ]]; then
   BIOS="$(cat /sys/devices/virtual/dmi/id/bios_version)"
   if [[ $BIOS == "E.AB05_A_V.D16..006" ]]; then
     echo "Enabling DSDT Override for D16 BIOS."
-    $DQ_PATH/scripts/override_dsdt "ayaneo_air_plus_D16.dsl"
+    DSDT_OVERRIDES="ayaneo_air_plus_D16_0xCF.dsl ayaneo_air_plus_D16_0x0D.dsl"
+    for dsdt in $DSDT_OVERRIDES; do
+      APPLY_PATCH=$($DQ_PATH/scripts/verify_dsdt $dsdt)
+      if [[ $APPLY_PATCH == 1 ]]; then
+        $DQ_PATH/scripts/override_dsdt $dsdt
+	break
+      fi
+    done
   elif [[ $BIOS == "E.AB05_A_V.D32..006" ]]; then
     echo "Enabling DSDT Override for D32 BIOS."
     $DQ_PATH/scripts/override_dsdt "ayaneo_air_plus_D32.dsl"
