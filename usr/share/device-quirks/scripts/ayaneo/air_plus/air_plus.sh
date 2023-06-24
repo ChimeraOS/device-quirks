@@ -29,7 +29,7 @@ if [[ $USE_FIRMWARE_OVERRIDES == 1 ]]; then
     done
   elif [[ $BIOS == "E.AB05_A_V.D32..006" ]]; then
     echo "Enabling DSDT Override for D32 BIOS."
-    $DQ_PATH/scripts/override_dsdt "ayaneo_air_plus_D32.dsl"
+    $DQ_PATH/scripts/override_dsdt "ayaneo_air_plus_D32_0xD4.dsl"
   else
     echo "No matching BIOS found. DSDT Override skipped."
   fi
