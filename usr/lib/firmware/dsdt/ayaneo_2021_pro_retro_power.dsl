@@ -1,17 +1,17 @@
 /*
  * Intel ACPI Component Architecture
- * AML/ASL+ Disassembler version 20221020 (64-bit version)
+ * AML/ASL+ Disassembler version 20220331 (64-bit version)
  * Copyright (c) 2000 - 2022 Intel Corporation
  * 
  * Disassembling to symbolic ASL+ operators
  *
- * Disassembly of ayaneo2021-dsdt.dat, Sat Jun 24 11:30:23 2023
+ * Disassembly of dsdt.dat, Thu Dec 15 16:43:27 2022
  *
  * Original Table Header:
  *     Signature        "DSDT"
  *     Length           0x00008F1C (36636)
  *     Revision         0x02
- *     Checksum         0xE3
+ *     Checksum         0x03
  *     OEM ID           "ALASKA"
  *     OEM Table ID     "A M I "
  *     OEM Revision     0x01072009 (17244169)
@@ -99,9 +99,9 @@ DefinitionBlock ("", "DSDT", 2, "ALASKA", "A M I ", 0x0107200a)
     Name (TTPF, Zero)
     Name (DTPT, Zero)
     Name (TTDP, One)
-    Name (TPMB, 0xCC587000)
+    Name (TPMB, 0xCC586000)
     Name (TPBS, 0x4000)
-    Name (TPMC, 0xCC58B000)
+    Name (TPMC, 0xCC58A000)
     Name (TPCS, 0x4000)
     Name (TPMM, 0xFD210510)
     Name (FTPM, 0xFD210510)
