@@ -14,6 +14,11 @@ elif [[ ":$PRODUCT_LIST_AIR_PLUS:" =~ ":$PRODUCT_NAME:" ]]; then
 elif [[ ":$PRODUCT_LIST_2:" =~ ":$PRODUCT_NAME:" ]]; then
   echo "AYA NEO 2 SERIES"
   $DQ_PATH/scripts/ayaneo/2/2.sh
+
+  if [[ "GEEK" == "$PRODUCT_NAME" ]]; then
+    echo "AYA NEO GEEK"
+    $DQ_PATH/scripts/ayaneo/geek/geek.sh
+  fi
 else
   echo "${PRODUCT_NAME} does not have a quirk configuration script. Exiting."
 fi
