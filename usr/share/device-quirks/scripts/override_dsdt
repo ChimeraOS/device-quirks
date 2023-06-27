@@ -18,10 +18,10 @@ DEPLOYMENT_DSDT_PATH="${SUBVOL}/usr/lib/firmware/dsdt/${1}"
 BOOTLOADER_CONFIG="${MOUNT_PATH}/boot/loader/entries/frzr.conf"
 ACPI_OVERRIDE_DEVICE="${split_arr[0]}_acpi_override"
 OVERRIDE_LOG="${MOUNT_PATH}/etc/device-quirks/dsdt_override.log"
-BIOS_DATE="$(cat "/sys/class/dmi/id/bios_date")"
-BIOS_RELEASE="$(cat "/sys/class/dmi/id/bios_release")"
-BIOS_VENDOR="$(cat "/sys/class/dmi/id/bios_vendor")"
-BIOS_VERSION="$(cat "/sys/class/dmi/id/bios_version")"
+BIOS_DATE=$(cat /sys/class/dmi/id/bios_date)
+BIOS_RELEASE=$(cat /sys/class/dmi/id/bios_release)
+BIOS_VENDOR=$(cat /sys/class/dmi/id/bios_vendor)
+BIOS_VERSION=$(cat /sys/class/dmi/id/bios_version)
 
 # Grab previous stored values.
 source $OVERRIDE_LOG
