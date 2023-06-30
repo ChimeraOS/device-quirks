@@ -10,9 +10,9 @@ else
   source /etc/device-quirks/device-quirks.conf
 fi
 
+DSDT_OVERRIDES="ayaneo_2021_0x03.dsl ayaneo_2021_0xE3.dsl"
 if [[ $USE_FIRMWARE_OVERRIDES == 1 ]]; then
   # Do DSDT override.
-  DSDT_OVERRIDES="ayaneo_2021_0x03.dsl ayaneo_2021_0xE3.dsl"
   $DQ_PATH/scripts/override_dsdt $DSDT_OVERRIDES
 else
   echo "Firmware overrides are disabled, skipping...\n"

@@ -18,7 +18,6 @@ BIOS_RELEASE=$(cat /sys/class/dmi/id/bios_release)
 BIOS_VENDOR=$(cat /sys/class/dmi/id/bios_vendor)
 BIOS_VERSION=$(cat /sys/class/dmi/id/bios_version)
 BOOTLOADER_CONFIG="${MOUNT_PATH}/boot/loader/entries/frzr.conf"
-DSDT_OVERRRIDES=$1
 OVERRIDE_LOG="${MOUNT_PATH}/etc/device-quirks/dsdt_override.log"
 
 # Grab previous stored values.
@@ -27,17 +26,21 @@ source $OVERRIDE_LOG
 # Before doing anything we must check the checksum of the device in use against the known pool of patchable firmwares
 cat /sys/firmware/acpi/tables/DSDT > system-dumped-dsdt.dat
 iasl -d system-dumped-dsdt.dat
-iasl -tc system-dumped-dsdt.dat
+#iasl -tc system-dumped-dsdt.dat
 checksum=$(sed -n 's/.*Checksum[[:space:]]\+\(0x[[:xdigit:]]\+\).*/\1/p' "system-dumped-dsdt.dsl")
 
 APPLY_PATCH=""
-for DSDT in $DSDT_OVERRIDES; do
+echo "DSDT_OVERRIDES: $@"
+for DSDT in $@; do
+  echo "Checking DSDT: ${DSDT}"
   DEPLOYMENT_DSDT_PATH="${SUBVOL}/usr/lib/firmware/dsdt/${DSDT}"
   # Use sed to extract the checksum value from the DSL file
   checksum2=$(sed -n 's/.*Checksum[[:space:]]\+\(0x[[:xdigit:]]\+\).*/\1/p' "$DEPLOYMENT_DSDT_PATH")
+  echo "Comparing checksum: $checksum to checksum: $checksum2"
   # Compare the checksums
   if [ "$checksum" = "$checksum2" ]; then
     APPLY_PATCH=$DSDT
+    break
   elif [ "$BIOS_DATE" == "$LAST_BIOS_DATE" ] && \
        [ "$BIOS_RELEASE" == "$LAST_BIOS_RELEASE" ] && \
        [ "$BIOS_VENDOR" == "$LAST_BIOS_VENDOR" ] && \
@@ -45,16 +48,19 @@ for DSDT in $DSDT_OVERRIDES; do
        [ "$DSDT" == "$LAST_DSDT" ]; then
     APPLY_PATCH=$DSDT
     break
+  else
+    echo "${DSDT} Does not match."
   fi
+done
+echo "List Complete"
 if [[ $APPLY_PATCH != "" ]]; then
+  IFS='.' read -ra split_arr <<< $APPLY_PATCH
+  ACPI_OVERRIDE_DEVICE="${split_arr[0]}_acpi_override"
   if ! grep -q "${ACPI_OVERRIDE_DEVICE}" ${BOOTLOADER_CONFIG}; then
     if [ ! -d "${ACPI_BUILD_DIR}" ]; then
       # create directory for acpi DSDT overrides
       mkdir -p "${ACPI_BUILD_DIR}"
     fi
-    IFS='.' read -ra split_arr <<< $APPLY_PATCH
-    echo "${split_arr[0]}"
-    ACPI_OVERRIDE_DEVICE="${split_arr[0]}_acpi_override"
   
     cp ${DEPLOYMENT_DSDT_PATH} ${ACPI_BUILD_DIR}/dsdt.dsl
     echo "Compiling DSDT..."
