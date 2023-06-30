@@ -10,7 +10,6 @@ else
   source /etc/device-quirks/device-quirks.conf
 fi
 
-PRODUCT_NAME="$(cat /sys/devices/virtual/dmi/id/product_name)"
 if [[ $USE_FIRMWARE_OVERRIDES == 1 ]]; then
   # Do DSDT override.
   DSDT_OVERRIDES="ayaneo_2021_0x03.dsl ayaneo_2021_0xE3.dsl"
