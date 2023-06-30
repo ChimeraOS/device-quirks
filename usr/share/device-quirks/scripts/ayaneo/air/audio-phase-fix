@@ -2,7 +2,7 @@
 
 function start() {
     master=alsa_output.pci-0000_04_00.6.analog-stereo
-    pactl load-module module-ladspa-sink sink_name=ladspa_out sink_master=$master plugin=inv_1429 label=inv
+    pactl load-module module-ladspa-sink sink_name=ladspa_out sink_master=$master plugin=inv_1429 label=inv channel_map=front-right
     pactl load-module module-remap-sink sink_name=remap_FR master=ladspa_out channels=1 master_channel_map=front-right channel_map=front-right
     pactl load-module module-remap-sink sink_name=remap_FL master=$master channels=1 master_channel_map=front-left channel_map=front-left
     pactl load-module module-combine-sink sink_name='"AYANEO AIR Fixed Phase Audio"' sink_properties=device.description='"AYANEO_AIR_Fixed_Phase_Audio"' slaves=remap_FL,remap_FR channels=2
