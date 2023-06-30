@@ -18,6 +18,7 @@ if [[ $USE_FIRMWARE_OVERRIDES == 1 ]]; then
      $DQ_PATH/scripts/override_dsdt $APPLY_PATCH
   else
     echo "Unable to find a matching DSDT. Firmware overrides not set."
+  fi
 else
   echo "Firmware overrides are disabled, skipping...\n"
   echo "To enable firmware overrides, edit /etc/device-quirks/device-quirks.conf"
