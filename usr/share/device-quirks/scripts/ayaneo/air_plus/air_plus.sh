@@ -14,18 +14,16 @@ fi
 echo "Force S16LE 96000hz"
 $DQ_PATH/scripts/override_bitrate
 
-# Do DSDT override.
 if [[ $USE_FIRMWARE_OVERRIDES == 1 ]]; then
-  BIOS="$(cat /sys/devices/virtual/dmi/id/bios_version)"
-  if [[ $BIOS == "E.AB05_A_V.D16..006" ]]; then
-    echo "Enabling DSDT Override for D16 BIOS."
-    $DQ_PATH/scripts/override_dsdt "ayaneo_air_plus_D16.dsl"
-  elif [[ $BIOS == "E.AB05_A_V.D32..006" ]]; then
-    echo "Enabling DSDT Override for D32 BIOS."
-    $DQ_PATH/scripts/override_dsdt "ayaneo_air_plus_D32.dsl"
-  else
-    echo "No matching BIOS found. DSDT Override skipped."
-  fi
+  # Do DSDT override.
+  DSDT_OVERRIDES="ayaneo_air_plus_D16_0x0D.dsl ayaneo_air_plus_D16_0xCF.dsl ayaneo_air_plus_D32_0xD4.dsl"
+  for dsdt in $DSDT_OVERRIDES; do
+    APPLY_PATCH=$($DQ_PATH/scripts/verify_dsdt $dsdt)
+    if [[ $APPLY_PATCH == 1 ]]; then
+      $DQ_PATH/scripts/override_dsdt $dsdt
+      break
+    fi
+  done
 else
   echo "Firmware overrides are disabled, skipping...\n"
   echo "To enable firmware overrides, edit /etc/device-quirks/device-quirks.conf"

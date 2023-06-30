@@ -12,19 +12,15 @@ fi
 
 # Do DSDT override.
 if [[ $USE_FIRMWARE_OVERRIDES == 1 ]]; then
-  BIOS="$(cat /sys/devices/virtual/dmi/id/bios_version)"
-  if [[ $BIOS == "RC71L.314" ]]; then
-    echo "Enabling DSDT Override for v314 BIOS."
-    $DQ_PATH/scripts/override_dsdt "rog_ally_v317.dsl"
-  elif [[ $BIOS == "RC71L.317" ]]; then
-    echo "Enabling DSDT Override for v317 BIOS."
-    $DQ_PATH/scripts/override_dsdt "rog_ally_v317.dsl"
-  elif [[ $BIOS == "RC71L.319" ]]; then
-    echo "Enabling DSDT Override for v319 BIOS."
-    $DQ_PATH/scripts/override_dsdt "rog_ally_v319.dsl"
-  else
-    echo "No matching BIOS found. DSDT Override skipped."
-  fi
+  # Do DSDT override.
+  DSDT_OVERRIDES="rog_ally_0x08.dsl rog_ally_0x13.dsl rog_ally_0x76.dsl"
+  for dsdt in $DSDT_OVERRIDES; do
+    APPLY_PATCH=$($DQ_PATH/scripts/verify_dsdt $dsdt)
+    if [[ $APPLY_PATCH == 1 ]]; then
+      $DQ_PATH/scripts/override_dsdt $dsdt
+      break
+    fi
+  done
 else
   echo "Firmware overrides are disabled, skipping...\n"
   echo "To enable firmware overrides, edit /etc/device-quirks/device-quirks.conf"

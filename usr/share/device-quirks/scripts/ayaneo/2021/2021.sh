@@ -12,8 +12,14 @@ fi
 
 if [[ $USE_FIRMWARE_OVERRIDES == 1 ]]; then
   # Do DSDT override.
-  echo "Enabling DSDT Override"
-  $DQ_PATH/scripts/override_dsdt "ayaneo_2021.dsl"
+  DSDT_OVERRIDES="ayaneo_2021_0x03.dsl ayaneo_2021_0xE3.dsl"
+  for dsdt in $DSDT_OVERRIDES; do
+    APPLY_PATCH=$($DQ_PATH/scripts/verify_dsdt $dsdt)
+    if [[ $APPLY_PATCH == 1 ]]; then
+      $DQ_PATH/scripts/override_dsdt $dsdt
+      break
+    fi
+  done
 else
   echo "Firmware overrides are disabled, skipping...\n"
   echo "To enable firmware overrides, edit /etc/device-quirks/device-quirks.conf"
