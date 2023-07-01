@@ -42,11 +42,11 @@ for DSDT in $@; do
     APPLY_PATCH=$DSDT
     echo "Checksums match."
     break
-  elif [ "$BIOS_DATE" == "$LAST_BIOS_DATE" ] && \
-       [ "$BIOS_RELEASE" == "$LAST_BIOS_RELEASE" ] && \
-       [ "$BIOS_VENDOR" == "$LAST_BIOS_VENDOR" ] && \
-       [ "$BIOS_VERSION" == "$LAST_BIOS_VERSION" ] && \
-       [ "$DSDT" == "$LAST_DSDT" ]; then
+  elif [[ $BIOS_DATE == $LAST_BIOS_DATE ]] && \
+       [[ $BIOS_RELEASE == $LAST_BIOS_RELEASE ]] && \
+       [[ $BIOS_VENDOR == $LAST_BIOS_VENDOR ]] && \
+       [[ $BIOS_VERSION == $LAST_BIOS_VERSION ]] && \
+       [[ $DSDT == $LAST_DSDT ]]; then
     APPLY_PATCH=$DSDT
     echo "DSDT and BIOS Match previous insllation."
     break
