@@ -6054,7 +6054,7 @@ DefinitionBlock ("", "DSDT", 2, "ALASKA", "A M I ", 0x0107200A)
 
             Name (CRS1, ResourceTemplate ()
             {
-                IRQ (Edge, ActiveLow, Shared, )
+                IRQNoFlags ()
                     {12}
             })
             Name (CRS2, ResourceTemplate ()
@@ -6071,7 +6071,7 @@ DefinitionBlock ("", "DSDT", 2, "ALASKA", "A M I ", 0x0107200A)
                     0x00,               // Alignment
                     0x01,               // Length
                     )
-                IRQNoFlags (Edge, ActiveLow, Shared, )
+                IRQNoFlags ()
                     {12}
             })
             Method (_CRS, 0, NotSerialized)  // _CRS: Current Resource Settings
@@ -6090,7 +6090,7 @@ DefinitionBlock ("", "DSDT", 2, "ALASKA", "A M I ", 0x0107200A)
             {
                 StartDependentFn (0x00, 0x00)
                 {
-                    IRQNoFlags (Edge, ActiveLow, Shared, )
+                    IRQNoFlags ()
                         {12}
                 }
                 EndDependentFn ()
