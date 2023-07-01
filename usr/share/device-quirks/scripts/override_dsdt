@@ -76,7 +76,7 @@ if [[ $APPLY_PATCH != "" ]]; then
     sed -i "/LAST_BIOS_RELEASE/c LAST_BIOS_RELEASE='$BIOS_RELEASE'" $OVERRIDE_LOG
     sed -i "/LAST_BIOS_VENDOR/c LAST_BIOS_VENDOR='$BIOS_VENDOR'" $OVERRIDE_LOG
     sed -i "/LAST_BIOS_VERSION/c LAST_BIOS_VERSION='$BIOS_VERSION'" $OVERRIDE_LOG
-    sed -i "/LAST_DSDT/c LAST_DSDT='$1'" $OVERRIDE_LOG
+    sed -i "/LAST_DSDT/c LAST_DSDT='$DSDT'" $OVERRIDE_LOG
     echo "Done!"
   else
     echo "$ACPI_OVERRIDE_DEVICE already detected in bootloader, exiting"
