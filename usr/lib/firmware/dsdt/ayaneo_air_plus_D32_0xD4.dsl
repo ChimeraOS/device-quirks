@@ -6151,7 +6151,7 @@ DefinitionBlock ("", "DSDT", 2, "ALASKA", "A M I ", 0x0107200a)
                         0x00,               // Alignment
                         0x01,               // Length
                         )
-                    IRQNoFlags (Edge, ActiveLow, Shared, )
+                    IRQ (Edge, ActiveLow, Shared, )
                         {1}
                 }
                 EndDependentFn ()
