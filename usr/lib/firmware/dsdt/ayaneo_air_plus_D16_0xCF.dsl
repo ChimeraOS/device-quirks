@@ -18,7 +18,7 @@
  *     Compiler ID      "INTL"
  *     Compiler Version 0x20200717 (538969879)
  */
-DefinitionBlock ("", "DSDT", 2, "ALASKA", "A M I ", 0x0107200a)
+DefinitionBlock ("", "DSDT", 2, "ALASKA", "A M I ", 0x0107200A)
 {
     External (_SB_.ALIB, MethodObj)    // 2 Arguments
     External (_SB_.APTS, MethodObj)    // 1 Arguments
@@ -6054,7 +6054,7 @@ DefinitionBlock ("", "DSDT", 2, "ALASKA", "A M I ", 0x0107200a)
 
             Name (CRS1, ResourceTemplate ()
             {
-                IRQNoFlags ()
+                IRQ (Edge, ActiveLow, Shared, )
                     {12}
             })
             Name (CRS2, ResourceTemplate ()
@@ -6071,7 +6071,7 @@ DefinitionBlock ("", "DSDT", 2, "ALASKA", "A M I ", 0x0107200a)
                     0x00,               // Alignment
                     0x01,               // Length
                     )
-                IRQNoFlags ()
+                IRQNoFlags (Edge, ActiveLow, Shared, )
                     {12}
             })
             Method (_CRS, 0, NotSerialized)  // _CRS: Current Resource Settings
@@ -6090,7 +6090,7 @@ DefinitionBlock ("", "DSDT", 2, "ALASKA", "A M I ", 0x0107200a)
             {
                 StartDependentFn (0x00, 0x00)
                 {
-                    IRQNoFlags ()
+                    IRQNoFlags (Edge, ActiveLow, Shared, )
                         {12}
                 }
                 EndDependentFn ()
@@ -6151,7 +6151,7 @@ DefinitionBlock ("", "DSDT", 2, "ALASKA", "A M I ", 0x0107200a)
                         0x00,               // Alignment
                         0x01,               // Length
                         )
-                    IRQNoFlags (Edge, ActiveLow, Shared, )
+                    IRQ (Edge, ActiveLow, Shared, )
                         {1}
                 }
                 EndDependentFn ()
