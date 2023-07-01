@@ -37,9 +37,10 @@ for DSDT in $@; do
   # Use sed to extract the checksum value from the DSL file
   checksum2=$(sed -n 's/.*Checksum[[:space:]]\+\(0x[[:xdigit:]]\+\).*/\1/p' "$DEPLOYMENT_DSDT_PATH")
   echo "Comparing checksum: $checksum to checksum: $checksum2"
-  # Compare the checksums
-  if [ "$checksum" = "$checksum2" ]; then
+  # Compare the checkqsums
+  if [[ $checksum == $checksum2 ]]; then
     APPLY_PATCH=$DSDT
+    echo "Checksums match."
     break
   elif [ "$BIOS_DATE" == "$LAST_BIOS_DATE" ] && \
        [ "$BIOS_RELEASE" == "$LAST_BIOS_RELEASE" ] && \
@@ -47,6 +48,7 @@ for DSDT in $@; do
        [ "$BIOS_VERSION" == "$LAST_BIOS_VERSION" ] && \
        [ "$DSDT" == "$LAST_DSDT" ]; then
     APPLY_PATCH=$DSDT
+    echo "DSDT and BIOS Match previous insllation."
     break
   else
     echo "${DSDT} Does not match."
