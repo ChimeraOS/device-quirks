@@ -1,0 +1,79 @@
+#!/bin/bash
+set -euo pipefail
+
+ACTION=$1
+#echo "Action: ${ACTION}"
+
+usage()
+{
+  echo "Usage: $0 {add|remove}"
+  exit 1
+}
+
+if [[ $# -ne 1 ]]; then
+  usage
+fi
+
+get_deployment_path() {
+  if [[ -d /frzr_root ]]; then
+    ### Checking for frzr based deployment and grabbing the build in use.
+    ID=$(grep '^ID=' /etc/os-release | awk -F= '{ print $2 }' | sed 's/"//g')
+    VERSIONID=$(grep '^VERSION_ID=' /etc/os-release | awk -F= '{ print $2 }' | sed 's/"//g')
+    BUILDID=$(grep '^BUILD_ID=' /etc/os-release | awk -F= '{ print $2 }' | sed 's/"//g')
+
+    BUILD="$ID"-"$VERSIONID"_"$BUILDID"
+    DEPLOYMENT_PATH="/frzr_root/deployments/$BUILD"
+  fi
+  echo $DEPLOYMENT_PATH
+}
+
+check_locked() {
+  RELOCK=0
+  if [[ -d /frzr_root ]]; then
+    # Get locked state
+    DEPLOYMENT_PATH=$(get_deployment_path)
+    LOCK_STATE=$(btrfs property get -fts "$DEPLOYMENT_PATH")
+    if [[ $LOCK_STATE == *"ro=true"* ]]; then
+      btrfs property set -fts "${DEPLOYMENT_PATH}" ro false
+      RELOCK=1
+    fi
+  fi
+  echo "$RELOCK"
+}
+
+relock(){
+  if [[ -d /frzr_root ]] && [[ $1 == 1 ]]; then
+    DEPLOYMENT_PATH=$(get_deployment_path)
+    btrfs property set -fts "${DEPLOYMENT_PATH}" ro true
+  fi
+}
+
+do_add() {
+  RELOCK=$(check_locked)
+  #echo $RELOCK
+  if [ -f /usr/share/vulkan/icd.d/nvidia_icd.json.bak ]; then
+    mv /usr/share/vulkan/icd.d/nvidia_icd.json.bak /usr/share/vulkan/icd.d/nvidia_icd.json
+  fi
+  relock $RELOCK
+}
+
+do_remove() {
+  RELOCK=$(check_locked)
+  #echo $RELOCK
+  if [ -f /usr/share/vulkan/icd.d/nvidia_icd.json ]; then
+    mv /usr/share/vulkan/icd.d/nvidia_icd.json /usr/share/vulkan/icd.d/nvidia_icd.json.bak
+  fi
+  relock $RELOCK
+}
+
+case "${ACTION}" in
+  add)
+    do_add
+    ;;
+  remove)
+    do_remove
+    ;;
+  *)
+    usage
+    ;;
+esac
