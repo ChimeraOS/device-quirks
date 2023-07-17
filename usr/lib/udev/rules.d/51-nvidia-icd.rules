@@ -1,2 +1,2 @@
-SUBSYSTEM=="pci", ACTION=="add", ENV{DRIVER}=="nvidia", RUN+="/usr/bin/change-nvidia-icd add"
-SUBSYSTEM=="pci", ACTION=="remove", ENV{DRIVER}=="nvidia", RUN+="/usr/bin/change-nvidia-icd remove"
+SUBSYSTEM=="pci", ACTION=="add", ENV{DRIVER}=="nvidia", RUN+="/usr/bin/change-nvidia-icd 'add'"
+SUBSYSTEM=="pci", ACTION=="remove", ENV{DRIVER}=="nvidia", RUN+="/usr/bin/change-nvidia-icd 'remove'"
