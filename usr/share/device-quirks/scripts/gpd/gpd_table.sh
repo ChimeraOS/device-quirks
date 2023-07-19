@@ -6,10 +6,10 @@ BOARD_NAME="$(cat /sys/devices/virtual/dmi/id/board_name)"
 BOARD_WIN3="G1618-03"
 
 # WinMax2
-BOARD_WM2="G1618-04"
+BOARD_WM2="G1619-04"
 
 # Win4
-BOARD_WIN4="G1619-04"
+BOARD_WIN4="G1618-04"
 
 # WinMax2
 if [[ ":$BOARD_WM2:" =~ ":$BOARD_NAME:" ]]; then
