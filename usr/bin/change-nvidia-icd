@@ -16,6 +16,7 @@ fi
 
 do_add() {
   if [ ! -f /etc/vulkan/icd.d/nvidia_icd.json ]; then
+    mkdir -p /etc/vulkan/icd.d/
     cp /usr/share/vulkan/icd.d/nvidia_icd.json.disabled /etc/vulkan/icd.d/nvidia_icd.json
   fi
 }
