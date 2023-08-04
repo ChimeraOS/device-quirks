@@ -15,7 +15,7 @@ echo "Force S16LE 96000hz"
 $DQ_PATH/scripts/override_bitrate
 
 # Do DSDT override.
-DSDT_OVERRIDES="ayaneo_air_plus_D16_0x0D.dsl ayaneo_air_plus_D16_0xCF.dsl ayaneo_air_plus_D32_0x94.dsl ayaneo_air_plus_D32_0xD4.dsl"
+DSDT_OVERRIDES="ayaneo_air_plus_D16_0x0D.dsl ayaneo_air_plus_D16_0xCF.dsl ayaneo_air_plus_D16_0x0F.dsl ayaneo_air_plus_D32_0x94.dsl ayaneo_air_plus_D32_0xD4.dsl"
 if [[ $USE_FIRMWARE_OVERRIDES == 1 ]]; then
   $DQ_PATH/scripts/override_dsdt $DSDT_OVERRIDES
 else
