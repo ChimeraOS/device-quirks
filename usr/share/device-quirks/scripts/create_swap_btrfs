@@ -1,0 +1,32 @@
+#!/bin/bash
+
+# We can replace 2G with a variable to pass to this script to control the size we want the swap to be.
+# We an also make this script be able to adjust the size of an already existing swapfile.
+
+if [ ! -f /home/swapfile ]; then
+   sudo fallocate -l 2G /home/swapfile
+   sudo chmod 600 /home/swapfile
+   sudo mkswap /home/swapfile
+   sudo swapon /home/swapfile
+fi
+
+echo "Updating resume UUID and offset"
+swap_file_offset=$(sudo btrfs inspect-internal map-swapfile -r /home/swapfile)
+
+resume_line="resume=UUID=$(sudo blkid -s UUID -o value /home/swapfile)"
+offset="resume_offset=$swap_file_offset"
+
+# We will need to add a check to see if the lines are the same or not to remove the previous
+lines before adding new ones. TODO
+/usr/share/device-quirks/scripts/kernel-options-manager --append $resume_line
+/usr/share/device-quirks/scripts/kernel-options-manager --append $offset
+
+# We are adding the resume line to the HOOKS in our mkinitcpio.conf
+sed -i 's/\(HOOKS=(.*\))/\1 resume)/' /etc/mkinitcpio.conf
+
+# Assigning the swap to fstab
+echo "/frzr_root/home/swapfile        none        swap        defaults      0 0" | sudo tee -a "/etc/fstab"
+
+# Build the initramfs with hibernation support
+sudo mkinitcpio -p chimeraos
+
