@@ -5,10 +5,12 @@ VENDOR="$(cat /sys/devices/virtual/dmi/id/board_vendor)"
 ### DEVICE LISTS
 
 AOK_LIST="AOKZOE"
+ASUS_LIST="ASUSTeK COMPUTER INC."
+ATARI_LIST="ATARI"
 AYANEO_LIST="AYADEVICE:AYA NEO:AYANEO"
 GPD_LIST="GPD"
 OXP_LIST="ONE-NETBOOK TECHNOLOGY CO., LTD."
-ASUS_LIST="ASUSTeK COMPUTER INC."
+
 
 # AOKZOE Devices
 if [[ ":$AOK_LIST:" =~ ":${VENDOR}:" ]]; then
@@ -19,6 +21,11 @@ if [[ ":$AOK_LIST:" =~ ":${VENDOR}:" ]]; then
 elif [[ ":$ASUS_LIST:" =~ ":${VENDOR}:" ]]; then
     echo "ASUS Device Found!"
     $DQ_PATH/scripts/asus/asus_table.sh
+
+# ATARI Devices
+elif [[ ":$ATARI_LIST:" =~ ":${VENDOR}:" ]]; then
+    echo "ATARI Device Found!"
+    $DQ_PATH/scripts/atari/atari_table.sh
 
 # Aya Neo Devices
 elif [[ ":$AYANEO_LIST:" =~ ":${VENDOR}:" ]]; then
