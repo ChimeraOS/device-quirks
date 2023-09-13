@@ -4,7 +4,7 @@ Description=Enable wake on USB for %I
 [Service]
 Type=oneshot
 RemainAfterExit=no
-ExecStart=/usr/bin/controller-wake.sh %I
+ExecStart=/usr/bin/controller-wake %I
 
 [Install]
 WantedBy=multi-user.target
