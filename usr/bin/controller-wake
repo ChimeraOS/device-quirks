@@ -18,19 +18,20 @@ done
 # Get full sysfs path for USB Root Hub
 POWER_PATH="/sys$hubpath/power/wakeup"
 
-source /etc/device-quirks.conf
+source /etc/device-quirks/device-quirks.conf
+
+FROM_STATUS="enabled"
+TO_STATUS="disabled"
 
 if [[ $USB_WAKE_ENABLED == 1 ]]; then
   FROM_STATUS="disabled"
   TO_STATUS="enabled"
-else
-  FROM_STATUS="enabled"
-  TO_STATUS="disabled"
-
+fi
 
 # Check and set WOL enabled.
 status=$(cat $POWER_PATH)
-if [[ $status == $FROM_STATUS ]]; then
+if [[ $status != $TO_STATUS ]]; then
+  echo "Setting USB Wake for $1 from $FROM_STATUS to $TO_STATUS."
   echo $TO_STATUS > $POWER_PATH
 fi
 
