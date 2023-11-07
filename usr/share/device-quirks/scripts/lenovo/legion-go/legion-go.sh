@@ -15,15 +15,12 @@ mkdir -p ""$MAIN_USER_HOME"/.config/easyeffects/output"
 
 # Define the target directories
 output_dir=""$MAIN_USER_HOME"/.config/easyeffects/output"
-autoload_output_dir=""$MAIN_USER_HOME"/.config/easyeffects/autoload/output"
 
 # Create the directories if they don't exist
 mkdir -p "$output_dir"
-mkdir -p "$autoload_output_dir"
 
 # Define the path of the script's current location (directory of this script)
 script_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 
 # Copy the files to the target directories
-cp "$script_dir/gamemode.json" "$output_dir/gamemode.json"
-cp "$script_dir/alsa_output.pci-0000_c2_00.6.analog-stereoanalog-output-speaker.json" "$autoload_output_dir/alsa_output.pci-0000_c2_00.6.analog-stereoanalog-output-speaker.json"
+cp "$script_dir/dolbers-atomsph.json" "$output_dir/dolbers-atomsph.json"
