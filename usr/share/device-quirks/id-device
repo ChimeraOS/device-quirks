@@ -9,6 +9,7 @@ ASUS_LIST="ASUSTeK COMPUTER INC."
 ATARI_LIST="ATARI"
 AYANEO_LIST="AYADEVICE:AYA NEO:AYANEO"
 GPD_LIST="GPD"
+LENOVO_LIST="LENOVO"
 OXP_LIST="ONE-NETBOOK TECHNOLOGY CO., LTD."
 
 # AOKZOE Devices
@@ -35,6 +36,11 @@ elif [[ ":$AYANEO_LIST:" =~ ":${VENDOR}:" ]]; then
 elif [[ ":$GPD_LIST:" =~ ":${VENDOR}:" ]]; then
     echo "GPD Device Found!"
     $DQ_PATH/scripts/gpd/gpd_table.sh
+
+# LENOVO Devices
+elif [[ ":$LENOVO_LIST:" =~ ":${VENDOR}:" ]]; then
+    echo "LENOVO Device Found!"
+    $DQ_PATH/scripts/lenovo/lenovo_table.sh
 
 # OXP Devices
 elif [[ ":$OXP_LIST:" =~ ":${VENDOR}:" ]]; then
