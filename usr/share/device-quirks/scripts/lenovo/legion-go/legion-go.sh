@@ -1,3 +1,9 @@
+#!/bin/bash
+if [ $(whoami) != 'root' ]; then
+  echo "You must be root to run this script."
+  exit 1
+fi
+
 # Create the base directory and subdirectories for easyeffects
 mkdir -p "$HOME/.config/easyeffects"
 mkdir -p "$HOME/.config/easyeffects/autoload"
