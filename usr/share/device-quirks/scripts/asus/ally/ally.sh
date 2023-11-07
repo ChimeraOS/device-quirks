@@ -22,7 +22,7 @@ irs_dir="$HOME/.config/easyeffects/irs"
 script_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 
 # Copy the necessary files to the target directories
-cp "$script_dir/alsa_output.pci-0000_c2_00.6.analog-stereoanalog-output-speaker.json" "$autoload_output_dir/alsa_output.pci-0000_c2_00.6.analog-stereoanalog-output-speaker.json"
+cp "$script_dir/alsa_output.pci-0000_c2_00.6.analog-stereo:analog-output-speaker.json" "$autoload_output_dir/alsa_output.pci-0000_c2_00.6.analog-stereo:analog-output-speaker.json"
 cp "$script_dir/game.irs" "$irs_dir/game.irs"
 
 # Generate the dolbers-atomsph.json file with the correct kernel-path
