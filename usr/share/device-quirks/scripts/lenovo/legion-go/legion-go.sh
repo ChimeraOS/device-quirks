@@ -1,20 +1,21 @@
 #!/bin/bash
-if [ $(whoami) != 'root' ]; then
-  echo "You must be root to run this script."
-  exit 1
-fi
 
+# Find the main user's home directory under /home/
+# Assumes the main user has the lowest UID greater than 1000
+MAIN_USER_HOME=$(awk -F':' '{ if ($3 >= 1000 && $6 ~ /^\/home\//) print $0 }' /etc/passwd | sort -t: -k3,3n | head -n 1 | cut -d: -f6)
+
+# Replace the \$HOME with the detected main user's home directory
 # Create the base directory and subdirectories for easyeffects
-mkdir -p "$HOME/.config/easyeffects"
-mkdir -p "$HOME/.config/easyeffects/autoload"
-mkdir -p "$HOME/.config/easyeffects/autoload/input"
-mkdir -p "$HOME/.config/easyeffects/autoload/output"
-mkdir -p "$HOME/.config/easyeffects/input"
-mkdir -p "$HOME/.config/easyeffects/output"
+mkdir -p ""$MAIN_USER_HOME"/.config/easyeffects"
+mkdir -p ""$MAIN_USER_HOME"/.config/easyeffects/autoload"
+mkdir -p ""$MAIN_USER_HOME"/.config/easyeffects/autoload/input"
+mkdir -p ""$MAIN_USER_HOME"/.config/easyeffects/autoload/output"
+mkdir -p ""$MAIN_USER_HOME"/.config/easyeffects/input"
+mkdir -p ""$MAIN_USER_HOME"/.config/easyeffects/output"
 
 # Define the target directories
-output_dir="$HOME/.config/easyeffects/output"
-autoload_output_dir="$HOME/.config/easyeffects/autoload/output"
+output_dir=""$MAIN_USER_HOME"/.config/easyeffects/output"
+autoload_output_dir=""$MAIN_USER_HOME"/.config/easyeffects/autoload/output"
 
 # Create the directories if they don't exist
 mkdir -p "$output_dir"
