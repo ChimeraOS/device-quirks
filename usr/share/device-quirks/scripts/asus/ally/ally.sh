@@ -16,14 +16,12 @@ mkdir -p ""$MAIN_USER_HOME"/.config/easyeffects/output"
 
 # Define the target directories
 output_dir=""$MAIN_USER_HOME"/.config/easyeffects/output"
-autoload_output_dir=""$MAIN_USER_HOME"/.config/easyeffects/autoload/output"
 irs_dir=""$MAIN_USER_HOME"/.config/easyeffects/irs"
 
 # Define the path of the script's current location (directory of this script)
 script_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 
 # Copy the necessary files to the target directories
-cp "$script_dir/alsa_output.pci-0000_c2_00.6.analog-stereo:analog-output-speaker.json" "$autoload_output_dir/alsa_output.pci-0000_c2_00.6.analog-stereo:analog-output-speaker.json"
 cp "$script_dir/game.irs" "$irs_dir/game.irs"
 
 # Generate the dolbers-atomsph.json file with the correct kernel-path
