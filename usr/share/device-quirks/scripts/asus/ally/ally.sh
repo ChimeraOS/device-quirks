@@ -5,5 +5,5 @@ if [ $(whoami) != 'root' ]; then
 fi
 
 # Create an equalizer for pipewire.
-mkdir -p ~/.config/pipewire/pipewire.conf.d
-cp $DQ_PATH/scripts/asus/ally/sink-eq6.conf ~/.config/pipewire/pipewire.conf.d/sink-eq6.conf
+mkdir -p /etc/pipewire/pipewire.conf.d
+cp $DQ_PATH/scripts/asus/ally/sink-eq.conf /etc/pipewire/pipewire.conf.d/sink-eq.conf
