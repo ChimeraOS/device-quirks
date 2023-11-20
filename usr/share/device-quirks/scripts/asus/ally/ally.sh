@@ -14,6 +14,7 @@ pipewire_dir="$ally_dir/pipewire"  # Adjust this path as necessary
 if [ -d "$pipewire_dir" ]; then
     # Copy the PipeWire folder to /etc
     cp -r "$pipewire_dir" /etc/
+    echo "PipeWire configuration successfully copied to /etc."
 else
     echo "PipeWire directory not found in $pipewire_dir."
     exit 1
