@@ -6,7 +6,7 @@ if [ "$(whoami)" != 'root' ]; then
   exit 1
 fi
 
-# Define the path of the legion-go.sh script and pipewire folder
+# Define the path of the ally.sh script and pipewire folder
 ally_dir="$DQ_PATH/scripts/asus/ally"
 pipewire_dir="$ally_dir/pipewire"  # Adjust this path as necessary
 
