@@ -3,15 +3,17 @@
 # in /etc/device-quirks/systemd-suspend-mods.conf and rmmod them on suspend,
 # insmod them on resume.
 
+MOD_LIST=$(grep -v ^\# /etc/device-quirks/systemd-suspend-mods.conf)
+
 case $1 in
     pre)
-        for mod in $(</etc/device-quirks/systemd-suspend-mods.conf); do
-            rmmod $mod
+        for mod in $MOD_LIST; do
+            modprobe -r $mod
         done
     ;;
     post)
-        for mod in $(</etc/device-quirks/systemd-suspend-mods.conf); do
-            insmod $mod
+        for mod in $MOD_LIST; do
+            modprobe $mod
         done
     ;;
 esac
