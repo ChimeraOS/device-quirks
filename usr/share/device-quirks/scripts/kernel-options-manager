@@ -53,9 +53,10 @@ case "$1" in
             elif [ $bootloader = "grub" ]; then
             	sed -i "s/quiet/quiet $search_string/" "$entry_file"
             elif [ $bootloader = "refind" ]; then
-                if grep -qF "rw" "$entry_file"
-                then sed -i "s/rw/rw $search_string/" "$entry_file"
-                else sed -i "s/quiet/quiet $search_string/" "$entry_file"
+                if grep -qF "rw" "$entry_file"; then
+                    sed -i "s/rw/rw $search_string/" "$entry_file"
+                else
+                    sed -i "s/quiet/quiet $search_string/" "$entry_file"
                 fi
             fi
             echo "Added '$search_string' to the kernel boot parameters in $entry_file"
@@ -77,9 +78,10 @@ case "$1" in
     --list)
         # Print the current kernel parameters
         echo "Current kernel parameters:"
-        if [ "$bootloader" = "refind" ]
-        then grep "^\"$options\"" "$entry_file" | sed 's/^\"'"$options"'" //' | sed 's/\s*$//' | tr ' ' '\n'
-        else grep "^$options" "$entry_file" | sed 's/^"'$options'" //' | sed 's/\s*$//' | tr ' ' '\n'
+        if [ "$bootloader" = "refind" ]; then
+            grep "^\"$options\"" "$entry_file" | sed 's/^\"'"$options"'" //' | sed 's/\s*$//' | tr ' ' '\n'
+        else
+            grep "^$options" "$entry_file" | sed 's/^"'$options'" //' | sed 's/\s*$//' | tr ' ' '\n'
         fi
         ;;
     *)
