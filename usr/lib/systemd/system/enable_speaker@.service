@@ -1,0 +1,8 @@
+[Unit]
+Description=Awinic AW87XXX Speaker Initialization
+
+[Service]
+ExecStart=/usr/share/device-quirks/scripts/awinic/enable_speaker.sh
+
+[Install]
+WantedBy=multi-user.target

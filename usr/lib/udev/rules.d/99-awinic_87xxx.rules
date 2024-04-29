@@ -1,0 +1,1 @@
+SUBSYSTEM=="i2c" ACTION=="add" ENV{MODALIAS}=="acpi:AWDZ8830:AWDZ8830:" TAG+="systemd", SYMLINK+="aw87xxx_pa%k", ENV{SYSTEMD_WANTS}="enable_speaker@%k.service"
