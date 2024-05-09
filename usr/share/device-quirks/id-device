@@ -51,3 +51,6 @@ elif [[ ":$OXP_LIST:" =~ ":${VENDOR}:" ]]; then
 else
     echo "${VENDOR} does not have any supported models. Exiting."
 fi
+
+# Run networking devices configuration script.
+$DQ_PATH/scripts/netdev_config.sh
