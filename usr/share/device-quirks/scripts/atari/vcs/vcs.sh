@@ -4,7 +4,7 @@ if [ $(whoami) != 'root' ]; then
   exit 1
 fi
 
-cat  << EOF > /etc/NetworkManager/conf.d/default-wifi-powersave-on.conf
+cat  << EOF > "${DEVICE_QUIRKS_LOCATION}/etc/NetworkManager/conf.d/default-wifi-powersave-on.conf"
 [connection]
 wifi.powersave = 2
 EOF

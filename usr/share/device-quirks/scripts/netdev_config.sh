@@ -8,5 +8,5 @@ fi
 if [[ ! -z $(lspci | grep "MT7922") ]];
 then
 	echo "Removing MT7921E quirk from device with MT7922."
-	sed -i 's/mt7921e//g' ${MOUNT_PATH}/etc/device-quirks/systemd-suspend-mods.conf
+	sed -i 's/mt7921e//g' "${MOUNT_PATH}/${DEVICE_QUIRKS_LOCATION}/etc/device-quirks/systemd-suspend-mods.conf"
 fi

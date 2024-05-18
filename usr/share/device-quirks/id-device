@@ -1,4 +1,7 @@
 #/bin/bash
+
+# Installation location is controlled via the DEVICE_QUIRKS_LOCATION env var
+
 ### SYSTEM IDENTIFICATION SCRIPT
 export DQ_PATH=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 VENDOR="$(cat /sys/devices/virtual/dmi/id/board_vendor)"
