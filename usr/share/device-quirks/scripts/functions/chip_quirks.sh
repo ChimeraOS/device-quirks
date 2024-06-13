@@ -1,3 +1,5 @@
+#!/bin/bash
+
 process_chip_quirks() {
 
     for script in "$DQ_PATH/scripts/chips/scripts.d/"*".sh"; do
