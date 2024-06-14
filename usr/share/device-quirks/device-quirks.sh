@@ -1,10 +1,17 @@
 #!/bin/bash
 
+# Checking Credentials
+if [ $(whoami) != 'root' ]; then
+  echo "You must be root to run this script."
+  exit 1
+fi
+
 export DQ_PATH=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
 source "$DQ_PATH/scripts/functions/chip_quirks.sh"
 source "$DQ_PATH/scripts/functions/configuration.sh"
 source "$DQ_PATH/scripts/functions/identify_devices.sh"
+source "$DQ_PATH/scripts/functions/kernel_options.sh"
 source "$DQ_PATH/scripts/functions/vendor_quirks.sh"
 
 # Define usage function
