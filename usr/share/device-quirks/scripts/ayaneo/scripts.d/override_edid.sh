@@ -2,7 +2,7 @@
 
 # Returning a unique id to allow users to toggle on or off in /etc/device-quirks/device-quirks.conf
 device_quirk_id(){
-    echo "GPD_EDID_OVERRIDE"
+    echo "AYA_EDID_OVERRIDE"
 }
 
 # Returning the name of the fix to display.
@@ -13,7 +13,7 @@ device_quirk_name(){
 # Do the install here.
 device_quirk_install(){
     local edid_connection="eDP-1"
-    local edid_filename="gpd_win4_edid.bin"
+    local edid_filename="ayaneo_airplus_edid.bin"
     local kernel_option="drm.edid_firmware=${edid_connection}:edid/${edid_filename}"
 
     if [[ -e "${DQ_WORKING_PATH}/etc/mkinitcpio.conf" ]]; then
@@ -46,7 +46,7 @@ device_quirk_install(){
 # Remove the install here.
 device_quirk_removal(){
     local edid_connection="eDP-1"
-    local edid_filename="gpd_win4_edid.bin"
+    local edid_filename="ayaneo_airplus_edid.bin"
     local kernel_option="drm.edid_firmware=${edid_connection}:edid/${edid_filename}"
 
     if [[ -e "${DQ_WORKING_PATH}/etc/mkinitcpio.conf" ]]; then
