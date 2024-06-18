@@ -22,12 +22,12 @@ device_quirk_install(){
 # Remove the install here.
 device_quirk_removal(){
     if [ -f "${$DQ_WORKING_PATH}/etc/device-quirks/systemd-suspend-mods.conf" ] && [ ! $(grep -i 'mt7921e' "${$DQ_WORKING_PATH}/etc/device-quirks/systemd-suspend-mods.conf") ]; then
-        echo "mt7921e" > "${$DQ_WORKING_PATH}/etc/device-quirks/systemd-suspend-mods.conf"
+        echo "mt7921e" >> "${$DQ_WORKING_PATH}/etc/device-quirks/systemd-suspend-mods.conf"
         return 0
     elif [ -f "${$DQ_WORKING_PATH}/etc/device-quirks/systemd-suspend-mods.conf" ]; then
         return 2
     else
-        cp -a "${DQ_PATH}/scripts/chips/resources/$(device_quirk_id)/systemd-suspend-mods.conf" "${$DQ_WORKING_PATH}/etc/device-quirks/systemd-suspend-mods.conf"
+        cp -a "${DQ_PATH}/scripts/resources/systemd-suspend-mods.conf" "${$DQ_WORKING_PATH}/etc/device-quirks/systemd-suspend-mods.conf"
         return 0
     fi
 }
