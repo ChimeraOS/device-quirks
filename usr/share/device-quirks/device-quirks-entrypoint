@@ -66,15 +66,28 @@ else
     echo "${VENDOR} does not have any supported models. Exiting."
 fi
 
+# This directory is the same for both mkinitcpio "acpi_override" hook and dracut
+mkdir -p "/etc/initcpio/acpi_override"
+
 # TODO: prefix /etc with something if needed
-# setup dracut acpi_override
+# setup dracut acpi_override for dracut
 if [ -d "/etc/dracut.conf.d/" ]; then
-
-    # This directory is the same for both mkinitcpio "acpi_override" hook and dracut
-    mkdir -p "/etc/initcpio/acpi_override"
-
     echo "acpi_override=yes" > "/etc/dracut.conf.d/acpi_override.conf"
     echo "acpi_table_dir=\"/etc/initcpio/acpi_override\"" >> "/etc/dracut.conf.d/acpi_override.conf"
+fi
+
+# setup dracut acpi_override for dracut
+if [ -d "/etc/mkinitcpio.conf" ]; then
+    if cat "/etc/mkinitcpio.conf" | grep -Fq "acpi_override"; then
+        echo "[INFO] mkinitcpio has acpi_override already enabled"
+    else
+        if cat "/etc/mkinitcpio.conf" | grep -Fq "microcode" ; then
+            echo "Appending acpi_override before microcode hook"
+            sed -i 's|microcode|acpi_override microcode|g' file.txt
+        else
+            echo "[ERROR] microcode hook not found"
+        fi
+    fi
 fi
 
 # Run networking devices configuration script.
