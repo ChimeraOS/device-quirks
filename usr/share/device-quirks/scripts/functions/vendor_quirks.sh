@@ -19,7 +19,7 @@ process_vendor_quirks() {
                             if [[ $? -eq 0 ]]; then
                                 set_quirk_id_status "$(device_quirk_id)"
                                 echo "Quirk fix: $(device_quirk_name) has been applied, DQ_$(device_quirk_id) has been added to your device-quirks.conf"
-                            elif [[ $? -eq 2]]; then
+                            elif [[ $? -eq 2 ]]; then
                                 echo "Quirk fix: $(device_quirk_name) already installed."
                             else
                                 echo "Quirk fix: $(device_quirk_name) has failed to install."
@@ -28,7 +28,7 @@ process_vendor_quirks() {
                             device_quirk_removal
                             if [[ $? -eq 0 ]]; then
                                 echo "Quirk fix: $(device_quirk_name) has been removed."
-                            elif [[ $? -eq 2]]; then
+                            elif [[ $? -eq 2 ]]; then
                                 echo "Quirk fix: $(device_quirk_name) is not installed."
                             else
                                 echo "Quirk fix: $(device_quirk_name) has failed to install."
@@ -38,7 +38,7 @@ process_vendor_quirks() {
                         device_quirk_removal
                         if [[ $? -eq 0 ]]; then
                             echo "Quirk fix: $(device_quirk_name) has been removed."
-                        elif [[ $? -eq 2]]; then
+                        elif [[ $? -eq 2 ]]; then
                             echo "Quirk fix: $(device_quirk_name) is not installed."
                         else
                             echo "Quirk fix: $(device_quirk_name) has failed to install."

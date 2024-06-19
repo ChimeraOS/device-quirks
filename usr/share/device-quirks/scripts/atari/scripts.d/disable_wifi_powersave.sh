@@ -13,12 +13,12 @@ device_quirk_name(){
 # Do the install here.
 device_quirk_install(){
 
-    if [[ -e "${DQ_WORKING_PATH}/etc/NetworkManager/conf.d/disable-wifi-powersave.conf"]]; then
+    if [[ -e "${DQ_WORKING_PATH}/etc/NetworkManager/conf.d/disable-wifi-powersave.conf" ]]; then
         return 2
     fi
 
     cp -a "${DQ_PATH}/scripts/atari/resources/$(device_quirk_id)/disable-wifi-powersave.conf" "${DQ_WORKING_PATH}/etc/NetworkManager/conf.d/disable-wifi-powersave.conf"
-    if [[ $? -eq 0]]; then
+    if [[ $? -eq 0 ]]; then
         return 0
     fi
 
@@ -29,12 +29,12 @@ device_quirk_install(){
 # Remove the install here.
 device_quirk_removal(){
 
-    if [[ ! -e "${DQ_WORKING_PATH}/etc/NetworkManager/conf.d/disable-wifi-powersave.conf"]]; then
+    if [[ ! -e "${DQ_WORKING_PATH}/etc/NetworkManager/conf.d/disable-wifi-powersave.conf" ]]; then
         return 2
     fi
 
     rm -f "${DQ_WORKING_PATH}/etc/NetworkManager/conf.d/disable-wifi-powersave.conf"
-    if [[ $? -eq 0]]; then
+    if [[ $? -eq 0 ]]; then
         return 0
     fi
 
