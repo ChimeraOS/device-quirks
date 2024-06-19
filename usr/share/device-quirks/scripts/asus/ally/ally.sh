@@ -10,6 +10,8 @@ fi
 ally_dir="$DQ_PATH/scripts/asus/ally"
 pipewire_dir="$ally_dir/pipewire"  # Adjust this path as necessary
 
+# TODO: DEVICE_QUIRKS_LOCATION is no more, remove it
+
 # Check if the PipeWire directory exists
 if [ -d "$pipewire_dir" ]; then
     # Copy the PipeWire folder to /etc

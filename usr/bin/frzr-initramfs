@@ -1,0 +1,3 @@
+#!/bin/sh
+
+# TODO: mount system and run the entrypoint in chroot

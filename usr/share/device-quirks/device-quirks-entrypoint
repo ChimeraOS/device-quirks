@@ -66,5 +66,16 @@ else
     echo "${VENDOR} does not have any supported models. Exiting."
 fi
 
+# TODO: prefix /etc with something if needed
+# setup dracut acpi_override
+if [ -d "/etc/dracut.conf.d/" ]; then
+
+    # This directory is the same for both mkinitcpio "acpi_override" hook and dracut
+    mkdir -p "/etc/initcpio/acpi_override"
+
+    echo "acpi_override=yes" > "/etc/dracut.conf.d/acpi_override.conf"
+    echo "acpi_table_dir=\"/etc/initcpio/acpi_override\"" >> "/etc/dracut.conf.d/acpi_override.conf"
+fi
+
 # Run networking devices configuration script.
 $DQ_PATH/scripts/netdev_config.sh
