@@ -19,7 +19,7 @@ get_bootloader_info(){
 
 append_kernel_option(){
     get_bootloader_info
-    if [ ! $? -eq 0]; then
+    if [ ! $? -eq 0 ]; then
         return 1
     fi
 
@@ -34,9 +34,9 @@ append_kernel_option(){
         # If the string is not present, append it to the end of the kernel parameters
         echo "The string '$search_string' is not present in $entry_file"
             echo "Updating $entry_file"
-        if [ $bootloader = "systemd" ]; then
+        if [ $bootloader == "systemd" ]; then
             sed -i "/^$options/ s~\$~ $search_string~" "$entry_file"
-        elif [ $bootloader = "grub" ]; then
+        elif [ $bootloader == "grub" ]; then
             sed -i "s/quiet/quiet $search_string/" "$entry_file"
         fi
         echo "Added '$search_string' to the kernel boot parameters in $entry_file"
@@ -47,7 +47,7 @@ append_kernel_option(){
 
 remove_kernel_option(){
     get_bootloader_info
-    if [ ! $? -eq 0]; then
+    if [ ! $? -eq 0 ]; then
         return 1
     fi
 

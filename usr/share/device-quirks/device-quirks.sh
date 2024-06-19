@@ -1,10 +1,10 @@
 #!/bin/bash
 
 # Checking Credentials
-if [ $(whoami) != 'root' ]; then
-  echo "You must be root to run this script."
-  exit 1
-fi
+#if [ $(whoami) != 'root' ]; then
+#  echo "You must be root to run this script."
+#  exit 1
+#fi
 
 export DQ_PATH=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
