@@ -1,3 +1,11 @@
 #!/bin/sh
 
-# TODO: mount system and run the dracut (or mkinitcpio) in chroot
+# Write the conf file depending on the environment variable FIRMWARE_OVERRIDE
+if [ -n "${FIRMWARE_OVERRIDE}" ]; then
+    echo "export USE_FIRMWARE_OVERRIDES=1" > "/etc/device-quirks.conf"
+else
+    echo "export USE_FIRMWARE_OVERRIDES=0" > "/etc/device-quirks.conf"
+fi
+
+# This must be run in a chroot environment
+/usr/share/device-quirks "/"

@@ -7,7 +7,9 @@ apply_initramfs() {
     local dracut_file="$DQ_PATH/etc/dracut.conf.d/acpi_override.conf"
     if [ -d "$DQ_PATH/etc/dracut.conf.d/" ]; then
         echo "acpi_override=yes" > "${dracut_file}"
-        echo "acpi_table_dir=\"$DQ_PATH/etc/initcpio/acpi_override\"" >> "${dracut_file}"
+
+        # $DQ_PATH must not be used as initramfs has to be generated in a chroot to work anyway
+        echo "acpi_table_dir=\"/etc/initcpio/acpi_override\"" >> "${dracut_file}"
 
         echo "[INFO] dracut has acpi_override enabled"
     fi
