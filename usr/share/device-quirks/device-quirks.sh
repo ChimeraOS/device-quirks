@@ -13,6 +13,7 @@ source "$DQ_PATH/scripts/functions/configuration.sh"
 source "$DQ_PATH/scripts/functions/identify_devices.sh"
 source "$DQ_PATH/scripts/functions/kernel_options.sh"
 source "$DQ_PATH/scripts/functions/vendor_quirks.sh"
+source "$DQ_PATH/scripts/functions/initramfs_quirks.sh"
 
 # Define usage function
 function usage() {
@@ -37,6 +38,9 @@ else
     fi
 fi
 
+
+echo "Processing initramfs:"
+process_initramfs
 echo "Processing Vendor quirk fixes:"
 process_vendor_quirks "$(get_vendor)"
 echo "Processing Chip quirk fixes:"
