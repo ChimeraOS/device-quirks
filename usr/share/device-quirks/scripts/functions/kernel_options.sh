@@ -1,15 +1,36 @@
 #!/bin/bash
 
 get_bootloader_info(){
+    using_dracut=""
+    entry_file=""
+    options=""
+
     # Define the bootloader entry file
-    if [ -f "${DQ_WORKING_PATH}/boot/loader/entries/frzr.conf" ]; then
-        entry_file="${DQ_WORKING_PATH}/boot/loader/entries/frzr.conf"
+    if [ -f "${DQ_WORKING_PATH}/boot/loader/loader.conf" ]; then
+        loader_conf_file=$(cat "${DQ_WORKING_PATH}/boot/loader/loader.conf" | grep \.conf | awk '{print $2}') 
+        entry_file="${DQ_WORKING_PATH}/boot/loader/entries/${loader_conf_file}"
         options="options"
         bootloader="systemd"
     elif [ -f "${DQ_WORKING_PATH}/etc/default/grub" ]; then
         entry_file="${DQ_WORKING_PATH}/etc/default/grub"
         options="GRUB_CMDLINE_LINUX_DEFAULT="
         bootloader="grub"
+    elif [ -f "${DQ_WORKING_PATH}/boot/syslinux/syslinux.cfg" ]; then
+        entry_file="${DQ_WORKING_PATH}/boot/syslinux/syslinux.cfg"
+        options="APPEND"
+        bootloader="syslinux"
+    elif [ -f "${DQ_WORKING_PATH}/boot/grub/menu.lst" ]; then
+        entry_file="${DQ_WORKING_PATH}/boot/grub/menu.lst"
+        options="kernel"
+        bootloader="grub-classic"
+    elif [ -f "${DQ_WORKING_PATH}/etc/lilo.conf" ]; then
+        entry_file="${DQ_WORKING_PATH}/etc/lilo.conf"
+        options="append="
+        bootloader="lilo"
+    elif [ -f "${DQ_WORKING_PATH}/boot/refind_linux.conf" ]; then
+        entry_file="${DQ_WORKING_PATH}/boot/refind_linux.conf"
+        options="options"
+        bootloader="refind"
     else
         echo "No supported bootloader configuration file found."
         return 1
@@ -37,6 +58,14 @@ append_kernel_option(){
         if [ $bootloader == "systemd" ]; then
             sed -i "/^$options/ s~\$~ $search_string~" "$entry_file"
         elif [ $bootloader == "grub" ]; then
+            sed -i "s/quiet/quiet $search_string/" "$entry_file"
+        elif [ $bootloader == "syslinux" ]; then
+            sed -i "s/quiet/quiet $search_string/" "$entry_file"
+        elif [ $bootloader == "grub-classic" ]; then
+            sed -i "s/quiet/quiet $search_string/" "$entry_file"
+        elif [ $bootloader == "lilo" ]; then
+            sed -i "s/quiet/quiet $search_string/" "$entry_file"
+        elif [ $bootloader == "refind" ]; then
             sed -i "s/quiet/quiet $search_string/" "$entry_file"
         fi
         echo "Added '$search_string' to the kernel boot parameters in $entry_file"

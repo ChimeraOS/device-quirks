@@ -39,12 +39,12 @@ else
 fi
 
 
-echo "Processing initramfs:"
-process_initramfs
 echo "Processing Vendor quirk fixes:"
 process_vendor_quirks "$(get_vendor)"
 echo "Processing Chip quirk fixes:"
 process_chip_quirks
+echo "Processing initramfs:"
+process_initramfs
 
 echo "Done."
 exit 0
