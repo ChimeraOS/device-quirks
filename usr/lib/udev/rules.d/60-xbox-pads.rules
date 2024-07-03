@@ -12,3 +12,7 @@ ATTRS{idVendor}=="045e", ATTRS{idProduct}=="02e0", RUN+="/sbin/modprobe xpad" RU
 
 # Lenovo Legion Go
 ATTRS{idVendor}=="17ef", ATTRS{idProduct}=="6182", RUN+="/sbin/modprobe xpad" RUN+="/bin/sh -c 'echo 17ef 6182 > /sys/bus/usb/drivers/xpad/new_id'"
+
+# MSI Claw
+ATTRS{idVendor}=="0db0", ATTRS{idProduct}=="1901", RUN+="/sbin/modprobe xpad" RUN+="/bin/sh -c 'echo 0db0 1901 > /sys/bus/usb/drivers/xpad/new_id'"
+
