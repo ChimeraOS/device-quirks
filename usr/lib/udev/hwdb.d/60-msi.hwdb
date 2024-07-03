@@ -1,0 +1,4 @@
+# MSI Claw
+evdev:name:AT Translated Set 2 keyboard:dmi:*:svnMicro-StarInternationalCo.,Ltd.:pnClawA1M:*
+  KEYBOARD_KEY_b9=f15  #Right Button
+  KEYBOARD_KEY_ba=f16  #Left Button
