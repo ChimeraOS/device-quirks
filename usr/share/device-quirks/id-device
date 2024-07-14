@@ -2,7 +2,17 @@
 ### SYSTEM IDENTIFICATION SCRIPT
 export DQ_PATH=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 VENDOR="$(cat /sys/devices/virtual/dmi/id/board_vendor)"
+
+### Checking for ACPI Entries for specifc hardware
+echo "Checking ACPI Entries... "
+
+if [ -d "/sys/bus/acpi/devices/AWDZ8830:00" ]; then
+    echo "AW87559 ACPI Entry found! Starting Firmware downloader."
+    $DQ_PATH/scripts/chips/aw87559/firmware.sh
+fi
+
 ### DEVICE LISTS
+echo "Checking Vendor for applicable quirk fixes... "
 
 AOK_LIST="AOKZOE"
 ASUS_LIST="ASUSTeK COMPUTER INC."
