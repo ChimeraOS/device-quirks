@@ -1,0 +1,32 @@
+#!/bin/sh
+
+# This must be run in a chroot environment
+
+if which dracut; then
+
+    # this is the exact same script that is suggested on the archlinux wiki (also deployed by chimeraos)
+    if [ -f "/usr/local/bin/dracut-install.sh" ]; then
+        for dir in /usr/lib/modules/*; do
+            if [ -f "$dir/pkgbase" ]; then
+                echo "$dir/pkgbase" | cut -c 2- | bash "/usr/local/bin/dracut-install.sh"
+            fi
+        done
+    else
+        for module_dir in usr/lib/modules/*/; do
+            if [ -f "${module_dir}pkgbase" ]; then
+                read -r pkgbase < "${module_dir}pkgbase"
+                kver="${module_dir#'usr/lib/modules/'}"
+                kver="${kver%'/'}"
+
+                install -Dm0644 "${module_dir}vmlinuz" "/boot/vmlinuz-${pkgbase}"
+                dracut --force --strip --aggressive-strip "/boot/initramfs-${pkgbase}.img" --kver "$kver"
+            fi
+        done
+    fi
+    
+elif which mkinitcpio; then
+    mkinitcpio -P all
+else
+    echo "[ERROR] No initramfs generator found"
+    exit 1
+fi
