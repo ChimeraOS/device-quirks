@@ -47,10 +47,10 @@ elif [[ ":$OXP_LIST:" =~ ":${VENDOR}:" ]]; then
     echo "OXP Device Found!"
     $DQ_PATH/scripts/oxp/oxp_table.sh
 
-# Run networking devices configuration script.
-$DQ_PATH/scripts/netdev_config.sh
-
 # Unrecognized Device
 else
     echo "${VENDOR} does not have any supported models. Exiting."
 fi
+# Run networking devices configuration script.
+$DQ_PATH/scripts/netdev_config.sh
+
