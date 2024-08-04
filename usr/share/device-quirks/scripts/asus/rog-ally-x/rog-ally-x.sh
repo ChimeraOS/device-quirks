@@ -14,21 +14,21 @@ else
   echo "Running as install."
 fi
 
-# Define the path of the legion go pipewire config and pipewire folders
-LEGO_CONF="$DQ_PATH/scripts/lenovo/legion-go/pipewire.conf.d/filter-chain.conf"
+# Define the path of the ally pipewire config and pipewire folders
+ALLY_CONF="$DQ_PATH/scripts/asus/rog-ally-x/pipewire.conf.d/filter-chain.conf"
 PIPEWIRE_DIR="${MOUNT_PATH}/etc/pipewire/pipewire.conf.d/"
 
 # Check if the PipeWire directory exists
-if [[ -f "${LEGO_CONF}" ]]; then
-  echo "Installing pipewire config from ${LEGO_CONF} to ${PIPEWIRE_DIR}"
+if [[ -f "${ALLY_CONF}" ]]; then
+  echo "Installing pipewire config from ${ALLY_CONF} to ${PIPEWIRE_DIR}"
   if [[ ! -d "${PIPEWIRE_DIR}" ]]; then
     mkdir -p "${PIPEWIRE_DIR}"
   fi
 
   # Copy the PipeWire folder to /etc
-  cp "${LEGO_CONF}" "${PIPEWIRE_DIR}"
+  cp "${ALLY_CONF}" "${PIPEWIRE_DIR}"
   echo "PipeWire configuration successfully copied to ${PIPEWIRE_DIR}"
 else
-  echo "PipeWire config not found at ${LEGO_CONF}"
+  echo "PipeWire config not found at ${ALLY_CONF}"
   exit 1
 fi
