@@ -1,0 +1,19 @@
+# Copied from https://github.com/gotzl/hid-fanatecff/blob/master/fanatec.rules
+# with some changes so that anyone can change configs
+
+ACTION!="add|change", GOTO="fanatec_end"
+SUBSYSTEM=="hid", DRIVER=="fanatec", GOTO="ftec_module_settings"
+SUBSYSTEM=="input", DRIVERS=="fanatec", GOTO="ftec_input_settings"
+SUBSYSTEMS=="usb", ATTRS{idVendor}=="0eb7", MODE="0666"
+GOTO="fanatec_end"
+
+LABEL="ftec_module_settings"
+RUN+="/bin/sh -c 'cd %S%p; chmod 666 range display load rumble leds/*/brightness tuning_menu/*"
+GOTO="fanatec_end"
+
+LABEL="ftec_input_settings"
+# remove deadzone/fuzz
+RUN{program}+="/usr/bin/evdev-joystick --evdev $devnode --deadzone 0 --fuzz 0"
+GOTO="fanatec_end"
+
+LABEL="fanatec_end"

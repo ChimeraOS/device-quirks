@@ -1,0 +1,71 @@
+# Match kernel name of device, rather than ATTRS{idProduct} and ATTRS{idVendor}
+# so we can access the range file and leds directory. Set rw access to these 
+# files for everyone.
+# Avoid blanket matching all Logitech devices, as that causes issues with mice,
+# keyboards, and other non-wheel devices.
+
+ACTION!="unbind", ACTION!="remove", SUBSYSTEM=="hid", ATTRS{idVendor}=="046d" GOTO="logitech-rules"
+GOTO="end"
+
+LABEL="logitech-rules"
+
+DRIVER=="logitech" GOTO="logitech-driver"
+DRIVER!="logitech-hidpp-device" GOTO="end"
+
+# Logitech G PRO Racing Wheel for Xbox One and PC
+ATTRS{idProduct}=="c272", RUN+="/bin/sh -c 'cd %S%p; chmod 666 range leds/*/brightness; chmod 777 leds/ leds/*'"
+
+# Logitech G923 Racing Wheel for Xbox One and PC
+ATTRS{idProduct}=="c26e", RUN+="/bin/sh -c 'cd %S%p; chmod 666 range leds/*/brightness; chmod 777 leds/ leds/*'"
+
+# Logitech G920 Driving Force Racing Wheel
+ATTRS{idProduct}=="c262", RUN+="/bin/sh -c 'cd %S%p; chmod 666 range'"
+
+GOTO="end"
+
+LABEL="logitech-driver"
+
+# Logitech G923 Racing Wheel for PlayStation 4 and PC
+ATTRS{idProduct}=="c266", RUN+="/bin/sh -c 'cd %S%p; chmod 666 alternate_modes combine_pedals range gain autocenter spring_level damper_level friction_level ffb_leds peak_ffb_level leds/*/brightness; chmod 777 leds/ leds/*'"
+
+# Logitech G29 Driving Force Racing Wheel
+ATTRS{idProduct}=="c24f", RUN+="/bin/sh -c 'cd %S%p; chmod 666 alternate_modes combine_pedals range gain autocenter spring_level damper_level friction_level ffb_leds peak_ffb_level leds/*/brightness; chmod 777 leds/ leds/*'"
+
+# Logitech G27 Driving Force Racing Wheel
+ATTRS{idProduct}=="c29b", RUN+="/bin/sh -c 'cd %S%p; chmod 666 alternate_modes combine_pedals range gain autocenter spring_level damper_level friction_level ffb_leds peak_ffb_level leds/*/brightness; chmod 777 leds/ leds/*'"
+
+# Logitech G25 Driving Force Racing Wheel
+ATTRS{idProduct}=="c299", RUN+="/bin/sh -c 'cd %S%p; chmod 666 alternate_modes combine_pedals range gain autocenter spring_level damper_level friction_level ffb_leds peak_ffb_level'"
+
+# Logitech Driving Force GT Racing Wheel
+ATTRS{idProduct}=="c29a", RUN+="/bin/sh -c 'cd %S%p; chmod 666 alternate_modes combine_pedals range gain autocenter spring_level damper_level friction_level ffb_leds peak_ffb_level'"
+
+# Logitech Driving Force Pro Racing Wheel
+ATTRS{idProduct}=="c298", RUN+="/bin/sh -c 'cd %S%p; chmod 666 alternate_modes combine_pedals range gain autocenter spring_level damper_level friction_level ffb_leds peak_ffb_level'"
+
+# Logitech Driving Force Racing Wheel
+ATTRS{idProduct}=="c294", RUN+="/bin/sh -c 'cd %S%p; chmod 666 combine_pedals range gain autocenter spring_level damper_level friction_level ffb_leds peak_ffb_level'"
+
+# Logitech Momo Force Racing Wheel
+ATTRS{idProduct}=="c295", RUN+="/bin/sh -c 'cd %S%p; chmod 666 combine_pedals range gain autocenter spring_level damper_level friction_level ffb_leds peak_ffb_level'"
+
+# Logitech MOMO Racing USB
+ATTRS{idProduct}=="ca03", RUN+="/bin/sh -c 'cd %S%p; chmod 666 combine_pedals range gain autocenter spring_level damper_level friction_level ffb_leds peak_ffb_level'"
+
+# Logitech WingMan Formula Force GP USB
+ATTRS{idProduct}=="c293", RUN+="/bin/sh -c 'cd %S%p; chmod 666 combine_pedals range gain autocenter spring_level damper_level friction_level ffb_leds peak_ffb_level'"
+
+# Logitech Racing Wheel USB
+ATTRS{idProduct}=="ca04", RUN+="/bin/sh -c 'cd %S%p; chmod 666 combine_pedals range'"
+
+# Logitech WingMan Formula GP
+ATTRS{idProduct}=="c20e", RUN+="/bin/sh -c 'cd %S%p; chmod 666 combine_pedals range'"
+
+# Logitech WingMan Formula (Yellow) (USB)
+ATTRS{idProduct}=="c202", RUN+="/bin/sh -c 'cd %S%p; chmod 666 range'"
+
+# Logitech Speed Force Wireless
+ATTRS{idProduct}=="c29c", RUN+="/bin/sh -c 'cd %S%p; chmod 666 combine_pedals range'"
+
+LABEL="end"
+
