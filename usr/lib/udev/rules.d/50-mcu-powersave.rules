@@ -1,2 +1,2 @@
 # Set MCU Powersave for ROG devices
-ACTION=="add|change", KERNEL=="asus-armoury", SUBSYSTEM=="firmware-attributes", ATTR{attributes/mcu_powersave/current_value}="0"
+ACTION=="add|change", KERNEL=="asus-armoury", SUBSYSTEM=="firmware-attributes", ATTR{attributes/mcu_powersave/current_value}="1"
