@@ -21,23 +21,23 @@ else
 fi
 
 # Define the path of the Rog Ally X pipewire and wireplumber configs and folders
-ALLY__X_PIPEWIRE_CONF="$DQ_PATH/scripts/asus/rog-ally-x/pipewire.conf.d/filter-chain.conf"
+ALLY_X_PIPEWIRE_CONF="$DQ_PATH/scripts/asus/rog-ally-x/pipewire.conf.d/filter-chain.conf"
 ALLY_X_WIREPLUMBER_DIR="$DQ_PATH/scripts/asus/rog-ally-x/wireplumber.conf.d/"
 PIPEWIRE_DIR="${MOUNT_PATH}/etc/pipewire/pipewire.conf.d/"
 WIREPLUMBER_DIR="${MOUNT_PATH}/etc/wireplumber/wireplumber.conf.d/"
 
 # Check if the PipeWire config file exists
-if [[ -f "${ALLY__X_PIPEWIRE_CONF}" ]]; then
-  echo "Installing pipewire config from ${ALLY__X_PIPEWIRE_CONF} to ${PIPEWIRE_DIR}"
+if [[ -f "${ALLY_X_PIPEWIRE_CONF}" ]]; then
+  echo "Installing pipewire config from ${ALLY_X_PIPEWIRE_CONF} to ${PIPEWIRE_DIR}"
   if [[ ! -d "${PIPEWIRE_DIR}" ]]; then
     mkdir -p "${PIPEWIRE_DIR}"
   fi
 
   # Copy the PipeWire config to /etc
-  cp "${ALLY__X_PIPEWIRE_CONF}" "${PIPEWIRE_DIR}"
+  cp "${ALLY_X_PIPEWIRE_CONF}" "${PIPEWIRE_DIR}"
   echo "PipeWire configuration successfully copied to ${PIPEWIRE_DIR}"
 else
-  echo "PipeWire config not found at ${ALLY__X_PIPEWIRE_CONF}"
+  echo "PipeWire config not found at ${ALLY_X_PIPEWIRE_CONF}"
   exit 1
 fi
 
