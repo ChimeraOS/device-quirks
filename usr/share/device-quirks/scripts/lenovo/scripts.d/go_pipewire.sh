@@ -1,60 +1,109 @@
 #!/bin/bash
 
-# Returning a unique id to allow users to toggle on or off in /etc/device-quirks/device-quirks.conf
 device_quirk_id(){
     echo "GO-PIPEWIRE-CFG"
 }
 
-# Returning the name of the fix to display.
 device_quirk_name(){
-    echo "Legion Go Pipewire Configuration"
+    echo "Lenovo Legion GO Pipewire and WirePlumber Configuration"
 }
-PIPEWIRE_DIR=${DQ_WORKING_PATH}/etc/pipewire
-GO_PATH=${DQ_PATH}/scripts/asus/resources/GO-PIPEWIRE-CFG/pipewire
-GO_PIPEWIRE_DIR=${DQ_PATH}/scripts/asus/resources/GO-PIPEWIRE-CFG/pipewire
-# Do the install here.
+
+PIPEWIRE_DIR="${DQ_WORKING_PATH}/etc/pipewire"
+WIREPLUMBER_DIR="${DQ_WORKING_PATH}/etc/wireplumber"
+LEGO_PIPEWIRE_DIR="${DQ_PATH}/scripts/asus/resources/GO-PIPEWIRE-CFG/pipewire"
+LEGO_WIREPLUMBER_DIR="${DQ_PATH}/scripts/asus/resources/GO-PIPEWIRE-CFG/wireplumber"
+
 device_quirk_install(){
 
-  if [[ -d "${PIPEWIRE_DIR}" ]] && [[ ! -z $(diff -qr "${PIPEWIRE_DIR}" "${GO_PIPEWIRE_DIR}") ]]; then
+    # Pipewire configuration installation
+    if [[ -d "${PIPEWIRE_DIR}" ]] && [[ -n "$(diff -qr "${PIPEWIRE_DIR}" "${LEGO_PIPEWIRE_DIR}")" ]]; then
+        echo "Pipewire configurations differ. Please review the differences:"
+        diff -qr "${PIPEWIRE_DIR}" "${LEGO_PIPEWIRE_DIR}"
         return 2
-    elif [[ -d ${PIPEWIRE_DIR} ]] && [[ ! -e ${GO_PATH} ]]; then
-        echo "There is no easy way to merge configuration files for Pipewire, renaming existing ${PIPEWIRE_DIR} directory to pipewire.bak."
+    elif [[ -d "${PIPEWIRE_DIR}" ]]; then
+        echo "Renaming existing ${PIPEWIRE_DIR} directory to pipewire.bak."
         mv "${PIPEWIRE_DIR}" "${PIPEWIRE_DIR}.bak"
         if [ $? -eq 0 ]; then
-            cp -r "${GO_PIPEWIRE_DIR}" "${DQ_WORKING_PATH}/etc/"
-            touch "${PIPEWIRE_DIR}/.GO-PIPEWIRE-CFG"
+            cp -r "${LEGO_PIPEWIRE_DIR}" "${DQ_WORKING_PATH}/etc/"
+            if [[ ! -f "${PIPEWIRE_DIR}/.GO-PIPEWIRE-CFG" ]]; then
+                touch "${PIPEWIRE_DIR}/.GO-PIPEWIRE-CFG"
+            fi
+            echo "Pipewire configuration installed successfully."
             return 0
         else
             echo "Error renaming existing pipewire directory."
             return 1
         fi
     else
-        cp -r "${GO_PIPEWIRE_DIR}" "${DQ_WORKING_PATH}/etc/"
+        cp -r "${LEGO_PIPEWIRE_DIR}" "${DQ_WORKING_PATH}/etc/"
         if [ $? -eq 0 ]; then
+            echo "Pipewire configuration installed successfully."
             return 0
         else
             echo "Error copying pipewire directory into /etc"
             return 1
         fi
     fi
+
+    # Wireplumber configuration installation
+    if [[ -d "${WIREPLUMBER_DIR}" ]] && [[ -n "$(diff -qr "${WIREPLUMBER_DIR}" "${LEGO_WIREPLUMBER_DIR}")" ]]; then
+        echo "Wireplumber configurations differ. Please review the differences:"
+        diff -qr "${WIREPLUMBER_DIR}" "${LEGO_WIREPLUMBER_DIR}"
+        return 2
+    elif [[ -d "${WIREPLUMBER_DIR}" ]]; then
+        echo "Renaming existing ${WIREPLUMBER_DIR} directory to wireplumber.bak."
+        mv "${WIREPLUMBER_DIR}" "${WIREPLUMBER_DIR}.bak"
+        if [ $? -eq 0 ]; then
+            cp -r "${LEGO_WIREPLUMBER_DIR}" "${DQ_WORKING_PATH}/etc/"
+            if [[ ! -f "${WIREPLUMBER_DIR}/.GO-WIREPLUMBER-CFG" ]]; then
+                touch "${WIREPLUMBER_DIR}/.GO-WIREPLUMBER-CFG"
+            fi
+            echo "Wireplumber configuration installed successfully."
+            return 0
+        else
+            echo "Error renaming existing wireplumber directory."
+            return 1
+        fi
+    else
+        cp -r "${LEGO_WIREPLUMBER_DIR}" "${DQ_WORKING_PATH}/etc/"
+        if [ $? -eq 0 ]; then
+            echo "Wireplumber configuration installed successfully."
+            return 0
+        else
+            echo "Error copying wireplumber directory into /etc"
+            return 1
+        fi
+    fi
 }
 
-# Remove the install here.
 device_quirk_removal(){
 
-    if [[ -d "${PIPEWIRE_DIR}" ]] && [[ -z $(diff -qr "${PIPEWIRE_DIR}" "${GO_PIPEWIRE_DIR") ]]; then
+    # Pipewire configuration removal
+    if [[ -d "${PIPEWIRE_DIR}" ]] && [[ -z "$(diff -qr "${PIPEWIRE_DIR}" "${LEGO_PIPEWIRE_DIR}")" ]]; then
         rm -rf "${DQ_WORKING_PATH}/etc/pipewire"
         if [ $? -eq 0 ]; then
-            return 0
+            echo "Successfully removed pipewire directory."
         else
             echo "Error removing pipewire directory."
             return 1
         fi
-    elif [[ -d "${PIPEWIRE_DIR}" ]]; then
-        echo "Manual removal of the Asus ROG Ally pipewire configuration required..."
-        return 1
     else
-        return 2
+        echo "Pipewire configuration not found or differs from the expected configuration."
     fi
 
+    # Wireplumber configuration removal
+    if [[ -d "${WIREPLUMBER_DIR}" ]] && [[ -z "$(diff -qr "${WIREPLUMBER_DIR}" "${LEGO_WIREPLUMBER_DIR}")" ]]; then
+        rm -rf "${DQ_WORKING_PATH}/etc/wireplumber"
+        if [ $? -eq 0 ]; then
+            echo "Successfully removed wireplumber directory."
+            return 0
+        else
+            echo "Error removing wireplumber directory."
+            return 1
+        fi
+    else
+        echo "Wireplumber configuration not found or differs from the expected configuration."
+    fi
+
+    return 2
 }
