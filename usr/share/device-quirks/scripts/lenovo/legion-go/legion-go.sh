@@ -6,6 +6,12 @@ if [[ "$(whoami)" != 'root' ]]; then
   exit 1
 fi
 
+# Ensure DQ_PATH is set
+if [[ -z "$DQ_PATH" ]]; then
+  echo "DQ_PATH is not set. Please set it before running the script."
+  exit 1
+fi
+
 # Detect if the install media is running or not
 if [[ ! -d /tmp/frzr_root ]]; then
   echo "Running as upgrade."
@@ -14,21 +20,38 @@ else
   echo "Running as install."
 fi
 
-# Define the path of the legion go pipewire config and pipewire folders
-LEGO_CONF="$DQ_PATH/scripts/lenovo/legion-go/pipewire.conf.d/filter-chain.conf"
+# Define the path of the Lenovo LegionGO pipewire and wireplumber configs and folders
+LEGO_PIPEWIRE_CONF="$DQ_PATH/scripts/lenovo/legion-go/pipewire.conf.d/filter-chain.conf"
+LEGO_WIREPLUMBER_DIR="$DQ_PATH/scripts/lenovo/legion-go/wireplumber.conf.d/"
 PIPEWIRE_DIR="${MOUNT_PATH}/etc/pipewire/pipewire.conf.d/"
+WIREPLUMBER_DIR="${MOUNT_PATH}/etc/wireplumber/wireplumber.conf.d/"
 
-# Check if the PipeWire directory exists
-if [[ -f "${LEGO_CONF}" ]]; then
-  echo "Installing pipewire config from ${LEGO_CONF} to ${PIPEWIRE_DIR}"
+# Check if the PipeWire config file exists
+if [[ -f "${LEGO_PIPEWIRE_CONF}" ]]; then
+  echo "Installing pipewire config from ${LEGO_PIPEWIRE_CONF} to ${PIPEWIRE_DIR}"
   if [[ ! -d "${PIPEWIRE_DIR}" ]]; then
     mkdir -p "${PIPEWIRE_DIR}"
   fi
 
-  # Copy the PipeWire folder to /etc
-  cp "${LEGO_CONF}" "${PIPEWIRE_DIR}"
+  # Copy the PipeWire config to /etc
+  cp "${LEGO_PIPEWIRE_CONF}" "${PIPEWIRE_DIR}"
   echo "PipeWire configuration successfully copied to ${PIPEWIRE_DIR}"
 else
-  echo "PipeWire config not found at ${LEGO_CONF}"
+  echo "PipeWire config not found at ${LEGO_PIPEWIRE_CONF}"
+  exit 1
+fi
+
+# Check if the WirePlumber directory exists
+if [[ -d "${LEGO_WIREPLUMBER_DIR}" ]]; then
+  echo "Installing wireplumber configs from ${LEGO_WIREPLUMBER_DIR} to ${WIREPLUMBER_DIR}"
+  if [[ ! -d "${WIREPLUMBER_DIR}" ]]; then
+    mkdir -p "${WIREPLUMBER_DIR}"
+  fi
+
+  # Copy the WirePlumber configs to /etc
+  cp "${LEGO_WIREPLUMBER_DIR}"/* "${WIREPLUMBER_DIR}"
+  echo "WirePlumber configurations successfully copied to ${WIREPLUMBER_DIR}"
+else
+  echo "WirePlumber configs not found at ${LEGO_WIREPLUMBER_DIR}"
   exit 1
 fi
