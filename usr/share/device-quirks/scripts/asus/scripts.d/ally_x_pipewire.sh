@@ -6,14 +6,19 @@ device_quirk_id(){
     echo "ALLY-X-PIPEWIRE-CFG"
 }
 
+# Returning the name of the fix to display.
+
 device_quirk_name(){
     echo "ROG Ally X Pipewire and WirePlumber Configuration"
 }
 
 PIPEWIRE_DIR="${DQ_WORKING_PATH}/etc/pipewire"
+ALLY_X_PIPEWIRE_PATH="${DQ_PATH}/scripts/asus/resources/ALLY-PIPEWIRE-CFG/pipewire"
+ALLY_X_PIPEWIRE_DIR="${DQ_PATH}/scripts/asus/resources/ALLY-PIPEWIRE-CFG/pipewire"
 WIREPLUMBER_DIR="${DQ_WORKING_PATH}/etc/wireplumber"
-ALLY_X_PIPEWIRE_DIR="${DQ_PATH}/scripts/asus/resources/ALLY-X-PIPEWIRE-CFG/pipewire"
-ALLY_X_WIREPLUMBER_DIR="${DQ_PATH}/scripts/asus/resources/ALLY-X-PIPEWIRE-CFG/wireplumber"
+ALLY_X_WIREPLUMBER_PATH="${DQ_PATH}/scripts/asus/resources/ALLY-PIPEWIRE-CFG/wireplumber"
+ALLY_X_WIREPLUMBER_DIR="${DQ_PATH}/scripts/asus/resources/ALLY-PIPEWIRE-CFG/wireplumber"
+# Do the install here.
 
 device_quirk_install(){
 

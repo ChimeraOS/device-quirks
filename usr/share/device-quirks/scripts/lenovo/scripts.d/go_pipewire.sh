@@ -6,14 +6,19 @@ device_quirk_id(){
     echo "GO-PIPEWIRE-CFG"
 }
 
+# Returning the name of the fix to display.
+
 device_quirk_name(){
     echo "Lenovo Legion GO Pipewire and WirePlumber Configuration"
 }
 
 PIPEWIRE_DIR="${DQ_WORKING_PATH}/etc/pipewire"
+LEGO_PIPEWIRE_PATH="${DQ_PATH}/scripts/asus/resources/ALLY-PIPEWIRE-CFG/pipewire"
+LEGO_PIPEWIRE_DIR="${DQ_PATH}/scripts/asus/resources/ALLY-PIPEWIRE-CFG/pipewire"
 WIREPLUMBER_DIR="${DQ_WORKING_PATH}/etc/wireplumber"
-LEGO_PIPEWIRE_DIR="${DQ_PATH}/scripts/asus/resources/GO-PIPEWIRE-CFG/pipewire"
-LEGO_WIREPLUMBER_DIR="${DQ_PATH}/scripts/asus/resources/GO-PIPEWIRE-CFG/wireplumber"
+LEGO_WIREPLUMBER_PATH="${DQ_PATH}/scripts/asus/resources/ALLY-PIPEWIRE-CFG/wireplumber"
+LEGO_WIREPLUMBER_DIR="${DQ_PATH}/scripts/asus/resources/ALLY-PIPEWIRE-CFG/wireplumber"
+# Do the install here.
 
 device_quirk_install(){
 
