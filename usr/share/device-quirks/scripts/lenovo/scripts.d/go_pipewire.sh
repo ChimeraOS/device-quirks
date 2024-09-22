@@ -75,7 +75,7 @@ device_quirk_install(){
         cp -r "${LEGO_WIREPLUMBER_DIR}" "${DQ_WORKING_PATH}/etc/"
         if [ $? -eq 0 ]; then
             echo "Wireplumber configuration installed successfully."
-            #return 0
+            return 0
         else
             echo "Error copying wireplumber directory into /etc"
             return 1
