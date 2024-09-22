@@ -36,7 +36,7 @@ device_quirk_install(){
                 touch "${PIPEWIRE_DIR}/.ALLY-PIPEWIRE-CFG"
             fi
             echo "Pipewire configuration installed successfully."
-            return 0
+            # return 0  has to be removed so wireplumber install also runs
         else
             echo "Error renaming existing pipewire directory."
             return 1
@@ -45,7 +45,7 @@ device_quirk_install(){
         cp -r "${ALLY_PIPEWIRE_DIR}" "${DQ_WORKING_PATH}/etc/"
         if [ $? -eq 0 ]; then
             echo "Pipewire configuration installed successfully."
-            return 0
+            # return 0  has to be removed so wireplumber install also runs
         else
             echo "Error copying pipewire directory into /etc"
             return 1
@@ -90,7 +90,7 @@ device_quirk_removal(){
         rm -rf "${DQ_WORKING_PATH}/etc/pipewire"
         if [ $? -eq 0 ]; then
             echo "Successfully removed pipewire directory."
-            return 0
+            #return 0 # has to be removed so wireplumber configuration removal also runs
         else
             echo "Error removing pipewire directory."
             return 1
