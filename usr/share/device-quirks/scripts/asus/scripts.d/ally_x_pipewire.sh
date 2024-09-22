@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# Returning a unique id to allow users to toggle on or off in /etc/device-quirks/device-quirks.conf
+
 device_quirk_id(){
     echo "ALLY-X-PIPEWIRE-CFG"
 }
@@ -83,6 +85,7 @@ device_quirk_removal(){
         rm -rf "${DQ_WORKING_PATH}/etc/pipewire"
         if [ $? -eq 0 ]; then
             echo "Successfully removed pipewire directory."
+            return 0
         else
             echo "Error removing pipewire directory."
             return 1
@@ -101,9 +104,9 @@ device_quirk_removal(){
             echo "Error removing wireplumber directory."
             return 1
         fi
-    else
-        echo "Wireplumber configuration not found or differs from the expected configuration."
     fi
+
+    echo "Wireplumber configuration not found or differs from the expected configuration."
 
     return 2
 }
