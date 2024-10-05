@@ -70,7 +70,7 @@ generate_initramfs() {
     if [ -d "${DQ_WORKING_PATH}/etc/dracut.conf.d/" ]; then
         dracut --host-only --force --kver="${kernel_version}" "${DQ_WORKING_PATH}/boot/initramfs-linux.img"
 
-        for file in $(find "${DQ_WORKING_PATH}/usr/lib/modules/" -name "pkgbase" -type f); Do
+        for file in $(find "${DQ_WORKING_PATH}/usr/lib/modules/" -name "pkgbase" -type f); do
             local pkgbase=$(cat $file)
             local pkg_kernel_version=$(file "${file%'/pkgbase'}/vmlinuz" | grep -oP "version\s+\K.+" | awk '{print $1}')
 

@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # File constants
-DEPLOYED_FILE=${$DQ_WORKING_PATH}/etc/device-quirks/systemd-suspend-mods.conf
-SOURCE_FILE=${DQ_PATH}/scripts/resources/systemd-suspend-mods.conf
+DEPLOYED_FILE="${$DQ_WORKING_PATH}/etc/device-quirks/systemd-suspend-mods.conf"
+SOURCE_FILE="${DQ_PATH}/scripts/resources/systemd-suspend-mods.conf"
 
 # Returning a unique id to allow users to toggle on or off in /etc/device-quirks/device-quirks.conf
 device_quirk_id(){
@@ -32,15 +32,16 @@ EOL
     fi
 
     # Nothing to do if the qurik exists
-    if [[ $(grep -i 'mt7921e' ${DEPLOYED_FILE} ]]; then
+    if [[ grep -i 'mt7921e' "${DEPLOYED_FILE}" ]]; then
         return 0
     # Add the mt7921e quirk if it doesnt exist
-    elif [[ ! $(grep -i 'mt7921e' ${DEPLOYED_FILE} ]]; then
-        echo "mt7921e"" >> ${DEPLOYED_FILE}
+    else
+        echo "mt7921e" >> ${DEPLOYED_FILE}
         return 0
+	fi
+    
     # Error if we failed to apply the quirk
-	  fi
-        return 2
+    return 2
 }
 
 # Remove the install here.
