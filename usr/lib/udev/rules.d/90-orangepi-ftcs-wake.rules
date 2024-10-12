@@ -1,0 +1,1 @@
+KERNEL=="i2c-FTCS1000:00", SUBSYSTEM=="i2c", ATTR{power/wakeup}="disabled"
