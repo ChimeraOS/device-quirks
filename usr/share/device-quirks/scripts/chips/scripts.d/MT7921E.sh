@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # File constants
-DEPLOYED_FILE="${$DQ_WORKING_PATH}/etc/device-quirks/systemd-suspend-mods.conf"
+DEPLOYED_FILE="${DQ_WORKING_PATH}/etc/device-quirks/systemd-suspend-mods.conf"
 SOURCE_FILE="${DQ_PATH}/scripts/resources/systemd-suspend-mods.conf"
 
 # Returning a unique id to allow users to toggle on or off in /etc/device-quirks/device-quirks.conf
