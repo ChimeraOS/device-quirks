@@ -45,8 +45,10 @@ apply_initramfs() {
     fi
 }
 
+ACPI_OVERRIDE_DIR="${DQ_WORKING_PATH}/etc/initcpio/acpi_override"
+
 rollback_initramfs() {
-    rm -rf "${DQ_WORKING_PATH}/etc/initcpio/acpi_override"
+    rm -rf "${ACPI_OVERRIDE_DIR}"
 
     local dracut_file="${DQ_WORKING_PATH}/etc/dracut.conf.d/acpi_override.conf"
     local mkinitcpio_file="${DQ_WORKING_PATH}/etc/mkinitcpio.conf"
@@ -108,6 +110,16 @@ process_initramfs() {
 
     if [ -f "/tmp/.frzr-regen-initramfs" ]; then
         rm -f "/tmp/.frzr-regen-initramfs"
-        generate_initramfs
+
+        local aml_files=$(ls -A "${ACPI_OVERRIDE_DIR}")
+        if [ -d "${ACPI_OVERRIDE_DIR}" ]; then
+            if [ ! -z "$aml_files" ]; then
+                generate_initramfs
+            else
+                echo "[INFO] no aml files found: skipping initramfs generation"
+            fi
+        else
+            generate_initramfs
+        fi
     fi
 }
