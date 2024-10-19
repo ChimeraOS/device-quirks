@@ -16,7 +16,7 @@ apply_initramfs() {
         echo "acpi_table_dir=\"/etc/initcpio/acpi_override\"" >> "${dracut_file}"
 
         echo "[INFO] dracut has acpi_override enabled"
-    elif if [ -f "${mkinitcpio_file}" ]; then # setup dracut acpi_override for mkinitcpio
+    elif [ -f "${mkinitcpio_file}" ]; then # setup dracut acpi_override for mkinitcpio
         echo "[INFO] setting up acpi_override for mkinitcpio"
 
         if cat "${mkinitcpio_file}" | grep -Fq "acpi_override"; then
