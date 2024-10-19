@@ -25,14 +25,14 @@ device_quirk_install(){
         fi
         # Create device-quirks with mt7921e config
         echo "Creating empty default config"
-        cat >${DEPLOYED_FILE} <<EOL
+        cat > "${DEPLOYED_FILE}" <<EOL
 # Line separated list of modules to unload/reload at suspend/resume.
 mt7921e
 EOL
     fi
 
     # Nothing to do if the qurik exists
-    if [[ grep -i 'mt7921e' "${DEPLOYED_FILE}" ]]; then
+    if grep -q -i 'mt7921e' "${DEPLOYED_FILE}"; then
         return 0
     # Add the mt7921e quirk if it doesnt exist
     else
@@ -47,8 +47,8 @@ EOL
 # Remove the install here.
 device_quirk_removal(){
     # Remove the MT7921E quirk
-    if [[ -f ${DEPLOYED_FILE} ]] && [ $(grep -i 'mt7921e' ${DEPLOYED_FILE} ]; then
-        grep -iv 'mt7921e' ${DEPLOYED_FILE} > ${DEPLOYED_FILE}
+    if [[ -f "${DEPLOYED_FILE}" ]] && grep -q -i 'mt7921e' "${DEPLOYED_FILE}"; then
+        grep -iv 'mt7921e' "${DEPLOYED_FILE}" > "${DEPLOYED_FILE}"
         return 0
     elif [ -f ${DEPLOYED_FILE} ]; then
         return 2
