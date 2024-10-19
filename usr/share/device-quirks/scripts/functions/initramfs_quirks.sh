@@ -4,20 +4,21 @@ apply_initramfs() {
     # This directory is the same for both mkinitcpio "acpi_override" hook and dracut
     mkdir -p "${DQ_WORKING_PATH}/etc/initcpio/acpi_override"
 
-    # setup dracut acpi_override for dracut
     local dracut_file="${DQ_WORKING_PATH}/etc/dracut.conf.d/acpi_override.conf"
-    if [ -d "${DQ_WORKING_PATH}/etc/dracut.conf.d/" ]; then
+    local mkinitcpio_file="${DQ_WORKING_PATH}/etc/mkinitcpio.conf"
+
+    if [ -d "${DQ_WORKING_PATH}/etc/dracut.conf.d/" ]; then # setup dracut acpi_override for dracut
+        echo "[INFO] setting up acpi_override for dracut"
+
         echo "acpi_override=yes" > "${dracut_file}"
 
         # ${DQ_WORKING_PATH} must not be used as initramfs has to be generated in a chroot to work anyway
         echo "acpi_table_dir=\"/etc/initcpio/acpi_override\"" >> "${dracut_file}"
 
         echo "[INFO] dracut has acpi_override enabled"
-    fi
+    elif if [ -f "${mkinitcpio_file}" ]; then # setup dracut acpi_override for mkinitcpio
+        echo "[INFO] setting up acpi_override for mkinitcpio"
 
-    # setup dracut acpi_override for mkinitcpio
-    local mkinitcpio_file="${DQ_WORKING_PATH}/etc/mkinitcpio.conf"
-    if [ -f "${mkinitcpio_file}" ]; then
         if cat "${mkinitcpio_file}" | grep -Fq "acpi_override"; then
             echo "[INFO] mkinitcpio has acpi_override already enabled"
         else
@@ -32,6 +33,8 @@ apply_initramfs() {
                 echo "[ERROR] microcode hook not found"
             fi
         fi
+    else
+        echo "[INFO] unable to detect mkinitcpio nor dracut: acpi_override disabled"
     fi
 }
 
