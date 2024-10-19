@@ -4,18 +4,24 @@ apply_initramfs() {
     # This directory is the same for both mkinitcpio "acpi_override" hook and dracut
     mkdir -p "${DQ_WORKING_PATH}/etc/initcpio/acpi_override"
 
-    local dracut_file="${DQ_WORKING_PATH}/etc/dracut.conf.d/acpi_override.conf"
+    local dracut_dir="${DQ_WORKING_PATH}/etc/dracut.conf.d/"
+    local dracut_file="${dracut_dir}/acpi_override.conf"
     local mkinitcpio_file="${DQ_WORKING_PATH}/etc/mkinitcpio.conf"
 
-    if [ -d "${DQ_WORKING_PATH}/etc/dracut.conf.d/" ]; then # setup dracut acpi_override for dracut
+    if [ -d "${dracut_dir}" ]; then # setup dracut acpi_override for dracut
         echo "[INFO] setting up acpi_override for dracut"
 
-        echo "acpi_override=yes" > "${dracut_file}"
+        if [ ! -f "${dracut_file}" ]; then
+            echo "acpi_override=yes" > "${dracut_file}"
 
-        # ${DQ_WORKING_PATH} must not be used as initramfs has to be generated in a chroot to work anyway
-        echo "acpi_table_dir=\"/etc/initcpio/acpi_override\"" >> "${dracut_file}"
+            # ${DQ_WORKING_PATH} must not be used as initramfs has to be generated in a chroot to work anyway
+            echo "acpi_table_dir=\"/etc/initcpio/acpi_override\"" >> "${dracut_file}"
 
-        echo "[INFO] dracut has acpi_override enabled"
+            echo "[INFO] dracut has acpi_override enabled"
+            touch "/tmp/.frzr-regen-initramfs"
+        else
+            echo "[INFO] dracut had acpi_override already enabled"
+        fi
     elif [ -f "${mkinitcpio_file}" ]; then # setup dracut acpi_override for mkinitcpio
         echo "[INFO] setting up acpi_override for mkinitcpio"
 
@@ -26,6 +32,7 @@ apply_initramfs() {
                 echo "Appending acpi_override before microcode hook"
                 if sed -i 's|microcode|acpi_override microcode|g' "${mkinitcpio_file}"; then
                     echo "[INFO] mkinitcpio has acpi_override enabled"
+                    touch "/tmp/.frzr-regen-initramfs"
                 else
                     echo "[ERROR] Could not enable acpi_override from mkinitcpio"
                 fi
@@ -42,21 +49,25 @@ rollback_initramfs() {
     rm -rf "${DQ_WORKING_PATH}/etc/initcpio/acpi_override"
 
     local dracut_file="${DQ_WORKING_PATH}/etc/dracut.conf.d/acpi_override.conf"
-    if [ -d "${DQ_WORKING_PATH}/etc/dracut.conf.d/" ]; then
+    local mkinitcpio_file="${DQ_WORKING_PATH}/etc/mkinitcpio.conf"
+
+    if [ -d "${DQ_WORKING_PATH}/etc/dracut.conf.d/" ]; then # setup dracut acpi_override for dracut
+
+        if [ -f "${dracut_file}" ]; then
+            touch "/tmp/.frzr-regen-initramfs"
+        fi
+
         if rm -f "${dracut_file}"; then
             echo "[INFO] dracut has acpi_override disabled"
         else
             echo "[ERROR] disabling acpi_override failed"
         fi
-    fi
-
-    # setup dracut acpi_override for mkinitcpio
-    local mkinitcpio_file="${DQ_WORKING_PATH}/etc/mkinitcpio.conf"
-    if [ -f "${mkinitcpio_file}" ]; then
+    elif [ -f "${mkinitcpio_file}" ]; then # setup dracut acpi_override for mkinitcpio
         if cat "${mkinitcpio_file}" | grep -Fq "acpi_override"; then
             echo "Removing acpi_override before microcode hook"
             if sed -i 's|acpi_override microcode|microcode|g' "${mkinitcpio_file}"; then
                 echo "[INFO] mkinitcpio has acpi_override disabled"
+                touch "/tmp/.frzr-regen-initramfs"
             else
                 echo "[ERROR] Could not disable acpi_override from mkinitcpio"
             fi
@@ -95,5 +106,8 @@ process_initramfs() {
         rollback_initramfs
     fi
 
-    generate_initramfs
+    if [ -f "/tmp/.frzr-regen-initramfs" ]; then
+        rm -f "/tmp/.frzr-regen-initramfs"
+        generate_initramfs
+    fi
 }
