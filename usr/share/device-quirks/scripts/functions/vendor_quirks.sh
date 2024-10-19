@@ -15,6 +15,7 @@ process_vendor_quirks() {
                     if [ $? -eq 1 ]; then
                         get_quirk_id_status "$(device_quirk_id)"
                         if [ $? -eq 1 ]; then
+                            echo "Quirk fix: $(device_quirk_name) has been staged for installation."
                             device_quirk_install
                             if [[ $? -eq 0 ]]; then
                                 set_quirk_id_status "$(device_quirk_id)"
@@ -25,23 +26,25 @@ process_vendor_quirks() {
                                 echo "Quirk fix: $(device_quirk_name) has failed to install."
                             fi
                         else
+                            echo "Quirk fix: $(device_quirk_name) has been staged for removal (1)."
                             device_quirk_removal
                             if [[ $? -eq 0 ]]; then
                                 echo "Quirk fix: $(device_quirk_name) has been removed."
                             elif [[ $? -eq 2 ]]; then
                                 echo "Quirk fix: $(device_quirk_name) is not installed."
                             else
-                                echo "Quirk fix: $(device_quirk_name) has failed to install."
+                                echo "Quirk fix: $(device_quirk_name) has failed to remove."
                             fi
                         fi
                     else
+                        echo "Quirk fix: $(device_quirk_name) has been staged for removal (2)."
                         device_quirk_removal
                         if [[ $? -eq 0 ]]; then
                             echo "Quirk fix: $(device_quirk_name) has been removed."
                         elif [[ $? -eq 2 ]]; then
                             echo "Quirk fix: $(device_quirk_name) is not installed."
                         else
-                            echo "Quirk fix: $(device_quirk_name) has failed to install."
+                            echo "Quirk fix: $(device_quirk_name) has failed to remove."
                         fi
                     fi
                 fi
