@@ -1,3 +1,4 @@
+# ROG Ally and Ally X enable power saving to prevent battery drain even after shutdown, utilizing Fingerprint hardware from LighTuning Technology Inc. ETU905A86-E.
 ACTION=="add", SUBSYSTEM=="usb", TEST=="power/control", ATTR{idVendor}=="1c7a", ATTR{idProduct}=="0588", ATTR{power/control}="auto"
 
 # remove fp sensor for GPD Win 4
